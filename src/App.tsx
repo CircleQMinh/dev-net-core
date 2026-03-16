@@ -1,21 +1,24 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import About from "./pages/About";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import { MainLayout } from "./layouts/MainLayout";
-import { baseRepoName } from "./shared/types";
-
-const base = baseRepoName;
+import Form from "./pages/Form";
 
 function App() {
   return (
     <>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path={`${base}/`} element={<Home />} />
-          <Route path={`${base}/home/*`} element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/form" element={<Form />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+
+        
       </Routes>
     </>
   );
