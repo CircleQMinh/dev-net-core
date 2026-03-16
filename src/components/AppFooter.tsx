@@ -12,7 +12,7 @@ export function AppFooter() {
     >
       <Container maxWidth="lg">
         <Typography variant="body2" color="text.secondary" align="center">
-          © {new Date().getFullYear()} My App. All rights reserved.
+          © {new Date().getFullYear()} Minh Vu. All rights reserved.
         </Typography>
       </Container>
     </Box>

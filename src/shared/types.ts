@@ -50,3 +50,5 @@ export interface Meta {
   barcode: string;
   qrCode: string;
 }
+
+export const baseRepoName = '/interview-prep'
