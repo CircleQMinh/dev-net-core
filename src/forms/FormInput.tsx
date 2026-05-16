@@ -119,7 +119,9 @@ export const FormCheckbox = React.forwardRef(function FormCheckboxInner<
             label={
               <Typography variant="body2">
                 {label}
-                {required && <span style={{ color: "#d32f2f" }}>*</span>}
+                {required && (
+                  <span style={{ color: "var(--color-error)" }}>*</span>
+                )}
               </Typography>
             }
           />

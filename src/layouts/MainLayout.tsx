@@ -1,23 +1,26 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { AppHeader } from '../components/AppHeader';
 import { AppFooter } from '../components/AppFooter';
+import { AppHeader } from '../components/AppHeader';
+import { useAppThemeMode } from '../theme/themeMode';
 
 export function MainLayout() {
+  const { tokens } = useAppThemeMode();
+
   return (
     <Box
       sx={{
+        backgroundColor: tokens.background,
+        color: tokens.onBackground,
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
       <AppHeader />
-
-      <Container sx={{ flex: 1, py: 3 }} maxWidth="lg">
+      <Box component="main" sx={{ flex: 1 }}>
         <Outlet />
-      </Container>
-
+      </Box>
       <AppFooter />
     </Box>
   );

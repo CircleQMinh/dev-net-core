@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import About from "./pages/About";
+import AboutUs from "./pages/AboutUs";
+import Content from "./pages/Content";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Practice from "./pages/Practice";
 import { MainLayout } from "./layouts/MainLayout";
-import Form from "./pages/Form";
 
 function App() {
   return (
@@ -13,12 +14,13 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/form" element={<Form />} />
+          <Route path="/content" element={<Content />} />
+          <Route path="/content/:topicId" element={<Content />} />
+          <Route path="/content/:topicId/" element={<Content />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/practice" element={<Practice />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-
-        
       </Routes>
     </>
   );
