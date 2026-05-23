@@ -5,9 +5,9 @@ import { Box, IconButton, Link, Stack, Typography } from "@mui/material";
 import { useAppThemeMode } from "../theme/themeMode";
 
 const FOOTER_LINKS = [
-  "Documentation",
+  "Github",
   "Changelog",
-  "API_Status",
+  "Bug report",
   "Terms",
   "Privacy",
 ];
@@ -64,7 +64,7 @@ export function AppFooter() {
             textTransform: "uppercase",
           }}
         >
-          © 2024 DEV_CORE ARCHITECTURE. ALL RIGHTS RESERVED.
+          © 2024 DEV_NET_CORE & MINH VU. ALL RIGHTS RESERVED.
         </Typography>
       </Box>
 

@@ -1,36 +1,33 @@
+import { useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import {
-  CurriculumTreeView,
-  findCurriculumTopicById,
-  getFirstCurriculumTopic,
+  findCurriculumSubTopicById,
+  getFirstCurriculumSubTopic,
   getMarkdownBody,
-  type CurriculumTopicNode,
+  type CurriculumSubTopicNode,
 } from "../components/content/CurriculumTreeView";
+import { LeftContentPanel } from "../components/content/LeftContentPanel";
 import { MainContent } from "../components/content/MainContent";
-import { OnThisPageNavigation } from "../components/content/OnThisPageNavigation";
 import { RightContentPanel } from "../components/content/RightContentPanel";
-
-const categoryOrder = {
-  ".NET": 1,
-  "Design & Architecture": 2,
-  "SQL": 3,
-  "React": 4,
-  "Azure": 5,
-}
-
-const topicOrder = {
-  ".NET": {
-    "C# Language Foundations": 1,
-    "Modern C# patterns": 2,
-    "Async programming, tasks, cancellation, and concurrency": 3,
-  },
-}
+import { removeCommonInterviewQuestionsSection } from "../components/content/markdown";
+import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
+import { selectSelectedContentTopicId } from "../lib/redux/selectors/contentSelectors";
+import { setSelectedTopicId } from "../lib/redux/slices/contentSlice";
 
 export default function Content() {
   const { topicId } = useParams<{ topicId?: string }>();
   const navigate = useNavigate();
-  const firstTopic = getFirstCurriculumTopic();
-  const selectedTopic = topicId ? findCurriculumTopicById(topicId) : undefined;
+  const dispatch = useAppDispatch();
+  const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
+  const firstTopic = getFirstCurriculumSubTopic();
+  const selectedTopic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
+  const routeSelectedTopicId = selectedTopic?.id;
+
+  useEffect(() => {
+    if (routeSelectedTopicId && selectedTopicId !== routeSelectedTopicId) {
+      dispatch(setSelectedTopicId(routeSelectedTopicId));
+    }
+  }, [dispatch, routeSelectedTopicId, selectedTopicId]);
 
   if (!firstTopic) {
     return (
@@ -46,7 +43,11 @@ export default function Content() {
     return <Navigate replace to={`/content/${firstTopic.id}/`} />;
   }
 
-  const selectTopic = (topic: CurriculumTopicNode) => {
+  const selectTopic = (topic: CurriculumSubTopicNode) => {
+    if (selectedTopicId !== topic.id) {
+      dispatch(setSelectedTopicId(topic.id));
+    }
+
     navigate(`/content/${topic.id}/`);
   };
 
@@ -61,8 +62,8 @@ export default function Content() {
 
 type ContentLayoutProps = {
   markdown: string;
-  selectedTopic?: CurriculumTopicNode;
-  onTopicSelect: (topic: CurriculumTopicNode) => void;
+  selectedTopic?: CurriculumSubTopicNode;
+  onTopicSelect: (topic: CurriculumSubTopicNode) => void;
 };
 
 function ContentLayout({
@@ -70,20 +71,17 @@ function ContentLayout({
   selectedTopic,
   onTopicSelect,
 }: ContentLayoutProps) {
+  const navigationMarkdown = removeCommonInterviewQuestionsSection(markdown);
+
   return (
     <div className="theme-page mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-[1440px] pt-[80px]">
-      <aside className="hidden w-64 shrink-0 flex-col border-r theme-ide-pane theme-ide-divider lg:flex">
-        <div className="content-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
-          <CurriculumTreeView
-            activeTopicId={selectedTopic?.id}
-            onTopicSelect={onTopicSelect}
-          />
-          <OnThisPageNavigation />
-        </div>
-      </aside>
-
+      <LeftContentPanel
+        activeTopicId={selectedTopic?.id}
+        markdown={navigationMarkdown}
+        onTopicSelect={onTopicSelect}
+      />
       <MainContent markdown={markdown} topic={selectedTopic} />
-      <RightContentPanel />
+      <RightContentPanel topic={selectedTopic} />
     </div>
   );
 }

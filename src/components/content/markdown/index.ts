@@ -13,3 +13,15 @@ export type { ContentLinkProps } from "./ContentLink";
 export { ContentParagraph } from "./ContentParagraph";
 export type { ContentParagraphProps } from "./ContentParagraph";
 export { markdownComponentMap } from "./markdownComponentMap";
+export {
+  createMarkdownHeadingId,
+  extractCommonInterviewQuestions,
+  extractCommonInterviewQuestionsSection,
+  getMarkdownHeadings,
+  removeCommonInterviewQuestionsSection,
+  removeCommentFromMD,
+} from "./markdownUtils";
+export type {
+  CommonInterviewQuestion,
+  MarkdownHeadingNode,
+} from "./markdownUtils";

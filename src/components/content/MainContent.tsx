@@ -3,13 +3,11 @@ import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 import IntegrationInstructionsOutlinedIcon from "@mui/icons-material/IntegrationInstructionsOutlined";
-import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { Button } from "@mui/material";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -17,10 +15,11 @@ import { Link as RouterLink } from "react-router-dom";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import {
-  getCurriculumTopicNavigation,
-  type CurriculumTopicNode,
+  getCurriculumSubTopicNavigation,
+  type CurriculumSubTopicNode,
 } from "./CurriculumTreeView";
 import {
+  createMarkdownHeadingId,
   ContentCodeBlock,
   ContentHOne,
   ContentHThree,
@@ -28,7 +27,12 @@ import {
   ContentImage,
   ContentLink,
   ContentParagraph,
+  extractCommonInterviewQuestions,
+  removeCommonInterviewQuestionsSection,
+  removeCommentFromMD,
+  type CommonInterviewQuestion,
 } from "./markdown";
+import { extractTextFromChildren } from "./markdown/markdownUtils";
 
 type LearningTab = {
   label: string;
@@ -56,10 +60,23 @@ type InterviewQuestion = {
   badgeClass: string;
 };
 
+type PracticeLevel = "Beginner" | "Intermediate" | "Advanced";
+
+type PracticeLevelSummary = {
+  level: PracticeLevel;
+  questionCount: number;
+};
+
 type MainContentProps = {
-  topic?: CurriculumTopicNode;
+  topic?: CurriculumSubTopicNode;
   markdown?: string;
 };
+
+const practiceLevels: PracticeLevel[] = [
+  "Beginner",
+  "Intermediate",
+  "Advanced",
+];
 
 const tabs: LearningTab[] = [
   {
@@ -67,18 +84,18 @@ const tabs: LearningTab[] = [
     icon: <ArticleOutlinedIcon sx={{ fontSize: 16 }} />,
     active: true,
   },
-  {
-    label: "Example",
-    icon: <CodeOutlinedIcon sx={{ fontSize: 16 }} />,
-  },
-  {
-    label: "Simulation",
-    icon: <PlayCircleOutlineIcon sx={{ fontSize: 16 }} />,
-  },
-  {
-    label: "Docs",
-    icon: <MenuBookOutlinedIcon sx={{ fontSize: 16 }} />,
-  },
+  // {
+  //   label: "Example",
+  //   icon: <CodeOutlinedIcon sx={{ fontSize: 16 }} />,
+  // },
+  // {
+  //   label: "Simulation",
+  //   icon: <PlayCircleOutlineIcon sx={{ fontSize: 16 }} />,
+  // },
+  // {
+  //   label: "Docs",
+  //   icon: <MenuBookOutlinedIcon sx={{ fontSize: 16 }} />,
+  // },
 ];
 
 const serviceLifetimes: ServiceLifetime[] = [
@@ -180,10 +197,33 @@ const interviewQuestions: InterviewQuestion[] = [
   },
 ];
 
+function removeMarkdownNodeProp<TProps extends { node?: unknown }>(
+  props: TProps
+) {
+  const { node, ...propsWithoutNode } = props;
+  void node;
+
+  return propsWithoutNode;
+}
+
 const markdownComponents: Components = {
-  h1: ({ children }) => <ContentHOne>{children}</ContentHOne>,
-  h2: ({ children }) => <ContentHTwo>{children}</ContentHTwo>,
-  h3: ({ children }) => <ContentHThree>{children}</ContentHThree>,
+  h1: ({ children }) => (
+    <ContentHOne id={createMarkdownHeadingId(extractTextFromChildren(children))}>
+      {children}
+    </ContentHOne>
+  ),
+  h2: ({ children }) => (
+    <ContentHTwo id={createMarkdownHeadingId(extractTextFromChildren(children))}>
+      {children}
+    </ContentHTwo>
+  ),
+  h3: ({ children }) => (
+    <ContentHThree
+      id={createMarkdownHeadingId(extractTextFromChildren(children))}
+    >
+      {children}
+    </ContentHThree>
+  ),
   p: ({ children }) => <ContentParagraph>{children}</ContentParagraph>,
   a: ({ href, children }) => (
     <ContentLink href={href}>{children}</ContentLink>
@@ -191,11 +231,13 @@ const markdownComponents: Components = {
   img: ({ alt, src, title }) => (
     <ContentImage alt={alt ?? ""} caption={title} src={src} />
   ),
-  pre: ({ children, node: _node, ...props }) => (
-    <ContentCodeBlock {...props}>{children}</ContentCodeBlock>
+  pre: ({ children, ...props }) => (
+    <ContentCodeBlock {...removeMarkdownNodeProp(props)}>
+      {children}
+    </ContentCodeBlock>
   ),
-  code: ({ children, className, node: _node, ...props }) => (
-    <code className={className} {...props}>
+  code: ({ children, className, ...props }) => (
+    <code className={className} {...removeMarkdownNodeProp(props)}>
       {children}
     </code>
   ),
@@ -233,13 +275,24 @@ function SelectedTopicContent({
   topic,
 }: {
   markdown: string;
-  topic: CurriculumTopicNode;
+  topic: CurriculumSubTopicNode;
 }) {
-  const { nextTopic, previousTopic } = getCurriculumTopicNavigation(topic.id);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { nextSubTopic, previousSubTopic } =
+    getCurriculumSubTopicNavigation(topic.id);
+  const interviewQuestions = extractCommonInterviewQuestions(markdown);
+  const displayMarkdown = removeCommentFromMD(
+    removeCommonInterviewQuestionsSection(markdown)
+  );
+
+  useEffect(() => {
+    scrollContainerRef.current?.scrollTo({ top: -400 });
+    window.scrollTo(0, 0)
+  }, [topic.id]);
 
   return (
-    <section className="flex min-w-0 flex-1 flex-col theme-ide-surface">
-      <div className="flex h-12 items-center overflow-x-auto border-b theme-ide-divider bg-[var(--color-surface-container-lowest)]">
+    <section className="flex min-w-0 flex-1 flex-col theme-ide-surface" >
+      <div className="flex h-12 items-center overflow-x-auto border-b theme-ide-divider bg-[var(--color-surface-container-lowest)]"  ref={scrollContainerRef}>
         {tabs.map((tab) => (
           <button
             className={`gleeple-heading flex h-full shrink-0 cursor-pointer items-center gap-2 border-r px-6 text-xs font-semibold uppercase transition-colors theme-ide-divider ${
@@ -256,7 +309,10 @@ function SelectedTopicContent({
         ))}
       </div>
 
-      <div className="content-scrollbar flex-1 space-y-10 overflow-y-auto p-6">
+      <div
+        className="content-scrollbar flex-1 space-y-10 overflow-y-auto p-6"
+       
+      >
         <header className="space-y-4" id="overview">
           <div className="flex flex-wrap items-center gap-2">
             <span className="theme-badge rounded-sm px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.08em]">
@@ -270,14 +326,14 @@ function SelectedTopicContent({
           <ContentHOne>{topic.subtopic}</ContentHOne>
         </header>
 
-        {markdown.trim() ? (
+        {displayMarkdown.trim() ? (
           <article className="space-y-8">
             <ReactMarkdown
               components={markdownComponents}
               rehypePlugins={[rehypeHighlight]}
               remarkPlugins={[remarkGfm]}
             >
-              {markdown}
+              {displayMarkdown}
             </ReactMarkdown>
           </article>
         ) : (
@@ -288,21 +344,120 @@ function SelectedTopicContent({
           </article>
         )}
 
+        <InterviewQuestionsSection
+          questions={interviewQuestions}
+          topicId={topic.id}
+        />
+
         <TopicNavigation
-          nextTopic={nextTopic}
-          previousTopic={previousTopic}
+          nextTopic={nextSubTopic}
+          previousTopic={previousSubTopic}
         />
       </div>
     </section>
   );
 }
 
+function InterviewQuestionsSection({
+  questions,
+  topicId,
+}: {
+  questions: CommonInterviewQuestion[];
+  topicId: string;
+}) {
+  const practicePath = `/practice/${topicId}/`;
+  const summaries = getPracticeLevelSummaries(questions);
+
+  return (
+    <section className="space-y-6" id="interview-questions">
+      <h2 className="gleeple-heading flex items-center gap-2 text-2xl font-semibold theme-text">
+        <ContactSupportOutlinedIcon className="theme-accent" />
+        Interview Practice
+      </h2>
+
+      <div className="grid grid-cols-1 gap-4">
+        {summaries.map((item) => {
+          const classes = getInterviewQuestionLevelClasses(item.level);
+          const questionLabel =
+            item.questionCount === 1 ? "question" : "questions";
+
+          return (
+            <RouterLink
+              className={`theme-content-card theme-content-card-interactive flex items-center justify-between rounded-lg border-l-4 p-5 text-left no-underline ${classes.accentClass}`}
+              key={item.level}
+              state={{ practiceLevel: item.level.toLowerCase() }}
+              to={practicePath}
+            >
+              <div className="min-w-0 space-y-2">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span
+                    className={`gleeple-heading rounded-sm border px-2 py-0.5 text-[10px] font-bold uppercase ${classes.badgeClass}`}
+                  >
+                    {item.level}
+                  </span>
+                  <span className="text-xs theme-subtle">
+                    {item.questionCount} {questionLabel}
+                  </span>
+                </div>
+                <h3 className="text-lg font-medium leading-7 theme-text">
+                  {item.level} Interview Practice
+                </h3>
+                <p className="text-sm leading-6 theme-muted">
+                  Practice the {item.level.toLowerCase()} questions for this
+                  topic.
+                </p>
+              </div>
+              <ChevronRightIcon className="ml-4 shrink-0 theme-subtle" />
+            </RouterLink>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function getPracticeLevelSummaries(
+  questions: CommonInterviewQuestion[]
+): PracticeLevelSummary[] {
+  return practiceLevels.map((level) => ({
+    level,
+    questionCount: questions.filter((question) => question.level === level)
+      .length,
+  }));
+}
+
+function getInterviewQuestionLevelClasses(level: string) {
+  const normalizedLevel = level.toLowerCase();
+
+  if (normalizedLevel === "advanced") {
+    return {
+      accentClass: "border-l-[var(--color-tertiary)]",
+      badgeClass:
+        "border-[color-mix(in_srgb,var(--color-tertiary)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-tertiary)_12%,transparent)] text-[var(--color-tertiary)]",
+    };
+  }
+
+  if (normalizedLevel === "intermediate") {
+    return {
+      accentClass: "border-l-[var(--color-secondary)]",
+      badgeClass:
+        "border-[color-mix(in_srgb,var(--color-secondary)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-secondary)_12%,transparent)] text-[var(--color-secondary)]",
+    };
+  }
+
+  return {
+    accentClass: "border-l-[var(--color-primary-container)]",
+    badgeClass:
+      "border-[color-mix(in_srgb,var(--color-primary-container)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-primary-container)_12%,transparent)] text-[var(--color-primary-container)]",
+  };
+}
+
 function TopicNavigation({
   nextTopic,
   previousTopic,
 }: {
-  nextTopic?: CurriculumTopicNode;
-  previousTopic?: CurriculumTopicNode;
+  nextTopic?: CurriculumSubTopicNode;
+  previousTopic?: CurriculumSubTopicNode;
 }) {
   return (
     <section className="border-t pt-12 theme-ide-divider" id="summary">
@@ -360,6 +515,10 @@ export function MainContent({ topic, markdown }: MainContentProps) {
     return <SelectedTopicContent markdown={markdown ?? ""} topic={topic} />;
   }
 
+  return <DraftedContentDisplay />;
+}
+
+function DraftedContentDisplay() {
   return (
     <section className="flex min-w-0 flex-1 flex-col theme-ide-surface">
       <div className="flex h-12 items-center overflow-x-auto border-b theme-ide-divider bg-[var(--color-surface-container-lowest)]">

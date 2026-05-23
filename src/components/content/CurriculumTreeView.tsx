@@ -1,9 +1,19 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
+import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
 import { useEffect, useMemo, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../lib/redux/hooks/hooks";
+import { selectContentProgress } from "../../lib/redux/selectors/contentSelectors";
+import {
+  getContentSubTopicProgressPercentage,
+  setContentProgress,
+  type ContentProgressState,
+} from "../../lib/redux/slices/contentSlice";
+import { categoryOrder, topicOrder } from "./curriculumOrder";
 
 type MarkdownLoader = () => Promise<string>;
 
@@ -14,8 +24,8 @@ type CurriculumFrontmatter = {
   category?: string;
 };
 
-export type CurriculumTopicNode = {
-  type: "topic";
+export type CurriculumSubTopicNode = {
+  type: "subtopic";
   id: string;
   title: string;
   topic: string;
@@ -29,8 +39,8 @@ export type CurriculumTopicNode = {
   completed: boolean;
 };
 
-export type CurriculumFolderNode = {
-  type: "folder";
+export type CurriculumTopicNode = {
+  type: "topic";
   id: string;
   title: string;
   path: string;
@@ -39,16 +49,16 @@ export type CurriculumFolderNode = {
   completed: boolean;
 };
 
-export type CurriculumTreeNode = CurriculumFolderNode | CurriculumTopicNode;
+export type CurriculumTreeNode = CurriculumTopicNode | CurriculumSubTopicNode;
 
 type CurriculumTreeViewProps = {
   nodes?: CurriculumTreeNode[];
   activeTopicId?: string;
   initialActiveTopicId?: string;
-  onTopicSelect?: (topic: CurriculumTopicNode) => void;
+  onTopicSelect?: (topic: CurriculumSubTopicNode) => void;
 };
 
-type MutableFolderNode = CurriculumFolderNode & {
+type MutableTopicNode = CurriculumTopicNode & {
   children: CurriculumTreeNode[];
 };
 
@@ -94,7 +104,7 @@ const specialLabels: Record<string, string> = {
 function buildCurriculumTree(
   modules: Record<string, string>
 ): CurriculumTreeNode[] {
-  const roots: MutableFolderNode[] = [];
+  const roots: MutableTopicNode[] = [];
   const usedTopicIds = new Set<string>();
 
   Object.entries(modules)
@@ -115,8 +125,8 @@ function buildCurriculumTree(
         folderPathSegments.push(folderSegment);
         const folderPath = folderPathSegments.join("/");
         const existingFolder = currentChildren.find(
-          (node): node is MutableFolderNode =>
-            node.type === "folder" && node.path === folderPath
+          (node): node is MutableTopicNode =>
+            node.type === "topic" && node.path === folderPath
         );
 
         if (existingFolder) {
@@ -124,8 +134,8 @@ function buildCurriculumTree(
           return;
         }
 
-        const folderNode: MutableFolderNode = {
-          type: "folder",
+        const folderNode: MutableTopicNode = {
+          type: "topic",
           id: toNodeId(folderPath),
           title: formatSegmentLabel(folderSegment),
           path: folderPath,
@@ -156,7 +166,6 @@ function buildCurriculumTree(
         usedTopicIds,
         contentPath
       );
-      const progress = getPlaceholderTopicProgress(topicPath);
       const physicalFolderPath = folderPathSegments.join("/");
       const topicFolderPath = [physicalFolderPath, slugify(topicTitle)]
         .filter(Boolean)
@@ -168,7 +177,7 @@ function buildCurriculumTree(
       );
 
       topicFolder.children.push({
-        type: "topic",
+        type: "subtopic",
         id: topicId,
         title: subtopicTitle,
         topic: topicTitle,
@@ -178,30 +187,30 @@ function buildCurriculumTree(
         contentPath,
         loadContentSync: () => markdown,
         loadContent: async () => markdown,
-        progress,
-        completed: progress === 100,
+        progress: 0,
+        completed: false,
       });
     });
 
-  return applyFolderProgress(sortNodes(roots));
+  return applyTopicProgress(sortNodes(roots));
 }
 
 function getOrCreateFolder(
   nodes: CurriculumTreeNode[],
   path: string,
   title: string
-): MutableFolderNode {
+): MutableTopicNode {
   const existingFolder = nodes.find(
-    (node): node is MutableFolderNode =>
-      node.type === "folder" && node.path === path
+    (node): node is MutableTopicNode =>
+      node.type === "topic" && node.path === path
   );
 
   if (existingFolder) {
     return existingFolder;
   }
 
-  const folderNode: MutableFolderNode = {
-    type: "folder",
+  const folderNode: MutableTopicNode = {
+    type: "topic",
     id: toNodeId(path),
     title,
     path,
@@ -215,29 +224,82 @@ function getOrCreateFolder(
   return folderNode;
 }
 
-function sortNodes(nodes: CurriculumTreeNode[]): CurriculumTreeNode[] {
+function sortNodes(
+  nodes: CurriculumTreeNode[],
+  categoryTitle?: string
+): CurriculumTreeNode[] {
   return [...nodes]
     .map((node) =>
-      node.type === "folder"
-        ? { ...node, children: sortNodes(node.children) }
+      node.type === "topic"
+        ? {
+            ...node,
+            children: sortNodes(node.children, categoryTitle ?? node.title),
+          }
         : node
     )
     .sort((left, right) => {
       if (left.type !== right.type) {
-        return left.type === "folder" ? -1 : 1;
+        return left.type === "topic" ? -1 : 1;
+      }
+
+      const orderedComparison = compareConfiguredOrder(
+        getNodeOrder(left, categoryTitle),
+        getNodeOrder(right, categoryTitle)
+      );
+
+      if (orderedComparison !== 0) {
+        return orderedComparison;
       }
 
       return left.title.localeCompare(right.title);
     });
 }
 
-function applyFolderProgress(nodes: CurriculumTreeNode[]): CurriculumTreeNode[] {
+function getNodeOrder(node: CurriculumTreeNode, categoryTitle?: string) {
+  if (!categoryTitle) {
+    return categoryOrder[node.title];
+  }
+
+  const categoryTopicOrder = topicOrder[categoryTitle];
+
+  if (!categoryTopicOrder) {
+    return undefined;
+  }
+
+  return node.type === "topic"
+    ? categoryTopicOrder[node.title]
+    : categoryTopicOrder[node.topic];
+}
+
+function compareConfiguredOrder(
+  leftOrder: number | undefined,
+  rightOrder: number | undefined
+) {
+  const leftHasOrder = typeof leftOrder === "number";
+  const rightHasOrder = typeof rightOrder === "number";
+
+  if (leftHasOrder && rightHasOrder) {
+    return leftOrder - rightOrder;
+  }
+
+  if (leftHasOrder) {
+    return -1;
+  }
+
+  if (rightHasOrder) {
+    return 1;
+  }
+
+  return 0;
+}
+
+function applyTopicProgress(nodes: CurriculumTreeNode[]): CurriculumTreeNode[] {
   return nodes.map((node) => {
-    if (node.type === "topic") {
+    if (node.type === "subtopic") {
       return node;
     }
 
-    const children = applyFolderProgress(node.children);
+    const children = applyTopicProgress(node.children);
     const progress =
       children.length === 0
         ? 0
@@ -255,29 +317,81 @@ function applyFolderProgress(nodes: CurriculumTreeNode[]): CurriculumTreeNode[] 
   });
 }
 
-export function collectTopicNodes(
-  nodes: CurriculumTreeNode[]
-): CurriculumTopicNode[] {
-  return nodes.flatMap((node) =>
-    node.type === "topic" ? [node] : collectTopicNodes(node.children)
+function applyProgressFromState(
+  nodes: CurriculumTreeNode[],
+  progressState: ContentProgressState
+): CurriculumTreeNode[] {
+  return nodes.map((node) => {
+    if (node.type === "subtopic") {
+      const progress = getSubTopicProgressFromState(progressState, node);
+
+      return {
+        ...node,
+        progress,
+        completed: progress === 100,
+      };
+    }
+
+    const children = applyProgressFromState(node.children, progressState);
+    const progress =
+      children.length === 0
+        ? 0
+        : Math.round(
+            children.reduce((total, child) => total + child.progress, 0) /
+              children.length
+          );
+
+    return {
+      ...node,
+      children,
+      progress,
+      completed: children.length > 0 && children.every((child) => child.completed),
+    };
+  });
+}
+
+function getSubTopicProgressFromState(
+  progressState: ContentProgressState,
+  subtopic: CurriculumSubTopicNode
+) {
+  return getContentSubTopicProgressPercentage(
+    progressState[subtopic.category]?.[subtopic.topic]?.[subtopic.subtopic]
   );
 }
 
-function getAncestorFolderIds(
+function getTreeProgress(nodes: CurriculumTreeNode[]) {
+  if (nodes.length === 0) {
+    return 0;
+  }
+
+  return Math.round(
+    nodes.reduce((total, node) => total + node.progress, 0) / nodes.length
+  );
+}
+
+export function collectSubTopicNodes(
+  nodes: CurriculumTreeNode[]
+): CurriculumSubTopicNode[] {
+  return nodes.flatMap((node) =>
+    node.type === "subtopic" ? [node] : collectSubTopicNodes(node.children)
+  );
+}
+
+function getAncestorTopicIds(
   nodes: CurriculumTreeNode[],
-  topicId: string,
+  subtopicId: string,
   ancestors: string[] = []
 ): string[] {
   for (const node of nodes) {
-    if (node.type === "topic") {
-      if (node.id === topicId || node.path === topicId) {
+    if (node.type === "subtopic") {
+      if (node.id === subtopicId || node.path === subtopicId) {
         return ancestors;
       }
 
       continue;
     }
 
-    const result = getAncestorFolderIds(node.children, topicId, [
+    const result = getAncestorTopicIds(node.children, subtopicId, [
       ...ancestors,
       node.id,
     ]);
@@ -290,21 +404,21 @@ function getAncestorFolderIds(
   return [];
 }
 
-function getAncestorFolderIdsForFolder(
+function getAncestorTopicIdsForTopic(
   nodes: CurriculumTreeNode[],
-  folderId: string,
+  topicId: string,
   ancestors: string[] = []
 ): string[] {
   for (const node of nodes) {
-    if (node.type === "topic") {
+    if (node.type === "subtopic") {
       continue;
     }
 
-    if (node.id === folderId) {
+    if (node.id === topicId) {
       return ancestors;
     }
 
-    const result = getAncestorFolderIdsForFolder(node.children, folderId, [
+    const result = getAncestorTopicIdsForTopic(node.children, topicId, [
       ...ancestors,
       node.id,
     ]);
@@ -317,57 +431,59 @@ function getAncestorFolderIdsForFolder(
   return [];
 }
 
-function findInitialTopicId(
+function findInitialSubTopicId(
   nodes: CurriculumTreeNode[],
-  requestedTopicId?: string
+  requestedSubTopicId?: string
 ) {
-  const topics = collectTopicNodes(nodes);
+  const subtopics = collectSubTopicNodes(nodes);
 
-  if (requestedTopicId) {
-    const matchingTopic = topics.find(
-      (topic) =>
-        topic.id === requestedTopicId ||
-        topic.path === requestedTopicId ||
-        topic.id.endsWith(`/${requestedTopicId}`) ||
-        topic.path.endsWith(`/${requestedTopicId}`)
+  if (requestedSubTopicId) {
+    const matchingSubTopic = subtopics.find(
+      (subtopic) =>
+        subtopic.id === requestedSubTopicId ||
+        subtopic.path === requestedSubTopicId ||
+        subtopic.id.endsWith(`/${requestedSubTopicId}`) ||
+        subtopic.path.endsWith(`/${requestedSubTopicId}`)
     );
 
-    if (matchingTopic) {
-      return matchingTopic.id;
+    if (matchingSubTopic) {
+      return matchingSubTopic.id;
     }
   }
 
-  const dependencyInjectionTopic = topics.find((topic) =>
-    topic.path.endsWith("dependency-injection-and-ioc")
+  const dependencyInjectionSubTopic = subtopics.find((subtopic) =>
+    subtopic.path.endsWith("dependency-injection-and-ioc")
   );
 
-  return dependencyInjectionTopic?.id ?? topics[0]?.id ?? "";
+  return dependencyInjectionSubTopic?.id ?? subtopics[0]?.id ?? "";
 }
 
-export function getFirstCurriculumTopic() {
-  return collectTopicNodes(generatedCurriculumTree)[0];
+export function getFirstCurriculumSubTopic() {
+  return collectSubTopicNodes(generatedCurriculumTree)[0];
 }
 
-export function findCurriculumTopicById(topicId: string) {
-  return collectTopicNodes(generatedCurriculumTree).find(
-    (topic) => topic.id === topicId
+export function findCurriculumSubTopicById(subtopicId: string) {
+  return collectSubTopicNodes(generatedCurriculumTree).find(
+    (subtopic) => subtopic.id === subtopicId
   );
 }
 
-export function getCurriculumTopicNavigation(topicId: string) {
-  const topics = collectTopicNodes(generatedCurriculumTree);
-  const topicIndex = topics.findIndex((topic) => topic.id === topicId);
+export function getCurriculumSubTopicNavigation(subtopicId: string) {
+  const subtopics = collectSubTopicNodes(generatedCurriculumTree);
+  const subtopicIndex = subtopics.findIndex(
+    (subtopic) => subtopic.id === subtopicId
+  );
 
-  if (topicIndex === -1) {
+  if (subtopicIndex === -1) {
     return {
-      previousTopic: undefined,
-      nextTopic: undefined,
+      previousSubTopic: undefined,
+      nextSubTopic: undefined,
     };
   }
 
   return {
-    previousTopic: topics[topicIndex - 1],
-    nextTopic: topics[topicIndex + 1],
+    previousSubTopic: subtopics[subtopicIndex - 1],
+    nextSubTopic: subtopics[subtopicIndex + 1],
   };
 }
 
@@ -437,22 +553,6 @@ function getUniqueTopicId(
   return uniqueId;
 }
 
-function getPlaceholderTopicProgress(path: string) {
-  const hash = hashString(path);
-
-  if (hash % 7 === 0) {
-    return 100;
-  }
-
-  return 18 + (hash % 70);
-}
-
-function hashString(value: string) {
-  return value.split("").reduce((hash, character) => {
-    return (hash * 31 + character.charCodeAt(0)) % 1009;
-  }, 17);
-}
-
 function toNodeId(path: string) {
   return path
     .replace(/\\/g, "/")
@@ -512,24 +612,40 @@ export function CurriculumTreeView({
   initialActiveTopicId,
   onTopicSelect,
 }: CurriculumTreeViewProps) {
+  const dispatch = useAppDispatch();
+  const progressState = useAppSelector(selectContentProgress);
+  const progressNodes = useMemo(
+    () => applyProgressFromState(nodes, progressState),
+    [nodes, progressState]
+  );
+  const totalProgress = getTreeProgress(progressNodes);
   const initialTopicId = useMemo(
-    () => findInitialTopicId(nodes, activeTopicId ?? initialActiveTopicId),
-    [activeTopicId, initialActiveTopicId, nodes]
+    () =>
+      findInitialSubTopicId(
+        progressNodes,
+        activeTopicId ?? initialActiveTopicId
+      ),
+    [activeTopicId, initialActiveTopicId, progressNodes]
   );
   const [internalActiveTopicId, setInternalActiveTopicId] =
     useState(initialTopicId);
   const selectedTopicId = activeTopicId ?? internalActiveTopicId;
   const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(
-    () => new Set(getAncestorFolderIds(nodes, initialTopicId))
+    () => new Set(getAncestorTopicIds(progressNodes, initialTopicId))
   );
 
   useEffect(() => {
-    setExpandedFolderIds(new Set(getAncestorFolderIds(nodes, selectedTopicId)));
-  }, [nodes, selectedTopicId]);
+    setExpandedFolderIds(
+      new Set(getAncestorTopicIds(progressNodes, selectedTopicId))
+    );
+  }, [progressNodes, selectedTopicId]);
 
-  const toggleFolder = (folder: CurriculumFolderNode) => {
+  const toggleFolder = (folder: CurriculumTopicNode) => {
     setExpandedFolderIds((current) => {
-      const ancestorFolderIds = getAncestorFolderIdsForFolder(nodes, folder.id);
+      const ancestorFolderIds = getAncestorTopicIdsForTopic(
+        progressNodes,
+        folder.id
+      );
 
       if (current.has(folder.id)) {
         return new Set(ancestorFolderIds);
@@ -539,19 +655,34 @@ export function CurriculumTreeView({
     });
   };
 
-  const selectTopic = (topic: CurriculumTopicNode) => {
+  const selectTopic = (topic: CurriculumSubTopicNode) => {
     setInternalActiveTopicId(topic.id);
     onTopicSelect?.(topic);
   };
 
+  const resetTotalProgress = () => {
+    dispatch(setContentProgress({}));
+  };
+
   return (
     <div className="border-b theme-ide-divider p-4">
-      <h2 className="gleeple-heading mb-4 text-[10px] font-semibold uppercase tracking-[0.18em] theme-subtle">
-        Curriculum
-      </h2>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h2 className="gleeple-heading text-[10px] font-semibold uppercase tracking-[0.18em] theme-subtle">
+          Total Progress: {totalProgress}%
+        </h2>
+        <button
+          aria-label="Reset curriculum progress"
+          className="theme-ide-hover flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm theme-subtle transition-colors hover:text-[var(--color-on-surface)]"
+          onClick={resetTotalProgress}
+          title="Reset curriculum progress"
+          type="button"
+        >
+          <RestartAltOutlinedIcon sx={{ fontSize: 16 }} />
+        </button>
+      </div>
 
       <div className="space-y-1">
-        {nodes.map((node) => (
+        {progressNodes.map((node) => (
           <TreeNodeRow
             activeTopicId={selectedTopicId}
             depth={0}
@@ -572,8 +703,8 @@ type TreeNodeRowProps = {
   depth: number;
   activeTopicId: string;
   expandedFolderIds: Set<string>;
-  onSelectTopic: (topic: CurriculumTopicNode) => void;
-  onToggleFolder: (folder: CurriculumFolderNode) => void;
+  onSelectTopic: (topic: CurriculumSubTopicNode) => void;
+  onToggleFolder: (folder: CurriculumTopicNode) => void;
 };
 
 function TreeNodeRow({
@@ -584,7 +715,7 @@ function TreeNodeRow({
   onSelectTopic,
   onToggleFolder,
 }: TreeNodeRowProps) {
-  if (node.type === "topic") {
+  if (node.type === "subtopic") {
     const isActive = activeTopicId === node.id;
 
     return (
@@ -599,8 +730,16 @@ function TreeNodeRow({
         title={node.contentPath}
         type="button"
       >
-        <span className="gleeple-code min-w-0 flex-1 whitespace-normal break-words text-sm font-medium leading-5">
-          {node.title}
+        <span className="flex min-w-0 flex-1 items-start gap-1.5">
+          <InsertDriveFileOutlinedIcon
+            className={`mt-0.5 shrink-0 ${
+              isActive ? "theme-accent" : "theme-muted"
+            }`}
+            sx={{ fontSize: 15 }}
+          />
+          <span className="gleeple-code min-w-0 flex-1 whitespace-normal break-words text-sm font-medium leading-5">
+            {node.title}
+          </span>
         </span>
 
         {node.completed ? (
@@ -608,7 +747,13 @@ function TreeNodeRow({
             className="shrink-0 text-emerald-400"
             sx={{ fontSize: 14 }}
           />
-        ) : null}
+        ) :  <span
+        className={`gleeple-heading text-[10px] font-semibold ${
+          node.completed ? "text-emerald-400" : "theme-subtle"
+        }`}
+      >
+        {node.progress}%
+      </span>}
       </button>
     );
   }

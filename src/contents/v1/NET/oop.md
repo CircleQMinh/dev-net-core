@@ -8,7 +8,7 @@ category: .NET
 
 ## Overview
 
-Object-Oriented Programming, usually called OOP, is a programming paradigm that organizes software around objects. An object represents a concept in the problem domain and combines data with behavior. In C#, objects are usually created from classes, records, or structs, and they interact through methods, properties, interfaces, events, and other type members.
+Object-Oriented Programming, usually called OOP, is a programming paradigm that organizes software around objects. An object represents a concept in the problem domain and combines data with behavior. In C#, objects are usually created from classes, records, or structs, and they interact through methods, properties, interfaces, events, constructors, inheritance, and dependency injection.
 
 OOP matters because most production C# applications are built around object-oriented ideas. ASP.NET Core controllers, services, repositories, Entity Framework Core entities, domain models, background workers, validators, middleware, and dependency injection registrations all depend on understanding how types, objects, interfaces, inheritance, and polymorphism work.
 
@@ -166,13 +166,13 @@ The object controls its own state. Other code cannot directly set `Status` or mo
 
 Encapsulation is commonly used in:
 
-- Domain entities
-- Value objects
-- Business rule validation
-- API models
-- Service classes
-- EF Core entities
-- Configuration classes
+- Domain entities.
+- Value objects.
+- Business rule validation.
+- API models.
+- Service classes.
+- EF Core entities.
+- Configuration classes.
 
 Trade-offs:
 
@@ -224,13 +224,13 @@ public class NotificationService
 
 Abstraction is important because it helps with:
 
-- Dependency injection
-- Unit testing
-- Loose coupling
-- Clean architecture
-- Replacing implementations without changing callers
-- Plugin-style designs
-- Separating business logic from infrastructure
+- Dependency injection.
+- Unit testing.
+- Loose coupling.
+- Clean architecture.
+- Replacing implementations without changing callers.
+- Plugin-style designs.
+- Separating business logic from infrastructure.
 
 Common interview point: abstraction is not the same as an abstract class. Abstraction is a design idea. An abstract class is one C# language feature that can implement that idea.
 
@@ -311,42 +311,7 @@ Important inheritance keywords:
 - `sealed`: prevents a class from being inherited or prevents an override from being overridden again.
 - `protected`: allows access inside the class and derived classes.
 
-Example of `virtual` and `override`:
-
-```csharp
-public class ReportExporter
-{
-    public virtual string Export()
-    {
-        return "Exporting report";
-    }
-}
-
-public class PdfReportExporter : ReportExporter
-{
-    public override string Export()
-    {
-        return "Exporting report as PDF";
-    }
-}
-```
-
 Use inheritance when there is a real `is-a` relationship and derived classes can safely substitute the base class.
-
-Good example:
-
-```text
-FullTimeEmployee is an Employee.
-Contractor is an Employee.
-```
-
-Weak example:
-
-```text
-InvoicePrinter inherits from Invoice.
-```
-
-An invoice printer is not an invoice. It probably should use composition instead.
 
 Trade-offs:
 
@@ -369,12 +334,12 @@ Polymorphism means that different types can be treated through a common abstract
 
 In C#, polymorphism commonly appears through:
 
-- Base class references
-- Interface references
-- Virtual and overridden methods
-- Abstract methods
-- Method overloading
-- Generic constraints
+- Base class references.
+- Interface references.
+- Virtual and overridden methods.
+- Abstract methods.
+- Method overloading.
+- Generic constraints.
 
 Runtime polymorphism example:
 
@@ -430,33 +395,6 @@ Important comparison:
 | Method overriding | Derived class changes virtual or abstract base behavior | Runtime |
 | Method hiding with `new` | Derived member hides base member without true polymorphic override | Depends on reference type |
 
-Example showing overriding vs hiding:
-
-```csharp
-public class BaseLogger
-{
-    public virtual void Log() => Console.WriteLine("Base log");
-}
-
-public class GoodLogger : BaseLogger
-{
-    public override void Log() => Console.WriteLine("Good logger");
-}
-
-public class HidingLogger : BaseLogger
-{
-    public new void Log() => Console.WriteLine("Hiding logger");
-}
-```
-
-```csharp
-BaseLogger logger1 = new GoodLogger();
-logger1.Log(); // Good logger
-
-BaseLogger logger2 = new HidingLogger();
-logger2.Log(); // Base log
-```
-
 Common mistake: using `new` when `override` was intended. This can create confusing behavior because method hiding is not normal runtime polymorphism.
 
 ### Interfaces
@@ -498,22 +436,13 @@ public class ProductRepository : IRepository<Product>
 
 Interfaces are heavily used in C# for:
 
-- Dependency injection
-- Unit testing and mocking
-- Repository patterns
-- Strategy patterns
-- Clean architecture boundaries
-- External service boundaries
-- Multiple behavior contracts
-
-A class can implement multiple interfaces:
-
-```csharp
-public class FileStorageService : IFileUploader, IFileDownloader, IFileDeleter
-{
-    // Implementation
-}
-```
+- Dependency injection.
+- Unit testing and mocking.
+- Repository patterns.
+- Strategy patterns.
+- Clean architecture boundaries.
+- External service boundaries.
+- Multiple behavior contracts.
 
 Best practices:
 
@@ -522,8 +451,6 @@ Best practices:
 - Avoid large interfaces that force implementers to provide methods they do not need.
 - Prefer interfaces when multiple unrelated types need to share behavior.
 - Prefer abstract classes when you need shared state, protected members, constructors, or common implementation.
-
-Common mistake: creating an interface for every class automatically. This can add unnecessary complexity if there is no real need for abstraction, substitution, or testability boundary.
 
 ### Abstract Classes
 
@@ -599,14 +526,6 @@ public class Customer
     }
 }
 ```
-
-Why access modifiers matter in interviews:
-
-- They are central to encapsulation.
-- They affect API design.
-- They control inheritance behavior.
-- They help prevent accidental misuse.
-- They are frequently used in library and domain model design.
 
 Best practices:
 
@@ -852,8 +771,6 @@ public class Customer
 ```
 
 Use classes when identity and lifecycle matter. Use records when value equality and immutability are useful. Use structs for small values where copying is acceptable and intentional.
-
-Common mistake: using a struct for a large mutable object. This can cause unexpected copies and confusing behavior.
 
 ### Reference Equality and Value Equality
 
@@ -1140,15 +1057,24 @@ Best practices:
 
 ## Common Interview Questions
 
+<!-- interview-questions:start -->
+
+<!-- question-group:start:beginner -->
 ### Beginner
 
-#### 1. What is OOP?
+<!-- question:start:oop-in-csharp-beginner-q01 -->
+#### Beginner Q01: What is OOP?
 
-Expected answer:
+<!-- question-id:oop-in-csharp-beginner-q01 -->
+<!-- question-level:beginner -->
 
-OOP, or Object-Oriented Programming, is a programming paradigm that organizes code around objects. An object combines data and behavior. In C#, objects are commonly created from classes. OOP helps model real-world concepts, organize business logic, reduce duplication, and build maintainable applications.
+##### Expected Answer
 
-Key points to mention:
+OOP, or Object-Oriented Programming, is a programming paradigm that organizes code around objects. An object combines data and behavior. In C#, objects are commonly created from classes, records, or structs. OOP helps model real-world concepts, organize business logic, reduce duplication, and build maintainable applications.
+
+A good answer should mention that OOP is not only about using classes. It is about designing objects with clear responsibilities, valid state, useful behavior, and well-defined relationships.
+
+##### Key Points to Mention
 
 - OOP means organizing software around objects.
 - Objects contain state and behavior.
@@ -1156,144 +1082,388 @@ Key points to mention:
 - The main pillars are encapsulation, abstraction, inheritance, and polymorphism.
 - OOP is used heavily in ASP.NET Core, EF Core, services, domain models, and libraries.
 
-#### 2. What are the four pillars of OOP?
+<!-- question:end:oop-in-csharp-beginner-q01 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q02 -->
+#### Beginner Q02: What are the four pillars of OOP?
+
+<!-- question-id:oop-in-csharp-beginner-q02 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 The four pillars are encapsulation, abstraction, inheritance, and polymorphism. Encapsulation hides internal state and exposes safe operations. Abstraction exposes essential behavior while hiding implementation details. Inheritance allows a class to derive from another class. Polymorphism allows different implementations to be used through a common base type or interface.
 
-Key points to mention:
+In interviews, it is important to explain each pillar practically, not only define the words.
+
+##### Key Points to Mention
 
 - Encapsulation protects object state.
 - Abstraction hides implementation details.
-- Inheritance supports reuse and specialization.
+- Inheritance supports specialization.
 - Polymorphism enables flexible behavior through common contracts.
+- These ideas support maintainability, testability, and extensibility.
 
-#### 3. What is a class in C#?
+<!-- question:end:oop-in-csharp-beginner-q02 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q03 -->
+#### Beginner Q03: What is a class in C#?
+
+<!-- question-id:oop-in-csharp-beginner-q03 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 A class is a blueprint for creating objects. It defines members such as fields, properties, methods, constructors, and events. A class can contain both data and behavior. In C#, classes are reference types and support inheritance.
 
-Key points to mention:
+Example:
+
+```csharp
+public class Customer
+{
+    public string Name { get; private set; }
+
+    public Customer(string name)
+    {
+        Name = name;
+    }
+}
+```
+
+This class defines the shape and behavior of `Customer` objects.
+
+##### Key Points to Mention
 
 - A class defines structure and behavior.
 - Objects are instances of classes.
 - Classes are reference types.
-- Classes can implement interfaces and inherit from one base class.
+- Classes can implement interfaces.
+- Classes can inherit from one base class.
 
-#### 4. What is an object?
+<!-- question:end:oop-in-csharp-beginner-q03 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q04 -->
+#### Beginner Q04: What is an object?
+
+<!-- question-id:oop-in-csharp-beginner-q04 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 An object is a runtime instance of a class. It has its own state stored in instance fields and properties, and it can perform behavior through methods. Multiple objects can be created from the same class, each with different state.
 
-Key points to mention:
+Example:
+
+```csharp
+var customer1 = new Customer("Alice");
+var customer2 = new Customer("Bob");
+```
+
+Both variables are `Customer` objects, but each has its own `Name`.
+
+##### Key Points to Mention
 
 - Object means instance.
 - Objects have state and behavior.
 - Instance members belong to each object.
 - Static members belong to the type, not a specific object.
+- Objects are created at runtime.
 
-#### 5. What is encapsulation in C#?
+<!-- question:end:oop-in-csharp-beginner-q04 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q05 -->
+#### Beginner Q05: What is encapsulation in C#?
+
+<!-- question-id:oop-in-csharp-beginner-q05 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 Encapsulation is the practice of hiding internal state and implementation details behind a controlled public API. In C#, this is usually done with access modifiers such as `private`, `public`, and `protected`, plus properties and methods that validate or control changes.
 
-Key points to mention:
+Example:
+
+```csharp
+public class BankAccount
+{
+    private decimal _balance;
+
+    public decimal Balance => _balance;
+
+    public void Deposit(decimal amount)
+    {
+        if (amount <= 0)
+            throw new ArgumentException("Amount must be positive.");
+
+        _balance += amount;
+    }
+}
+```
+
+Other code cannot directly set `_balance` to an invalid value. It must use the public method.
+
+##### Key Points to Mention
 
 - Hide fields with `private`.
 - Expose safe operations through methods or properties.
 - Protect objects from invalid state.
 - Use private setters or read-only collections when needed.
+- Encapsulation keeps business rules close to the data.
 
-#### 6. What is the difference between a field and a property?
+<!-- question:end:oop-in-csharp-beginner-q05 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q06 -->
+#### Beginner Q06: What is the difference between a field and a property?
+
+<!-- question-id:oop-in-csharp-beginner-q06 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 A field is a variable that stores data inside a type. A property exposes data through `get`, `set`, or `init` accessors. Properties can include validation, computed values, different access levels, or logic while still looking like fields to callers.
 
-Key points to mention:
+Example:
+
+```csharp
+private decimal _price;
+
+public decimal Price
+{
+    get => _price;
+    set
+    {
+        if (value < 0)
+            throw new ArgumentException("Price cannot be negative.");
+
+        _price = value;
+    }
+}
+```
+
+Fields should usually be private. Properties are the normal way to expose data from a class.
+
+##### Key Points to Mention
 
 - Fields store data.
 - Properties provide controlled access.
 - Public fields are usually avoided.
 - Properties support validation and encapsulation.
+- Auto-properties are useful when no custom logic is needed.
 
-#### 7. What is a constructor?
+<!-- question:end:oop-in-csharp-beginner-q06 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q07 -->
+#### Beginner Q07: What is a constructor?
+
+<!-- question-id:oop-in-csharp-beginner-q07 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 A constructor is a special member used to initialize an object when it is created. It usually sets required values and validates constructor arguments. Constructors can be overloaded and can call other constructors using `this` or base constructors using `base`.
 
-Key points to mention:
+Example:
+
+```csharp
+public class User
+{
+    public string Email { get; }
+
+    public User(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException("Email is required.");
+
+        Email = email;
+    }
+}
+```
+
+A good constructor should leave the object in a valid state.
+
+##### Key Points to Mention
 
 - Constructors initialize objects.
 - They should leave objects in a valid state.
 - They can accept parameters.
+- They can validate required data.
 - They can call `this(...)` or `base(...)`.
 
-#### 8. What is the difference between `public`, `private`, and `protected`?
+<!-- question:end:oop-in-csharp-beginner-q07 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-beginner-q08 -->
+#### Beginner Q08: What is the difference between `public`, `private`, and `protected`?
+
+<!-- question-id:oop-in-csharp-beginner-q08 -->
+<!-- question-level:beginner -->
+
+##### Expected Answer
 
 `public` members can be accessed by any code that can access the containing type. `private` members can only be accessed inside the same class or struct. `protected` members can be accessed inside the same class and derived classes.
 
-Key points to mention:
+These access modifiers support encapsulation by controlling how much of a type's implementation is exposed to other code.
 
+##### Key Points to Mention
+
+- `public` is accessible from outside.
+- `private` is accessible only inside the same type.
+- `protected` is accessible inside the type and derived types.
 - Access modifiers support encapsulation.
-- Use the most restrictive modifier possible.
-- `protected` is useful for inheritance but should be used carefully.
+- Use the most restrictive modifier that still supports the required behavior.
+- `protected` should be used carefully because it becomes part of the inheritance contract.
 
+<!-- question:end:oop-in-csharp-beginner-q08 -->
+
+<!-- question-group:end:beginner -->
+
+<!-- question-group:start:intermediate -->
 ### Intermediate
 
-#### 1. What is abstraction in C#?
+<!-- question:start:oop-in-csharp-intermediate-q01 -->
+#### Intermediate Q01: What is abstraction in C#?
 
-Expected answer:
+<!-- question-id:oop-in-csharp-intermediate-q01 -->
+<!-- question-level:intermediate -->
 
-Abstraction means exposing what an object can do while hiding how it does it. In C#, abstraction is commonly implemented with interfaces, abstract classes, and carefully designed public APIs. For example, a service can depend on `IEmailSender` without knowing whether the implementation uses SMTP, SendGrid, or another provider.
+##### Expected Answer
 
-Key points to mention:
+Abstraction means exposing what an object can do while hiding how it does it. In C#, abstraction is commonly implemented with interfaces, abstract classes, and carefully designed public APIs.
+
+Example:
+
+```csharp
+public interface IEmailSender
+{
+    Task SendAsync(string to, string subject, string body);
+}
+```
+
+A service can depend on `IEmailSender` without knowing whether the implementation uses SMTP, SendGrid, Azure Communication Services, or another provider.
+
+Abstraction reduces coupling and makes systems easier to test and change.
+
+##### Key Points to Mention
 
 - Abstraction is a design concept.
 - Interfaces and abstract classes are language tools for abstraction.
 - Abstraction reduces coupling.
 - It improves testability and replaceability.
+- Too much abstraction can make code harder to understand.
 
-#### 2. What is inheritance and when should you use it?
+<!-- question:end:oop-in-csharp-intermediate-q01 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q02 -->
+#### Intermediate Q02: What is inheritance and when should you use it?
 
-Inheritance allows one class to derive from another class and reuse, extend, or override its behavior. It should be used when there is a true `is-a` relationship and derived classes can safely substitute the base class. It should not be used only for code reuse when composition would be clearer.
+<!-- question-id:oop-in-csharp-intermediate-q02 -->
+<!-- question-level:intermediate -->
 
-Key points to mention:
+##### Expected Answer
+
+Inheritance allows one class to derive from another class and reuse, extend, or override its behavior. It should be used when there is a true `is-a` relationship and derived classes can safely substitute the base class.
+
+Example:
+
+```csharp
+public abstract class Employee
+{
+    public abstract decimal CalculatePay();
+}
+
+public class Contractor : Employee
+{
+    public override decimal CalculatePay()
+    {
+        return 5000m;
+    }
+}
+```
+
+Inheritance should not be used only for code reuse when composition would be clearer. Deep inheritance hierarchies can be fragile.
+
+##### Key Points to Mention
 
 - C# supports single inheritance for classes.
 - Use `abstract`, `virtual`, and `override` for extensible behavior.
 - Use inheritance for stable specialization.
+- Derived classes should be substitutable for the base class.
 - Prefer composition when the relationship is `has-a` or behavior needs to vary flexibly.
 
-#### 3. What is polymorphism in C#?
+<!-- question:end:oop-in-csharp-intermediate-q02 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q03 -->
+#### Intermediate Q03: What is polymorphism in C#?
+
+<!-- question-id:oop-in-csharp-intermediate-q03 -->
+<!-- question-level:intermediate -->
+
+##### Expected Answer
 
 Polymorphism allows different concrete types to be used through a common abstraction. For example, different `IPaymentProcessor` implementations can be called through the same interface. With runtime polymorphism, C# invokes the correct overridden method based on the runtime type of the object.
 
-Key points to mention:
+Example:
+
+```csharp
+public interface IPaymentProcessor
+{
+    Task ProcessAsync(decimal amount);
+}
+
+public class CreditCardProcessor : IPaymentProcessor
+{
+    public Task ProcessAsync(decimal amount)
+    {
+        return Task.CompletedTask;
+    }
+}
+```
+
+The caller can depend on `IPaymentProcessor` and does not need to know the concrete payment processor.
+
+##### Key Points to Mention
 
 - Polymorphism means many forms.
 - It can work through base classes or interfaces.
 - Runtime polymorphism uses virtual and overridden members.
 - It supports extensible and replaceable behavior.
+- Dependency injection commonly uses interface polymorphism.
 
-#### 4. What is the difference between method overloading and method overriding?
+<!-- question:end:oop-in-csharp-intermediate-q03 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q04 -->
+#### Intermediate Q04: What is the difference between method overloading and method overriding?
 
-Method overloading means multiple methods have the same name but different parameter lists. It is resolved at compile time. Method overriding means a derived class provides a new implementation for a virtual or abstract member from a base class. It is resolved at runtime based on the actual object type.
+<!-- question-id:oop-in-csharp-intermediate-q04 -->
+<!-- question-level:intermediate -->
 
-Key points to mention:
+##### Expected Answer
+
+Method overloading means multiple methods have the same name but different parameter lists. It is resolved at compile time.
+
+Method overriding means a derived class provides a new implementation for a virtual or abstract member from a base class. It is resolved at runtime based on the actual object type.
+
+Example overloading:
+
+```csharp
+public void Log(string message) { }
+public void Log(string message, Exception exception) { }
+```
+
+Example overriding:
+
+```csharp
+public class BaseLogger
+{
+    public virtual void Log() { }
+}
+
+public class FileLogger : BaseLogger
+{
+    public override void Log() { }
+}
+```
+
+##### Key Points to Mention
 
 - Overloading: same name, different parameters.
 - Overriding: derived class changes base behavior.
@@ -1301,215 +1471,532 @@ Key points to mention:
 - Overriding is runtime polymorphism.
 - Overriding requires `virtual`, `abstract`, or `override`.
 
-#### 5. What is the difference between an interface and an abstract class?
+<!-- question:end:oop-in-csharp-intermediate-q04 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q05 -->
+#### Intermediate Q05: What is the difference between an interface and an abstract class?
+
+<!-- question-id:oop-in-csharp-intermediate-q05 -->
+<!-- question-level:intermediate -->
+
+##### Expected Answer
 
 An interface defines a contract that a type can implement. An abstract class is a base class that can provide shared implementation, fields, constructors, and protected members. A class can implement multiple interfaces but can inherit from only one class.
 
-Key points to mention:
+Use an interface when you need a contract or capability that different types can implement. Use an abstract class when related types need shared implementation or a common base workflow.
+
+##### Key Points to Mention
 
 - Use interfaces for contracts and capabilities.
 - Use abstract classes for shared base behavior.
 - Interfaces are better for unrelated types sharing behavior.
 - Abstract classes are better for related types with common implementation.
+- A class can implement multiple interfaces.
+- A class can inherit from only one base class.
 
-#### 6. What is the difference between `virtual`, `override`, and `abstract`?
+<!-- question:end:oop-in-csharp-intermediate-q05 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q06 -->
+#### Intermediate Q06: What is the difference between `virtual`, `override`, and `abstract`?
+
+<!-- question-id:oop-in-csharp-intermediate-q06 -->
+<!-- question-level:intermediate -->
+
+##### Expected Answer
 
 `virtual` means a base class member has an implementation but allows derived classes to replace it. `override` means a derived class provides a replacement implementation. `abstract` means a member has no implementation in the abstract base class and must be implemented by a non-abstract derived class.
 
-Key points to mention:
+Example:
 
-- `virtual` provides default behavior.
+```csharp
+public abstract class Report
+{
+    public abstract string GetTitle();
+
+    public virtual string Export()
+    {
+        return "Default export";
+    }
+}
+
+public class SalesReport : Report
+{
+    public override string GetTitle()
+    {
+        return "Sales";
+    }
+
+    public override string Export()
+    {
+        return "Sales export";
+    }
+}
+```
+
+##### Key Points to Mention
+
+- `virtual` provides default behavior that can be overridden.
 - `override` replaces inherited virtual or abstract behavior.
 - `abstract` requires derived implementation.
 - Abstract members can only exist in abstract classes.
+- Use these keywords to support intentional extensibility.
 
-#### 7. What is the difference between `override` and `new` in C# methods?
+<!-- question:end:oop-in-csharp-intermediate-q06 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q07 -->
+#### Intermediate Q07: What is the difference between `override` and `new` in C# methods?
+
+<!-- question-id:oop-in-csharp-intermediate-q07 -->
+<!-- question-level:intermediate -->
+
+##### Expected Answer
 
 `override` participates in runtime polymorphism. When a method is called through a base reference, the derived override is executed. `new` hides the base member and does not provide normal polymorphic behavior. The method called can depend on the compile-time reference type.
 
-Key points to mention:
+Example:
+
+```csharp
+public class BaseLogger
+{
+    public virtual void Log() => Console.WriteLine("Base");
+}
+
+public class GoodLogger : BaseLogger
+{
+    public override void Log() => Console.WriteLine("Override");
+}
+
+public class HidingLogger : BaseLogger
+{
+    public new void Log() => Console.WriteLine("Hidden");
+}
+```
+
+Calling `Log` through a `BaseLogger` reference executes the override for `GoodLogger`, but not the hidden method for `HidingLogger`.
+
+##### Key Points to Mention
 
 - `override` changes virtual behavior.
 - `new` hides a member.
+- `override` supports runtime polymorphism.
 - `new` can cause confusing behavior.
 - Prefer `override` when polymorphism is intended.
 
-#### 8. Why is composition often preferred over inheritance?
+<!-- question:end:oop-in-csharp-intermediate-q07 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-intermediate-q08 -->
+#### Intermediate Q08: Why is composition often preferred over inheritance?
 
-Composition is often preferred because it creates more flexible and loosely coupled designs. Instead of deriving from a base class, a class can use another object to provide behavior. This avoids deep inheritance hierarchies and makes behavior easier to replace through dependency injection.
+<!-- question-id:oop-in-csharp-intermediate-q08 -->
+<!-- question-level:intermediate -->
 
-Key points to mention:
+##### Expected Answer
 
-- Inheritance creates tight coupling.
-- Composition supports flexible behavior replacement.
-- Composition represents `has-a` or `uses-a` relationships.
-- Inheritance should represent true `is-a` relationships.
+Composition is often preferred because it is more flexible and creates less coupling than inheritance. With composition, a class uses another object to provide behavior. This makes behavior easier to replace, test, and combine.
 
-#### 9. How does dependency injection relate to OOP?
+Inheritance creates a strong relationship between base and derived classes. If the base class changes, derived classes may break. Inheritance is best when the relationship is truly `is-a`. Composition is better when a type `has-a` or `uses-a` dependency.
 
-Expected answer:
+Example:
 
-Dependency injection is an OOP technique where a class receives its dependencies from outside instead of creating them internally. It usually works with interfaces or abstractions. This reduces coupling and improves testability because dependencies can be replaced with mocks, fakes, or different implementations.
+```csharp
+public class CheckoutService
+{
+    private readonly IDiscountPolicy _discountPolicy;
 
-Key points to mention:
+    public CheckoutService(IDiscountPolicy discountPolicy)
+    {
+        _discountPolicy = discountPolicy;
+    }
+}
+```
+
+`CheckoutService` uses a discount policy instead of inheriting from one.
+
+##### Key Points to Mention
+
+- Composition means using contained dependencies.
+- Inheritance means deriving from a base type.
+- Composition is more flexible for behavior reuse.
+- Inheritance creates tighter coupling.
+- Use inheritance for true `is-a` relationships.
+- Use composition for `has-a` or `uses-a` relationships.
+
+<!-- question:end:oop-in-csharp-intermediate-q08 -->
+
+<!-- question:start:oop-in-csharp-intermediate-q09 -->
+#### Intermediate Q09: How does dependency injection relate to OOP?
+
+<!-- question-id:oop-in-csharp-intermediate-q09 -->
+<!-- question-level:intermediate -->
+
+##### Expected Answer
+
+Dependency injection is an OOP technique where a class receives its dependencies from the outside instead of creating them internally. It supports abstraction, loose coupling, testability, and separation of concerns.
+
+Without dependency injection:
+
+```csharp
+public class OrderService
+{
+    private readonly EmailSender _emailSender = new();
+}
+```
+
+With dependency injection:
+
+```csharp
+public class OrderService
+{
+    private readonly IEmailSender _emailSender;
+
+    public OrderService(IEmailSender emailSender)
+    {
+        _emailSender = emailSender;
+    }
+}
+```
+
+The second design allows different implementations to be injected and makes unit testing easier.
+
+##### Key Points to Mention
 
 - Dependencies are provided from outside.
 - Classes depend on abstractions instead of concrete implementations.
-- DI is widely used in ASP.NET Core.
-- It improves testing, maintainability, and extensibility.
+- Improves testability.
+- Reduces coupling.
+- Common in ASP.NET Core.
+- Avoid creating replaceable dependencies with `new` inside business classes.
 
-#### 10. What is the difference between a class, a record, and a struct?
+<!-- question:end:oop-in-csharp-intermediate-q09 -->
 
-Expected answer:
+<!-- question-group:end:intermediate -->
 
-A class is a reference type usually used for objects with identity and behavior. A record is designed for immutable or value-like data and provides value-based equality by default. A struct is a value type, copied by value, and is best for small lightweight values.
-
-Key points to mention:
-
-- Classes are reference types.
-- Records are useful for immutable data and value equality.
-- Structs are value types.
-- Structs should usually be small and not heavily mutable.
-
+<!-- question-group:start:advanced -->
 ### Advanced
 
-#### 1. What is the Liskov Substitution Principle?
+<!-- question:start:oop-in-csharp-advanced-q01 -->
+#### Advanced Q01: What is the Liskov Substitution Principle?
 
-Expected answer:
+<!-- question-id:oop-in-csharp-advanced-q01 -->
+<!-- question-level:advanced -->
+
+##### Expected Answer
 
 The Liskov Substitution Principle says that objects of a derived class should be usable anywhere the base class is expected without breaking correctness. If a derived class throws unsupported exceptions, weakens expected behavior, or violates base class assumptions, the design likely breaks this principle.
 
-Key points to mention:
+Example violation:
+
+```csharp
+public class Bird
+{
+    public virtual void Fly() { }
+}
+
+public class Penguin : Bird
+{
+    public override void Fly()
+    {
+        throw new NotSupportedException();
+    }
+}
+```
+
+A better design separates flying behavior from bird identity instead of forcing every bird to fly.
+
+##### Key Points to Mention
 
 - Derived types must honor the base type contract.
 - It is central to safe polymorphism.
 - Violations often indicate incorrect inheritance.
+- Throwing unsupported exceptions in derived overrides is a warning sign.
 - Composition or smaller abstractions may fix the design.
 
-#### 2. How would you design a payment system using OOP principles?
+<!-- question:end:oop-in-csharp-advanced-q01 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q02 -->
+#### Advanced Q02: How would you design a payment system using OOP principles?
+
+<!-- question-id:oop-in-csharp-advanced-q02 -->
+<!-- question-level:advanced -->
+
+##### Expected Answer
 
 A good design would define a payment abstraction such as `IPaymentProcessor` with implementations like `CreditCardPaymentProcessor`, `BankTransferPaymentProcessor`, and `WalletPaymentProcessor`. The application service would depend on the interface, not the concrete classes. Dependency injection would provide the selected implementation. Each processor would encapsulate provider-specific logic.
 
-Key points to mention:
+Example:
+
+```csharp
+public interface IPaymentProcessor
+{
+    Task ProcessAsync(PaymentRequest request, CancellationToken cancellationToken);
+}
+
+public class CreditCardPaymentProcessor : IPaymentProcessor
+{
+    public Task ProcessAsync(PaymentRequest request, CancellationToken cancellationToken)
+    {
+        // Credit-card-specific implementation
+        return Task.CompletedTask;
+    }
+}
+```
+
+This design uses abstraction, polymorphism, encapsulation, and dependency injection.
+
+##### Key Points to Mention
 
 - Use abstraction with an interface.
 - Use polymorphism for multiple payment methods.
 - Use dependency injection to reduce coupling.
 - Keep provider-specific logic inside concrete implementations.
 - Avoid large `switch` statements when behavior should be extensible.
+- Consider idempotency, errors, retries, and provider-specific boundaries in real systems.
 
-#### 3. How can OOP improve unit testing?
+<!-- question:end:oop-in-csharp-advanced-q02 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q03 -->
+#### Advanced Q03: How can OOP improve unit testing?
 
-OOP improves unit testing when classes are small, focused, and depend on abstractions. Interfaces allow external dependencies such as databases, email services, and APIs to be replaced with mocks or fakes. Encapsulation also allows tests to focus on public behavior instead of internal implementation details.
+<!-- question-id:oop-in-csharp-advanced-q03 -->
+<!-- question-level:advanced -->
 
-Key points to mention:
+##### Expected Answer
+
+OOP improves unit testing when classes are small, focused, and depend on abstractions. Interfaces allow external dependencies such as databases, email services, message brokers, and APIs to be replaced with mocks or fakes. Encapsulation allows tests to focus on public behavior instead of private implementation details.
+
+Example:
+
+```csharp
+public class OrderService
+{
+    private readonly IPaymentProcessor _paymentProcessor;
+
+    public OrderService(IPaymentProcessor paymentProcessor)
+    {
+        _paymentProcessor = paymentProcessor;
+    }
+}
+```
+
+A unit test can replace `IPaymentProcessor` with a fake implementation.
+
+Good OOP design usually leads to tests that are easier to arrange, act, and assert.
+
+##### Key Points to Mention
 
 - Small cohesive classes are easier to test.
 - Interfaces support mocks and fakes.
 - Dependency injection makes dependencies replaceable.
-- Tests should verify behavior, not private implementation.
+- Encapsulation lets tests verify public behavior.
+- Avoid static hard-coded dependencies when behavior needs to be replaced.
+- Tests should verify behavior, not private implementation details.
 
-#### 4. What are the risks of overusing inheritance?
+<!-- question:end:oop-in-csharp-advanced-q03 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q04 -->
+#### Advanced Q04: What are the risks of overusing inheritance?
+
+<!-- question-id:oop-in-csharp-advanced-q04 -->
+<!-- question-level:advanced -->
+
+##### Expected Answer
 
 Overusing inheritance can create deep, fragile hierarchies that are difficult to understand and change. Derived classes become tightly coupled to base class implementation details. A change in the base class can accidentally break derived classes. Inheritance can also lead to poor models when the relationship is not truly `is-a`.
 
-Key points to mention:
+Inheritance is especially risky when it is used only for code reuse. Composition, strategies, or small services are often clearer and more flexible.
+
+##### Key Points to Mention
 
 - Deep hierarchies are hard to maintain.
 - Inheritance creates tight coupling.
 - Base class changes can have wide impact.
+- Derived classes may violate base class expectations.
 - Composition is often safer for behavior reuse.
+- Use inheritance only when the model truly supports substitution.
 
-#### 5. How do interfaces support Clean Architecture?
+<!-- question:end:oop-in-csharp-advanced-q04 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q05 -->
+#### Advanced Q05: How do interfaces support Clean Architecture?
 
-In Clean Architecture, inner layers should not depend on outer infrastructure details. Interfaces allow the application or domain layer to define contracts such as `IOrderRepository` or `IEmailSender`, while the infrastructure layer provides implementations. This keeps business logic independent from databases, message brokers, cloud services, and external APIs.
+<!-- question-id:oop-in-csharp-advanced-q05 -->
+<!-- question-level:advanced -->
 
-Key points to mention:
+##### Expected Answer
+
+In Clean Architecture, inner layers should not depend on outer infrastructure details. Interfaces allow the application or domain layer to define contracts such as `IOrderRepository`, `IEmailSender`, or `IPaymentGateway`, while the infrastructure layer provides implementations.
+
+This keeps business logic independent from databases, message brokers, cloud services, and external APIs. It also improves unit testing because infrastructure implementations can be replaced with fakes in tests.
+
+Example:
+
+```csharp
+public interface IOrderRepository
+{
+    Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+}
+```
+
+The application layer uses the interface. The infrastructure layer implements it using EF Core or another data access technology.
+
+##### Key Points to Mention
 
 - Inner layers define abstractions.
 - Outer layers implement infrastructure details.
 - Dependencies point inward.
 - Interfaces improve testability and replaceability.
+- Business logic stays independent of databases and external services.
+- Interfaces should represent meaningful boundaries, not every class by default.
 
-#### 6. What is a God class and why is it a problem?
+<!-- question:end:oop-in-csharp-advanced-q05 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q06 -->
+#### Advanced Q06: What is a God class and why is it a problem?
 
-A God class is a class that has too many responsibilities and knows or does too much. It is difficult to test, modify, reuse, and understand. It often violates the Single Responsibility Principle. The solution is to split responsibilities into smaller cohesive classes or services.
+<!-- question-id:oop-in-csharp-advanced-q06 -->
+<!-- question-level:advanced -->
 
-Key points to mention:
+##### Expected Answer
+
+A God class is a class that has too many responsibilities and knows or does too much. It is difficult to test, modify, reuse, and understand. It often violates the Single Responsibility Principle.
+
+Example problems in a God class:
+
+- It performs validation.
+- It queries the database.
+- It sends emails.
+- It generates reports.
+- It handles payment logic.
+- It writes logs and audit events.
+- It contains many unrelated business rules.
+
+The solution is to split responsibilities into smaller cohesive classes or services.
+
+##### Key Points to Mention
 
 - Too many responsibilities in one class.
 - Hard to test and maintain.
 - Violates Single Responsibility Principle.
-- Refactor by extracting focused services or domain objects.
+- Often has many dependencies.
+- Often changes for many unrelated reasons.
+- Refactor by extracting focused services, domain objects, or policies.
 
-#### 7. How would you decide between an interface and an abstract class in a real project?
+<!-- question:end:oop-in-csharp-advanced-q06 -->
 
-Expected answer:
+<!-- question:start:oop-in-csharp-advanced-q07 -->
+#### Advanced Q07: How would you decide between an interface and an abstract class in a real project?
 
-Use an interface when you need a contract that multiple types can implement, especially when the types are unrelated or when dependency injection and testing are important. Use an abstract class when related types need shared state, constructors, protected helper methods, or a common workflow with customizable steps.
+<!-- question-id:oop-in-csharp-advanced-q07 -->
+<!-- question-level:advanced -->
 
-Key points to mention:
+##### Expected Answer
 
-- Interface for capability or contract.
-- Abstract class for shared base implementation.
-- A class can implement multiple interfaces but inherit from only one class.
-- Avoid unnecessary abstractions.
+Use an interface when you need a contract, capability, or boundary that multiple types can implement, especially when the types are not closely related. Interfaces are also preferred at architectural boundaries because they support dependency inversion and testing.
 
-#### 8. What is an anemic domain model?
+Use an abstract class when related types need shared state, constructors, protected helper methods, or a common workflow with customizable steps.
 
-Expected answer:
+Example rule:
 
-An anemic domain model is a design where domain objects mostly contain data with public getters and setters, while business logic is placed elsewhere in services. This can lead to scattered rules, weak encapsulation, and invalid object states. A richer domain model keeps important business behavior and invariants inside the domain objects.
+```text
+Interface: "Can this type do X?"
+Abstract class: "Is this type a specialized version of this base type with shared behavior?"
+```
 
-Key points to mention:
+Avoid choosing an abstract class only because it is convenient for code reuse if composition would be clearer.
 
-- Data-only domain objects.
-- Business rules live outside the model.
-- Can weaken encapsulation.
-- Rich domain models protect invariants through methods and controlled state changes.
+##### Key Points to Mention
 
-#### 9. How does polymorphism help remove large conditional logic?
+- Interface for contract or capability.
+- Abstract class for shared base behavior.
+- Interfaces allow multiple implementation.
+- Classes can inherit from only one base class.
+- Abstract classes can have fields, constructors, and protected members.
+- Prefer composition when shared behavior does not require a base type.
 
-Expected answer:
+<!-- question:end:oop-in-csharp-advanced-q07 -->
 
-Polymorphism can replace repeated `if` or `switch` statements when behavior varies by type. Instead of checking a payment type and running different code, each payment processor can implement the same interface and provide its own behavior. The caller simply uses the interface.
+<!-- question:start:oop-in-csharp-advanced-q08 -->
+#### Advanced Q08: How do SOLID principles relate to OOP in C#?
 
-Key points to mention:
+<!-- question-id:oop-in-csharp-advanced-q08 -->
+<!-- question-level:advanced -->
 
-- Move type-specific behavior into separate classes.
-- Use a common interface or base class.
-- Improves Open/Closed Principle.
-- Makes new behavior easier to add without modifying existing logic.
+##### Expected Answer
 
-#### 10. What are common signs of poor OOP design?
+SOLID principles are design guidelines for building maintainable object-oriented systems.
 
-Expected answer:
+They include:
 
-Common signs include large classes, long methods, too many public setters, deep inheritance chains, large interfaces, repeated conditional logic, tight coupling to concrete classes, static mutable state, and business rules scattered across unrelated services.
+- Single Responsibility Principle: a class should have one main reason to change.
+- Open/Closed Principle: code should be open for extension but closed for modification.
+- Liskov Substitution Principle: derived types should be safely substitutable for base types.
+- Interface Segregation Principle: clients should not depend on methods they do not use.
+- Dependency Inversion Principle: high-level code should depend on abstractions, not concrete details.
 
-Key points to mention:
+In C#, SOLID is applied through focused classes, interfaces, dependency injection, composition, small abstractions, and careful inheritance.
 
-- Low cohesion and high coupling.
-- Weak encapsulation.
-- Hard-to-test dependencies.
-- Overuse of inheritance or static state.
-- Interfaces that are too broad.
-- Code that changes in many places for one requirement.
+##### Key Points to Mention
+
+- SOLID supports maintainable OOP design.
+- SRP keeps classes focused.
+- OCP supports extension through abstractions.
+- LSP protects polymorphism.
+- ISP encourages small interfaces.
+- DIP supports dependency injection and Clean Architecture.
+- SOLID should be applied pragmatically, not mechanically.
+
+<!-- question:end:oop-in-csharp-advanced-q08 -->
+
+<!-- question:start:oop-in-csharp-advanced-q09 -->
+#### Advanced Q09: How would you avoid an anemic domain model in C#?
+
+<!-- question-id:oop-in-csharp-advanced-q09 -->
+<!-- question-level:advanced -->
+
+##### Expected Answer
+
+An anemic domain model is a model where entities mostly contain public data and little or no behavior, while business rules are scattered across services. To avoid it, put important business behavior and invariants inside the domain objects that own the data.
+
+Example:
+
+```csharp
+public class Order
+{
+    private readonly List<OrderItem> _items = new();
+
+    public OrderStatus Status { get; private set; }
+
+    public void AddItem(OrderItem item)
+    {
+        if (Status != OrderStatus.Draft)
+            throw new InvalidOperationException("Cannot change a submitted order.");
+
+        _items.Add(item);
+    }
+
+    public void Submit()
+    {
+        if (!_items.Any())
+            throw new InvalidOperationException("Cannot submit an empty order.");
+
+        Status = OrderStatus.Submitted;
+    }
+}
+```
+
+This keeps rules close to the state they protect. Application services should orchestrate use cases, not own every domain rule.
+
+##### Key Points to Mention
+
+- Anemic models have data but little behavior.
+- Business rules become scattered in services.
+- Put invariants inside domain entities or value objects.
+- Use private setters and controlled methods.
+- Application services should orchestrate workflows.
+- Avoid overloading entities with infrastructure concerns.
+
+<!-- question:end:oop-in-csharp-advanced-q09 -->
+
+<!-- question-group:end:advanced -->
+
+<!-- interview-questions:end -->

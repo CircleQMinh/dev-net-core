@@ -9,7 +9,9 @@ import { useAppThemeMode } from "../theme/themeMode";
 
 const NAV_ITEMS = {
   "Learning": "/content#dotnet",
-  "Mock Interview": "/practice",
+  "Practice": "/practice",
+  "Simulation": "/simulation",
+  "Roadmap": "/roadmap",
   "About Us": "/about-us",
 };
 
@@ -76,7 +78,7 @@ export function AppHeader() {
           },
         }}
       >
-        DEV_CORE
+        DEV_NET_CORE
       </Button>
 
       <Box

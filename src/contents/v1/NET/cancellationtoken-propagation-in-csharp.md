@@ -1,11 +1,10 @@
 ---
 id: cancellationtoken-propagation-in-csharp
 topic: Async programming, tasks, cancellation, and concurrency
-subtopic: CancellationToken Propagation in C#
+subtopic: CancellationToken Propagation
 category: .NET
 ---
 
-# CancellationToken Propagation in C#
 
 ## Overview
 

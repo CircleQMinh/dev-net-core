@@ -98,7 +98,7 @@ export const appThemeTokens: Record<AppThemeMode, AppThemeTokens> = {
     outlineVariant: "#b9cacb",
     primary: "#006970",
     onPrimary: "#ffffff",
-    primaryContainer: "#00f0ff",
+    primaryContainer: "#ff0000",
     onPrimaryContainer: "#006970",
     secondary: "#7b24dc",
     tertiary: "#006b5f",

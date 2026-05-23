@@ -1,6 +1,13 @@
 import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
 import { Button } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../lib/redux/hooks/hooks";
+import { selectContentProgress } from "../../lib/redux/selectors/contentSelectors";
+import {
+  getContentSubTopicProgressPercentage,
+  setSubTopicProgress,
+} from "../../lib/redux/slices/contentSlice";
+import type { CurriculumSubTopicNode } from "./CurriculumTreeView";
 
 const recommendedImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCOK71GBw9SdfFI3yjmMNgPlQGrJv1x5jsucNgPY5pGTIeBbVmV_XsPin4hLetk7Q7Xfnzl6Aq-eTSG5ildIucWNGDQ6M-n5BW55hCyfGIsYMcqUZyVLsy9mgY-CO2wbEOc6A_w9FkODmwC39foe-pmniX-gVuMQqufO29tMjpU_VsrdRP8lEkNFMHO3Zr7nh2gui21sd5yBV57ddspxMODk-evYknC-zepgIfkbqlW4rJvikVTfIG0Bo33gX5t4DT1DKJ1mpvKXTZU";
@@ -10,29 +17,62 @@ const avatars = [
   "https://lh3.googleusercontent.com/aida-public/AB6AXuBUWA0erDEYI8L08pfJ3_DDfUaEzgaBlEx_G5wd02yZgvTdc6btyodRYkeyHOSBjmVr0Fvgnic3rBlSdo9cO03JkK8_0a_W0dPQJBY7q8INbnKFTvpC3p-uA7zGKMq1UidIEyw10gyvJugzHGc5FhCBDA9AkH4HXTJW0OaSGV-84ZUgBdLa1hKOPO77ONDYf0nLSi0kFgs8rjyYFa7Cg_JWoBM1k3p2bdwNWX9PvFDULqyEb81HPpJJ2Us7-zwsEuPtTvoA1dbNDJnt",
 ];
 
-export function RightContentPanel() {
+type RightContentPanelProps = {
+  topic?: CurriculumSubTopicNode;
+};
+
+export function RightContentPanel({ topic }: RightContentPanelProps) {
+  const dispatch = useAppDispatch();
+  const progressState = useAppSelector(selectContentProgress);
+  const topicProgress = topic
+    ? progressState[topic.category]?.[topic.topic]?.[topic.subtopic]
+    : undefined;
+  const topicProgressPercentage =
+    getContentSubTopicProgressPercentage(topicProgress);
+
+  const resetTopicProgress = () => {
+    if (!topic) {
+      return;
+    }
+
+    dispatch(
+      setSubTopicProgress({
+        category: topic.category,
+        topic: topic.topic,
+        subtopic: topic.subtopic,
+        totalQuestion: topicProgress?.totalQuestion ?? 0,
+        completedQuestion: [],
+      })
+    );
+  };
+
   return (
-    <aside className="hidden w-80 shrink-0 flex-col space-y-12 border-l p-6 theme-ide-pane theme-ide-divider xl:flex">
+    <aside className="content-scrollbar sticky top-[80px] hidden h-[calc(100vh-80px)] w-72 shrink-0 flex-col space-y-12 overflow-y-auto border-l p-6 theme-ide-pane theme-ide-divider xl:flex">
       <section className="space-y-4">
         <h2 className="gleeple-heading text-xs font-semibold uppercase tracking-[0.18em] theme-subtle">
-          Topic Progress
+      
         </h2>
         <div className="theme-progress-track h-1.5 overflow-hidden rounded-full">
-          <div className="theme-progress-fill h-full w-[65%]" />
+          <div
+            className="theme-progress-fill h-full"
+            style={{ width: `${topicProgressPercentage}%` }}
+          />
         </div>
         <div className="flex items-center justify-between gap-3">
           <span className="gleeple-code text-sm theme-text">
-            Topic Progress: 65%
+            Topic Progress: {topicProgressPercentage}%
           </span>
           <Button
+            disabled={!topic}
+            onClick={resetTopicProgress}
             size="small"
             startIcon={<RestartAltOutlinedIcon sx={{ fontSize: 14 }} />}
             sx={{
               borderColor: "var(--color-card-border)",
               color: "var(--color-subtle-text)",
-              fontSize: 10,
+              fontSize: 12,
               minWidth: 0,
-              px: 1,
+              px: 1.5,
               py: 0.5,
             }}
             variant="outlined"
