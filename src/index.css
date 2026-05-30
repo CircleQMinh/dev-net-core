@@ -177,6 +177,38 @@ button {
   box-shadow: 0 0 10px color-mix(in srgb, var(--color-primary-container, #00f0ff) 45%, transparent);
 }
 
+.simulation-scan-panel {
+  isolation: isolate;
+}
+
+.simulation-scanline {
+  animation: simulation-scan 4s linear infinite;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-primary-container, #00f0ff),
+    transparent
+  );
+  height: 2px;
+  left: 0;
+  opacity: 0.1;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+@keyframes simulation-scan {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 100%;
+  }
+}
+
 .content-scrollbar {
   scrollbar-color: var(--color-outline-variant, #3b494b) transparent;
   scrollbar-width: thin;

@@ -5,11 +5,13 @@ import {
   contentReducer,
   saveContentProgressToLocalStorage,
 } from './slices/contentSlice';
+import { simulationReducer } from './slices/simulationSlice';
 
 export const store = configureStore({
   reducer: {
     content: contentReducer,
     dumnmy: dummyReducer,
+    simulation: simulationReducer,
     [dumnmyApi.reducerPath]: dumnmyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
