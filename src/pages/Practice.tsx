@@ -3,19 +3,13 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckIcon from "@mui/icons-material/Check";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Button } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import type { Components } from "react-markdown";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-import rehypeHighlight from "rehype-highlight";
-import remarkGfm from "remark-gfm";
 import {
   collectSubTopicNodes,
   findCurriculumSubTopicById,
@@ -24,11 +18,11 @@ import {
   type CurriculumSubTopicNode,
 } from "../components/content/CurriculumTreeView";
 import {
-  ContentCodeBlock,
-  ContentLink,
   extractCommonInterviewQuestions,
   type CommonInterviewQuestion,
 } from "../components/content/markdown";
+import { AnswerPanel } from "../components/practice/AnswerPanel";
+import { QuestionLevelBadge } from "../components/practice/QuestionLevelBadge";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import { selectContentProgress } from "../lib/redux/selectors/contentSelectors";
 import {
@@ -40,14 +34,6 @@ import {
 
 const practiceLevels = ["Beginner", "Intermediate", "Advanced"];
 const emptyCompletedQuestions: number[] = [];
-
-const levelBadgeClasses: Record<string, string> = {
-  Beginner:
-    "border-blue-500/30 bg-blue-500/10 text-blue-600",
-  Intermediate:
-    "border-orange-500/30 bg-orange-500/10 text-orange-600",
-  Advanced: "border-red-500/30 bg-red-500/10 text-red-600",
-};
 
 type PracticeSessionProps = {
   questions: CommonInterviewQuestion[];
@@ -61,43 +47,6 @@ type PracticeTopicCard = {
   progressPercentage: number;
   questions: CommonInterviewQuestion[];
   topic: CurriculumSubTopicNode;
-};
-
-function removeMarkdownNodeProp<TProps extends { node?: unknown }>(
-  props: TProps
-) {
-  const { node, ...propsWithoutNode } = props;
-  void node;
-
-  return propsWithoutNode;
-}
-
-const answerMarkdownComponents: Components = {
-  p: ({ children }) => (
-    <p className="text-base leading-8 theme-muted md:text-[17px]">
-      {children}
-    </p>
-  ),
-  a: ({ href, children }) => (
-    <ContentLink href={href}>{children}</ContentLink>
-  ),
-  pre: ({ children, ...props }) => (
-    <ContentCodeBlock {...removeMarkdownNodeProp(props)}>
-      {children}
-    </ContentCodeBlock>
-  ),
-  code: ({ children, className, ...props }) => (
-    <code className={className} {...removeMarkdownNodeProp(props)}>
-      {children}
-    </code>
-  ),
-  ul: ({ children }) => (
-    <ul className="list-disc space-y-2 pl-6 theme-muted">{children}</ul>
-  ),
-  ol: ({ children }) => (
-    <ol className="list-decimal space-y-2 pl-6 theme-muted">{children}</ol>
-  ),
-  li: ({ children }) => <li className="leading-7">{children}</li>,
 };
 
 function getOrderedPracticeQuestions(markdown: string) {
@@ -306,13 +255,7 @@ function QuestionCard({
           <span className="gleeple-heading rounded border border-[var(--color-accent-border)] bg-[var(--color-accent-soft)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--color-primary)]">
             {topic.category}
           </span>
-          <span
-            className={`gleeple-heading rounded border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] ${
-              levelBadgeClasses[question.level] ?? levelBadgeClasses.Beginner
-            }`}
-          >
-            {question.level}
-          </span>
+          <QuestionLevelBadge level={question.level} />
           {question.label ? (
             <span className="gleeple-heading rounded border border-[var(--color-outline-variant)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] theme-muted">
               {question.label}
@@ -340,89 +283,6 @@ function QuestionCard({
           </RouterLink>
         </div>
       </div>
-    </section>
-  );
-}
-
-function AnswerMarkdown({ markdown }: { markdown: string }) {
-  if (!markdown.trim()) {
-    return <p className="leading-7 theme-muted">No answer content found.</p>;
-  }
-
-  return (
-    <div className="space-y-4">
-      <ReactMarkdown
-        components={answerMarkdownComponents}
-        rehypePlugins={[rehypeHighlight]}
-        remarkPlugins={[remarkGfm]}
-      >
-        {markdown}
-      </ReactMarkdown>
-    </div>
-  );
-}
-
-function AnswerPanel({
-  isRevealed,
-  onToggle,
-  question,
-}: {
-  isRevealed: boolean;
-  onToggle: () => void;
-  question: CommonInterviewQuestion;
-}) {
-  return (
-    <section className="theme-content-card rounded-xl border-2 border-dashed border-[var(--color-outline-variant)] p-8">
-      {!isRevealed ? (
-        <div className="mx-auto flex max-w-xl flex-col items-center gap-6 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface-container-high)] theme-subtle">
-            <LockOutlinedIcon sx={{ fontSize: 28 }} />
-          </div>
-          <p className="text-base leading-8 theme-muted md:text-lg">
-            Think through your answer first, then reveal the expected answer and
-            key points.
-          </p>
-          <Button
-            onClick={onToggle}
-            sx={{ borderRadius: 999, px: 6, py: 1.5 }}
-            variant="contained"
-          >
-            Show Answer
-          </Button>
-        </div>
-      ) : (
-        <div className="space-y-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="gleeple-heading flex items-center gap-2 text-2xl font-semibold theme-text">
-                <ContactSupportOutlinedIcon className="theme-accent" />
-                Answer Revelation Panel
-              </h2>
-              <p className="mt-2 text-sm theme-muted">
-                Compare your response against the expected answer and key
-                points.
-              </p>
-            </div>
-            <Button onClick={onToggle} variant="outlined">
-              Hide Answer
-            </Button>
-          </div>
-
-          <section className="space-y-4">
-            <h3 className="gleeple-heading text-lg font-semibold theme-text">
-              Expected Answer
-            </h3>
-            <AnswerMarkdown markdown={question.expectedAnswerMarkdown} />
-          </section>
-
-          <section className="space-y-4">
-            <h3 className="gleeple-heading text-lg font-semibold theme-text">
-              Key Points to Mention
-            </h3>
-            <AnswerMarkdown markdown={question.keyPointsMarkdown} />
-          </section>
-        </div>
-      )}
     </section>
   );
 }
@@ -488,14 +348,7 @@ function QuestionList({
                 </span>
                 <span className="min-w-0">
                   <span className="flex flex-wrap items-center gap-2">
-                    <span
-                      className={`gleeple-heading rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] ${
-                        levelBadgeClasses[question.level] ??
-                        levelBadgeClasses.Beginner
-                      }`}
-                    >
-                      {question.level}
-                    </span>
+                    <QuestionLevelBadge level={question.level} />
                     {question.label ? (
                       <span className="gleeple-heading text-[10px] font-bold uppercase tracking-[0.12em] theme-subtle">
                         {question.label}
@@ -649,8 +502,8 @@ function PracticeIndexHero({
           Interview Practice
         </h1>
         <p className="max-w-2xl text-lg leading-8 theme-muted">
-          Select a technical pillar to begin your simulated interview session.
-          Master core concepts through structured practice.
+          Select a technical topic and practice answering common interview questions to sharpen your skills and boost your confidence.
+
         </p>
       </div>
 
@@ -829,13 +682,7 @@ function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
       {/* <div className="mb-6 space-y-3">
         {item.questions.slice(0, 3).map((question) => (
           <div className="border-l-2 border-[var(--color-outline-variant)] pl-3" key={question.id}>
-            <span
-              className={`gleeple-heading rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] ${
-                levelBadgeClasses[question.level] ?? levelBadgeClasses.Beginner
-              }`}
-            >
-              {question.level}
-            </span>
+            <QuestionLevelBadge level={question.level} />
             <p className="mt-1 line-clamp-2 text-sm leading-6 theme-muted">
               {question.question}
             </p>
@@ -851,12 +698,11 @@ function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
       {levelCounts.length > 0 ? (
         <div className="mb-6 flex flex-wrap gap-2">
           {levelCounts.map((levelCount) => (
-            <span
-              className="gleeple-heading rounded border border-[var(--color-outline-variant)] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] theme-subtle"
+            <QuestionLevelBadge
+              displayText={`${levelCount.count} ${levelCount.level}`}
               key={levelCount.level}
-            >
-              {levelCount.count} {levelCount.level}
-            </span>
+              level={levelCount.level}
+            />
           ))}
         </div>
       ) : null}
@@ -1122,9 +968,10 @@ function PracticeSession({ questions, topic }: PracticeSessionProps) {
         />
         <QuestionCard question={activeQuestion} topic={topic} />
         <AnswerPanel
+          expectedAnswerMarkdown={activeQuestion.expectedAnswerMarkdown}
           isRevealed={revealedQuestionId === activeQuestion.id}
+          keyPointsMarkdown={activeQuestion.keyPointsMarkdown}
           onToggle={toggleAnswer}
-          question={activeQuestion}
         />
         <TopicNavigation
           nextTopic={nextSubTopic}

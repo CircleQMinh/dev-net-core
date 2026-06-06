@@ -56,6 +56,8 @@ type CurriculumTreeViewProps = {
   activeTopicId?: string;
   initialActiveTopicId?: string;
   onTopicSelect?: (topic: CurriculumSubTopicNode) => void;
+  selectDefaultTopic?: boolean;
+  showProgress?: boolean;
 };
 
 type MutableTopicNode = CurriculumTopicNode & {
@@ -611,6 +613,8 @@ export function CurriculumTreeView({
   activeTopicId,
   initialActiveTopicId,
   onTopicSelect,
+  selectDefaultTopic = true,
+  showProgress = true,
 }: CurriculumTreeViewProps) {
   const dispatch = useAppDispatch();
   const progressState = useAppSelector(selectContentProgress);
@@ -621,15 +625,23 @@ export function CurriculumTreeView({
   const totalProgress = getTreeProgress(progressNodes);
   const initialTopicId = useMemo(
     () =>
-      findInitialSubTopicId(
-        progressNodes,
-        activeTopicId ?? initialActiveTopicId
-      ),
-    [activeTopicId, initialActiveTopicId, progressNodes]
+      selectDefaultTopic
+        ? findInitialSubTopicId(
+            progressNodes,
+            activeTopicId ?? initialActiveTopicId
+          )
+        : activeTopicId ?? initialActiveTopicId ?? "",
+    [
+      activeTopicId,
+      initialActiveTopicId,
+      progressNodes,
+      selectDefaultTopic,
+    ]
   );
   const [internalActiveTopicId, setInternalActiveTopicId] =
     useState(initialTopicId);
-  const selectedTopicId = activeTopicId ?? internalActiveTopicId;
+  const selectedTopicId =
+    activeTopicId ?? (selectDefaultTopic ? internalActiveTopicId : "");
   const [expandedFolderIds, setExpandedFolderIds] = useState<Set<string>>(
     () => new Set(getAncestorTopicIds(progressNodes, initialTopicId))
   );
@@ -666,20 +678,22 @@ export function CurriculumTreeView({
 
   return (
     <div className="border-b theme-ide-divider p-4">
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <h2 className="gleeple-heading text-[10px] font-semibold uppercase tracking-[0.18em] theme-subtle">
-          Total Progress: {totalProgress}%
-        </h2>
-        <button
-          aria-label="Reset curriculum progress"
-          className="theme-ide-hover flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm theme-subtle transition-colors hover:text-[var(--color-on-surface)]"
-          onClick={resetTotalProgress}
-          title="Reset curriculum progress"
-          type="button"
-        >
-          <RestartAltOutlinedIcon sx={{ fontSize: 16 }} />
-        </button>
-      </div>
+      {showProgress ? (
+        <div className="mb-4 flex items-center justify-between gap-2">
+          <h2 className="gleeple-heading text-[10px] font-semibold uppercase tracking-[0.18em] theme-subtle">
+            Total Progress: {totalProgress}%
+          </h2>
+          <button
+            aria-label="Reset curriculum progress"
+            className="theme-ide-hover flex h-7 w-7 cursor-pointer items-center justify-center rounded-sm theme-subtle transition-colors hover:text-[var(--color-on-surface)]"
+            onClick={resetTotalProgress}
+            title="Reset curriculum progress"
+            type="button"
+          >
+            <RestartAltOutlinedIcon sx={{ fontSize: 16 }} />
+          </button>
+        </div>
+      ) : null}
 
       <div className="space-y-1">
         {progressNodes.map((node) => (
@@ -691,6 +705,7 @@ export function CurriculumTreeView({
             node={node}
             onSelectTopic={selectTopic}
             onToggleFolder={toggleFolder}
+            showProgress={showProgress}
           />
         ))}
       </div>
@@ -705,6 +720,7 @@ type TreeNodeRowProps = {
   expandedFolderIds: Set<string>;
   onSelectTopic: (topic: CurriculumSubTopicNode) => void;
   onToggleFolder: (folder: CurriculumTopicNode) => void;
+  showProgress: boolean;
 };
 
 function TreeNodeRow({
@@ -714,6 +730,7 @@ function TreeNodeRow({
   expandedFolderIds,
   onSelectTopic,
   onToggleFolder,
+  showProgress,
 }: TreeNodeRowProps) {
   if (node.type === "subtopic") {
     const isActive = activeTopicId === node.id;
@@ -742,18 +759,18 @@ function TreeNodeRow({
           </span>
         </span>
 
-        {node.completed ? (
-          <CheckCircleOutlineIcon
-            className="shrink-0 text-emerald-400"
-            sx={{ fontSize: 14 }}
-          />
-        ) :  <span
-        className={`gleeple-heading text-[10px] font-semibold ${
-          node.completed ? "text-emerald-400" : "theme-subtle"
-        }`}
-      >
-        {node.progress}%
-      </span>}
+        {showProgress ? (
+          node.completed ? (
+            <CheckCircleOutlineIcon
+              className="shrink-0 text-emerald-400"
+              sx={{ fontSize: 14 }}
+            />
+          ) : (
+            <span className="gleeple-heading text-[10px] font-semibold theme-subtle">
+              {node.progress}%
+            </span>
+          )
+        ) : null}
       </button>
     );
   }
@@ -789,21 +806,23 @@ function TreeNodeRow({
           </span>
         </span>
 
-        <span className="flex shrink-0 items-center gap-1 pt-0.5">
-          <span
-            className={`gleeple-heading text-[10px] font-semibold ${
-              node.completed ? "text-emerald-400" : "theme-subtle"
-            }`}
-          >
-            {node.progress}%
+        {showProgress ? (
+          <span className="flex shrink-0 items-center gap-1 pt-0.5">
+            <span
+              className={`gleeple-heading text-[10px] font-semibold ${
+                node.completed ? "text-emerald-400" : "theme-subtle"
+              }`}
+            >
+              {node.progress}%
+            </span>
+            {node.completed ? (
+              <CheckCircleOutlineIcon
+                className="text-emerald-400"
+                sx={{ fontSize: 12 }}
+              />
+            ) : null}
           </span>
-          {node.completed ? (
-            <CheckCircleOutlineIcon
-              className="text-emerald-400"
-              sx={{ fontSize: 12 }}
-            />
-          ) : null}
-        </span>
+        ) : null}
       </button>
 
       {isExpanded ? (
@@ -817,6 +836,7 @@ function TreeNodeRow({
               node={child}
               onSelectTopic={onSelectTopic}
               onToggleFolder={onToggleFolder}
+              showProgress={showProgress}
             />
           ))}
         </div>

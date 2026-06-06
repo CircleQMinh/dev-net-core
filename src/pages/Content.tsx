@@ -9,39 +9,45 @@ import {
 import { LeftContentPanel } from "../components/content/LeftContentPanel";
 import { MainContent } from "../components/content/MainContent";
 import { RightContentPanel } from "../components/content/RightContentPanel";
-import { removeCommonInterviewQuestionsSection } from "../components/content/markdown";
+import {
+  extractCommonInterviewQuestions,
+  removeCommonInterviewQuestionsSection,
+} from "../components/content/markdown";
+import welcomeMarkdown from "../contents/resources/welcome.md?raw";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import { selectSelectedContentTopicId } from "../lib/redux/selectors/contentSelectors";
 import { setSelectedTopicId } from "../lib/redux/slices/contentSlice";
+
+const welcomeContent = getMarkdownBody(welcomeMarkdown);
 
 export default function Content() {
   const { topicId } = useParams<{ topicId?: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
+  const isWelcomeContent = !topicId;
   const firstTopic = getFirstCurriculumSubTopic();
   const selectedTopic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
   const routeSelectedTopicId = selectedTopic?.id;
 
   useEffect(() => {
+    if (isWelcomeContent) {
+      if (selectedTopicId !== undefined) {
+        dispatch(setSelectedTopicId(undefined));
+      }
+
+      return;
+    }
+
     if (routeSelectedTopicId && selectedTopicId !== routeSelectedTopicId) {
       dispatch(setSelectedTopicId(routeSelectedTopicId));
     }
-  }, [dispatch, routeSelectedTopicId, selectedTopicId]);
-
-  if (!firstTopic) {
-    return (
-      <ContentLayout
-        markdown=""
-        onTopicSelect={() => undefined}
-        selectedTopic={undefined}
-      />
-    );
-  }
-
-  if (!topicId || !selectedTopic) {
-    return <Navigate replace to={`/content/${firstTopic.id}/`} />;
-  }
+  }, [
+    dispatch,
+    isWelcomeContent,
+    routeSelectedTopicId,
+    selectedTopicId,
+  ]);
 
   const selectTopic = (topic: CurriculumSubTopicNode) => {
     if (selectedTopicId !== topic.id) {
@@ -51,8 +57,35 @@ export default function Content() {
     navigate(`/content/${topic.id}/`);
   };
 
+  if (isWelcomeContent) {
+    return (
+      <ContentLayout
+        isWelcomeContent
+        markdown={welcomeContent}
+        onTopicSelect={selectTopic}
+        selectedTopic={undefined}
+      />
+    );
+  }
+
+  if (!firstTopic) {
+    return (
+      <ContentLayout
+        isWelcomeContent={false}
+        markdown=""
+        onTopicSelect={() => undefined}
+        selectedTopic={undefined}
+      />
+    );
+  }
+
+  if (!selectedTopic) {
+    return <Navigate replace to={`/content/${firstTopic.id}/`} />;
+  }
+
   return (
     <ContentLayout
+      isWelcomeContent={false}
       markdown={getMarkdownBody(selectedTopic.loadContentSync())}
       onTopicSelect={selectTopic}
       selectedTopic={selectedTopic}
@@ -61,27 +94,36 @@ export default function Content() {
 }
 
 type ContentLayoutProps = {
+  isWelcomeContent: boolean;
   markdown: string;
   selectedTopic?: CurriculumSubTopicNode;
   onTopicSelect: (topic: CurriculumSubTopicNode) => void;
 };
 
 function ContentLayout({
+  isWelcomeContent,
   markdown,
   selectedTopic,
   onTopicSelect,
 }: ContentLayoutProps) {
   const navigationMarkdown = removeCommonInterviewQuestionsSection(markdown);
+  const showInterviewPractice =
+    !isWelcomeContent &&
+    extractCommonInterviewQuestions(markdown).length > 0;
 
   return (
     <div className="theme-page mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-[1440px] pt-[80px]">
       <LeftContentPanel
         activeTopicId={selectedTopic?.id}
-        markdown={navigationMarkdown}
+        isWelcomeContent={isWelcomeContent}
         onTopicSelect={onTopicSelect}
       />
       <MainContent markdown={markdown} topic={selectedTopic} />
-      <RightContentPanel topic={selectedTopic} />
+      <RightContentPanel
+        markdown={navigationMarkdown}
+        showInterviewPractice={showInterviewPractice}
+        topic={selectedTopic}
+      />
     </div>
   );
 }

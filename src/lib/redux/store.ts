@@ -5,7 +5,11 @@ import {
   contentReducer,
   saveContentProgressToLocalStorage,
 } from './slices/contentSlice';
-import { simulationReducer } from './slices/simulationSlice';
+import {
+  clearSimulationSessionState,
+  saveSimulationSessionState,
+  simulationReducer,
+} from './slices/simulationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -19,13 +23,25 @@ export const store = configureStore({
 });
 
 let previousContentProgress = store.getState().content.progress;
+let previousSimulationSession = store.getState().simulation.currentSession;
 
 store.subscribe(() => {
   const nextContentProgress = store.getState().content.progress;
+  const nextSimulationSession = store.getState().simulation.currentSession;
 
   if (nextContentProgress !== previousContentProgress) {
     previousContentProgress = nextContentProgress;
     saveContentProgressToLocalStorage(nextContentProgress);
+  }
+
+  if (nextSimulationSession !== previousSimulationSession) {
+    previousSimulationSession = nextSimulationSession;
+
+    if (nextSimulationSession) {
+      saveSimulationSessionState(nextSimulationSession);
+    } else {
+      clearSimulationSessionState();
+    }
   }
 });
 

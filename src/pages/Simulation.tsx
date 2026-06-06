@@ -1,36 +1,45 @@
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import FormatListNumberedOutlinedIcon from "@mui/icons-material/FormatListNumberedOutlined";
 import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
-import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import StairsOutlinedIcon from "@mui/icons-material/StairsOutlined";
 import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   getAllCurriculumCategories,
   getCurriculumTopicsByCategory,
 } from "../shared/function";
+import { GenerateSimulationQuestions } from "../shared/GenerateSimulationQuestions";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import {
   selectSimulationCurrentSessionId,
+  selectSimulationCustomQuestionsPerTopic,
   selectSimulationDifficultyLevel,
+  selectSimulationQuestionCountMode,
+  selectSimulationQuestionsPerTopic,
   selectSimulationSelectedCategoryIds,
   selectSimulationSelectedSubTopicIds,
   selectSimulationSelectedTopicIds,
-  selectSimulationSessionLength,
-  selectSimulationState,
   selectSimulationStep,
 } from "../lib/redux/selectors/simulationSelectors";
 import {
+  clearSimulationSession,
+  clearSimulationSessionState,
+  createSimulationSession,
+  loadSimulationSession,
+  loadSimulationSessionState,
+  setCustomQuestionsPerTopic,
   setSimulationDifficultyLevel,
-  setSimulationSessionLength,
-  startSimulationSession,
+  setSimulationQuestionCountMode,
+  simulationQuestionCounts,
   toggleSimulationCategory,
   toggleSimulationTopic,
   type SimulationDifficultyLevel,
-  type SimulationSessionLength,
+  type SimulationQuestionCountMode,
+  type SimulationSessionState,
 } from "../lib/redux/slices/simulationSlice";
 
 type DifficultyOption = {
@@ -56,10 +65,11 @@ type DomainOption = {
   title: string;
 };
 
-type SessionLengthOption = {
-  duration: SimulationSessionLength;
+type QuestionCountOption = {
   label: string;
+  mode: Exclude<SimulationQuestionCountMode, "custom">;
   recommended?: boolean;
+  value: number;
 };
 
 const difficultyOptions: DifficultyOption[] = [
@@ -89,11 +99,17 @@ const difficultyOptions: DifficultyOption[] = [
   },
 ];
 
-const sessionLengthOptions: SessionLengthOption[] = [
-  { duration: 15, label: "Short" },
-  { duration: 30, label: "Standard", recommended: true },
-  { duration: 60, label: "Full" },
+const questionCountOptions: QuestionCountOption[] = [
+  { label: "Short", mode: "short", value: simulationQuestionCounts.short },
+  {
+    label: "Standard",
+    mode: "standard",
+    recommended: true,
+    value: simulationQuestionCounts.standard,
+  },
 ];
+
+const FOCUS_COLUMN_VISIBLE_ITEM_LIMIT = 5;
 
 function GlassPanel({
   children,
@@ -324,12 +340,18 @@ function DomainColumn({
   options: DomainOption[];
   title: string;
 }) {
+  const shouldScroll = options.length > FOCUS_COLUMN_VISIBLE_ITEM_LIMIT;
+
   return (
     <div className="flex flex-col gap-3">
       <h3 className="gleeple-heading pl-1 text-[10px] font-bold uppercase tracking-[0.18em] theme-muted">
         {title}
       </h3>
-      <div className="flex flex-col gap-1">
+      <div
+        className={`flex flex-col gap-1 ${
+          shouldScroll ? "content-scrollbar max-h-80 overflow-y-auto pr-1" : ""
+        }`}
+      >
         {options.length > 0 ? (
           options.map((option) => (
             <DomainToggle
@@ -352,11 +374,19 @@ export default function Simulation() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  const hasAttemptedResume = useRef(false);
   const curriculumCategories = useMemo(() => getAllCurriculumCategories(), []);
   const currentSessionId = useAppSelector(selectSimulationCurrentSessionId);
+  const customQuestionsPerTopic = useAppSelector(
+    selectSimulationCustomQuestionsPerTopic
+  );
   const difficultyLevel = useAppSelector(selectSimulationDifficultyLevel);
-  const sessionLength = useAppSelector(selectSimulationSessionLength);
-  const simulationState = useAppSelector(selectSimulationState);
+  const questionCountMode = useAppSelector(
+    selectSimulationQuestionCountMode
+  );
+  const questionsPerTopic = useAppSelector(
+    selectSimulationQuestionsPerTopic
+  );
   const simulationStep = useAppSelector(selectSimulationStep);
   const selectedCategoryIds = useAppSelector(
     selectSimulationSelectedCategoryIds
@@ -366,6 +396,9 @@ export default function Simulation() {
     selectSimulationSelectedSubTopicIds
   );
   const [startError, setStartError] = useState("");
+  const [customQuestionCountInput, setCustomQuestionCountInput] = useState(
+    String(customQuestionsPerTopic)
+  );
   const selectedOption = useMemo(
     () =>
       difficultyOptions.find((option) => option.value === difficultyLevel) ??
@@ -417,26 +450,132 @@ export default function Simulation() {
     [availableTopics, selectedTopicIdSet]
   );
   const focusSelectionSummary = `SELECTED: ${selectedCategoryIds.length} CAT / ${selectedTopicIds.length} TOPIC / ${selectedSubTopicIds.length} SUBTOPIC`;
+
+  const selectQuestionCountMode = (mode: SimulationQuestionCountMode) => {
+    dispatch(setSimulationQuestionCountMode(mode));
+    setStartError("");
+  };
+
+  const updateCustomQuestionCount = (value: string) => {
+    selectQuestionCountMode("custom");
+    setCustomQuestionCountInput(value);
+    const parsedValue = Number(value);
+
+    if (isValidQuestionCount(parsedValue)) {
+      dispatch(setCustomQuestionsPerTopic(parsedValue));
+      setStartError("");
+    }
+  };
+
   const startSetupSession = () => {
     if (selectedSubTopicIds.length === 0) {
-      setStartError("Select at least one topic before starting a simulation.");
+      setStartError(
+        "Select at least one subtopic before starting a simulation."
+      );
+      return;
+    }
+
+    const customQuestionCount = Number(customQuestionCountInput);
+
+    if (
+      questionCountMode === "custom" &&
+      !isValidQuestionCount(customQuestionCount)
+    ) {
+      setStartError(
+        "Enter a whole number greater than zero for custom questions per topic."
+      );
+      return;
+    }
+
+    const validatedQuestionsPerTopic =
+      questionCountMode === "custom"
+        ? customQuestionCount
+        : questionsPerTopic;
+
+    if (!isValidQuestionCount(validatedQuestionsPerTopic)) {
+      setStartError(
+        "Number of questions per topic must be a whole number greater than zero."
+      );
+      return;
+    }
+
+    const generatedQuestions = GenerateSimulationQuestions({
+      difficultyLevel,
+      numberOfQuestionsPerTopic: validatedQuestionsPerTopic,
+      selectedSubTopicIds,
+      selectedTopicIds,
+    });
+
+    if (generatedQuestions.length === 0) {
+      setStartError(
+        "No interview questions are available for the selected topics and difficulty."
+      );
       return;
     }
 
     setStartError("");
 
     const sessionId = createSimulationSessionId();
-    const nextSimulationState = {
-      ...simulationState,
-      currentSessionId: sessionId,
-      simulationStep: "session" as const,
+    const timestamp = new Date().toISOString();
+    const session: SimulationSessionState = {
+      completedQuestionIds: [],
+      createdAt: timestamp,
+      currentQuestionIndex: 0,
+      customQuestionsPerTopic:
+        questionCountMode === "custom"
+          ? customQuestionCount
+          : customQuestionsPerTopic,
+      difficultyLevel,
+      questionCountMode,
+      questionIds: generatedQuestions.map((question) => question.id),
+      questions: generatedQuestions,
+      questionsPerTopic: validatedQuestionsPerTopic,
+      selectedCategoryIds: [...selectedCategoryIds],
+      selectedSubTopicIds: [...selectedSubTopicIds],
+      selectedTopicIds: [...selectedTopicIds],
+      sessionId,
+      step: "session",
+      updatedAt: timestamp,
     };
 
-    dispatch(startSimulationSession({ sessionId }));
-    console.log("Current simulation slice state", nextSimulationState);
+    clearSimulationSessionState();
+    dispatch(clearSimulationSession());
+    dispatch(createSimulationSession(session));
+    navigate(`/simulation/session/${sessionId}`);
   };
 
   useEffect(() => {
+    if (
+      hasAttemptedResume.current ||
+      location.pathname !== "/simulation"
+    ) {
+      return;
+    }
+
+    hasAttemptedResume.current = true;
+    const savedSession = loadSimulationSessionState();
+
+    if (!savedSession) {
+      dispatch(clearSimulationSession());
+      return;
+    }
+
+    dispatch(loadSimulationSession(savedSession));
+    navigate(getSimulationSessionPath(savedSession), { replace: true });
+  }, [dispatch, location.pathname, navigate]);
+
+  useEffect(() => {
+    setCustomQuestionCountInput(String(customQuestionsPerTopic));
+  }, [customQuestionsPerTopic]);
+
+  useEffect(() => {
+    if (
+      location.pathname === "/simulation" ||
+      location.pathname === "/simulation/setup"
+    ) {
+      return;
+    }
+
     if (simulationStep === "setup") {
       return;
     }
@@ -464,8 +603,8 @@ export default function Simulation() {
           </h1>
           <p className="max-w-2xl text-base leading-7 theme-muted">
             Configure the parameters of your technical assessment. Adjust
-            difficulty, focus areas, and session duration for optimal
-            performance measurement.
+            difficulty, focus areas, and the number of questions selected for
+            each topic.
           </p>
         </header>
 
@@ -517,12 +656,12 @@ export default function Simulation() {
 
         <GlassPanel className="flex flex-col gap-6 p-6 md:p-12">
           <PanelHeader
-            icon={<ScheduleOutlinedIcon />}
-            label="Session Length"
+            icon={<FormatListNumberedOutlinedIcon />}
+            label="Number of Questions per topic"
           />
-          <div className="flex flex-col gap-4 sm:flex-row">
-            {sessionLengthOptions.map((option) => {
-              const isSelected = sessionLength === option.duration;
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {questionCountOptions.map((option) => {
+              const isSelected = questionCountMode === option.mode;
 
               return (
                 <button
@@ -532,14 +671,12 @@ export default function Simulation() {
                       ? "border-[var(--color-primary-container)] bg-[var(--color-accent-soft)] text-[var(--color-primary-container)]"
                       : "theme-content-card border-[var(--color-card-border)] theme-muted hover:border-[color-mix(in_srgb,var(--color-primary-container)_40%,transparent)] hover:text-[var(--color-on-surface)]"
                   }`}
-                  key={option.duration}
-                  onClick={() =>
-                    dispatch(setSimulationSessionLength(option.duration))
-                  }
+                  key={option.mode}
+                  onClick={() => selectQuestionCountMode(option.mode)}
                   type="button"
                 >
                   <span>
-                    {option.label} ({option.duration}m)
+                    {option.label}: {option.value}
                   </span>
                   {option.recommended ? (
                     <span className="mt-1 text-[9px] text-[var(--color-tertiary)] opacity-80">
@@ -549,7 +686,43 @@ export default function Simulation() {
                 </button>
               );
             })}
+
+            <button aria-pressed={questionCountMode === "custom"}
+              className={`gleeple-heading flex min-h-[72px] flex-1 cursor-pointer flex-col items-center justify-center border py-4 text-[12px] font-bold uppercase leading-none tracking-[0.05em] transition-all ${
+                questionCountMode === "custom"
+                  ? "border-[var(--color-primary-container)] bg-[var(--color-accent-soft)] text-[var(--color-primary-container)]"
+                  : "theme-content-card border-[var(--color-card-border)] theme-muted hover:border-[color-mix(in_srgb,var(--color-primary-container)_40%,transparent)] hover:text-[var(--color-on-surface)]"
+              }`}
+              onClick={() => selectQuestionCountMode("custom")}
+              onFocusCapture={() => selectQuestionCountMode("custom")}
+            >
+              <p
+                aria-pressed={questionCountMode === "custom"}
+                className="gleeple-heading cursor-pointer text-[12px] font-bold uppercase leading-none tracking-[0.05em]"
+              >
+                Custom
+              </p>
+              <input
+                aria-label="Custom questions per topic"
+                className="gleeple-code w-24 rounded border border-[var(--color-card-border)] bg-[var(--color-code-surface)] px-3 py-2 text-center text-sm text-[var(--color-on-surface)] outline-none focus:border-[var(--color-primary-container)]"
+                inputMode="numeric"
+                max={10}
+                min={1}
+                onChange={(event) =>
+                  updateCustomQuestionCount(event.target.value)
+                }
+                step={1}
+                type="number"
+                value={customQuestionCountInput}
+              />
+            </button>
           </div>
+          {questionCountMode === "custom" &&
+          !isValidQuestionCount(Number(customQuestionCountInput)) ? (
+            <p className="gleeple-code text-[11px] text-[var(--color-error)]">
+              Enter a whole number greater than zero.
+            </p>
+          ) : null}
         </GlassPanel>
 
         <div className="flex flex-col items-start gap-3 sm:items-end">
@@ -577,4 +750,14 @@ function createSimulationSessionId() {
   }
 
   return `session-${Date.now()}`;
+}
+
+function getSimulationSessionPath(session: SimulationSessionState) {
+  return session.step === "result"
+    ? `/simulation/result/${session.sessionId}`
+    : `/simulation/session/${session.sessionId}`;
+}
+
+function isValidQuestionCount(value: number) {
+  return Number.isSafeInteger(value) && value > 0;
 }

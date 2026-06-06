@@ -33,6 +33,7 @@ import {
   type CommonInterviewQuestion,
 } from "./markdown";
 import { extractTextFromChildren } from "./markdown/markdownUtils";
+import { QuestionLevelBadge } from "../practice/QuestionLevelBadge";
 
 type LearningTab = {
   label: string;
@@ -281,9 +282,6 @@ function SelectedTopicContent({
   const { nextSubTopic, previousSubTopic } =
     getCurriculumSubTopicNavigation(topic.id);
   const interviewQuestions = extractCommonInterviewQuestions(markdown);
-  const displayMarkdown = removeCommentFromMD(
-    removeCommonInterviewQuestionsSection(markdown)
-  );
 
   useEffect(() => {
     scrollContainerRef.current?.scrollTo({ top: -400 });
@@ -326,23 +324,7 @@ function SelectedTopicContent({
           <ContentHOne>{topic.subtopic}</ContentHOne>
         </header>
 
-        {displayMarkdown.trim() ? (
-          <article className="space-y-8">
-            <ReactMarkdown
-              components={markdownComponents}
-              rehypePlugins={[rehypeHighlight]}
-              remarkPlugins={[remarkGfm]}
-            >
-              {displayMarkdown}
-            </ReactMarkdown>
-          </article>
-        ) : (
-          <article className="theme-content-card rounded-lg p-6">
-            <ContentParagraph>
-              Content for this topic has not been added yet.
-            </ContentParagraph>
-          </article>
-        )}
+        <MarkdownArticle markdown={markdown} />
 
         <InterviewQuestionsSection
           questions={interviewQuestions}
@@ -355,6 +337,34 @@ function SelectedTopicContent({
         />
       </div>
     </section>
+  );
+}
+
+function MarkdownArticle({ markdown }: { markdown: string }) {
+  const displayMarkdown = removeCommentFromMD(
+    removeCommonInterviewQuestionsSection(markdown)
+  );
+
+  if (!displayMarkdown.trim()) {
+    return (
+      <article className="theme-content-card rounded-lg p-6">
+        <ContentParagraph>
+          Content for this topic has not been added yet.
+        </ContentParagraph>
+      </article>
+    );
+  }
+
+  return (
+    <article className="space-y-8">
+      <ReactMarkdown
+        components={markdownComponents}
+        rehypePlugins={[rehypeHighlight]}
+        remarkPlugins={[remarkGfm]}
+      >
+        {displayMarkdown}
+      </ReactMarkdown>
+    </article>
   );
 }
 
@@ -390,11 +400,7 @@ function InterviewQuestionsSection({
             >
               <div className="min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span
-                    className={`gleeple-heading rounded-sm border px-2 py-0.5 text-[10px] font-bold uppercase ${classes.badgeClass}`}
-                  >
-                    {item.level}
-                  </span>
+                  <QuestionLevelBadge level={item.level} />
                   <span className="text-xs theme-subtle">
                     {item.questionCount} {questionLabel}
                   </span>
@@ -432,23 +438,17 @@ function getInterviewQuestionLevelClasses(level: string) {
   if (normalizedLevel === "advanced") {
     return {
       accentClass: "border-l-[var(--color-tertiary)]",
-      badgeClass:
-        "border-[color-mix(in_srgb,var(--color-tertiary)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-tertiary)_12%,transparent)] text-[var(--color-tertiary)]",
     };
   }
 
   if (normalizedLevel === "intermediate") {
     return {
       accentClass: "border-l-[var(--color-secondary)]",
-      badgeClass:
-        "border-[color-mix(in_srgb,var(--color-secondary)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-secondary)_12%,transparent)] text-[var(--color-secondary)]",
     };
   }
 
   return {
     accentClass: "border-l-[var(--color-primary-container)]",
-    badgeClass:
-      "border-[color-mix(in_srgb,var(--color-primary-container)_28%,transparent)] bg-[color-mix(in_srgb,var(--color-primary-container)_12%,transparent)] text-[var(--color-primary-container)]",
   };
 }
 
@@ -515,7 +515,38 @@ export function MainContent({ topic, markdown }: MainContentProps) {
     return <SelectedTopicContent markdown={markdown ?? ""} topic={topic} />;
   }
 
+  if (markdown?.trim()) {
+    return <DefaultMarkdownContent markdown={markdown} />;
+  }
+
   return <DraftedContentDisplay />;
+}
+
+function DefaultMarkdownContent({ markdown }: { markdown: string }) {
+  return (
+    <section className="flex min-w-0 flex-1 flex-col theme-ide-surface">
+      <div className="flex h-12 items-center overflow-x-auto border-b theme-ide-divider bg-[var(--color-surface-container-lowest)]">
+        {tabs.map((tab) => (
+          <button
+            className={`gleeple-heading flex h-full shrink-0 cursor-pointer items-center gap-2 border-r px-6 text-xs font-semibold uppercase transition-colors theme-ide-divider ${
+              tab.active
+                ? "border-t-2 border-t-[var(--color-primary-container)] bg-[var(--color-background)] theme-accent"
+                : "theme-subtle theme-ide-hover"
+            }`}
+            key={tab.label}
+            type="button"
+          >
+            {tab.icon}
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="content-scrollbar flex-1 overflow-y-auto p-6">
+        <MarkdownArticle markdown={markdown} />
+      </div>
+    </section>
+  );
 }
 
 function DraftedContentDisplay() {
