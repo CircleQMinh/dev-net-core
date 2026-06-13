@@ -994,7 +994,7 @@ Good habits include:
 <!-- question:start:tracking-no-tracking-beginner-q01 -->
 <!-- question-id:tracking-no-tracking-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is the difference between a tracking query and a no-tracking query in EF Core?
+####  What is the difference between a tracking query and a no-tracking query in EF Core?
 
 ##### Expected Answer
 
@@ -1017,7 +1017,7 @@ Tracking queries are best for update workflows. No-tracking queries are best for
 <!-- question:start:tracking-no-tracking-beginner-q02 -->
 <!-- question-id:tracking-no-tracking-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What does `AsNoTracking()` do?
+####  What does `AsNoTracking()` do?
 
 ##### Expected Answer
 
@@ -1047,7 +1047,7 @@ var customers = await dbContext.Customers
 <!-- question:start:tracking-no-tracking-beginner-q03 -->
 <!-- question-id:tracking-no-tracking-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. When should you use a tracking query?
+####  When should you use a tracking query?
 
 ##### Expected Answer
 
@@ -1079,7 +1079,7 @@ This pattern is clear and safe because EF Core knows the original values and can
 <!-- question:start:tracking-no-tracking-beginner-q04 -->
 <!-- question-id:tracking-no-tracking-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. When should you use a no-tracking query?
+####  When should you use a no-tracking query?
 
 ##### Expected Answer
 
@@ -1100,7 +1100,7 @@ No-tracking queries avoid the overhead of storing entity instances in the Change
 <!-- question:start:tracking-no-tracking-beginner-q05 -->
 <!-- question-id:tracking-no-tracking-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. What happens if you modify an entity returned by `AsNoTracking()` and call `SaveChanges()`?
+####  What happens if you modify an entity returned by `AsNoTracking()` and call `SaveChanges()`?
 
 ##### Expected Answer
 
@@ -1138,7 +1138,7 @@ To update the entity, use a tracking query or intentionally attach the entity an
 <!-- question:start:tracking-no-tracking-intermediate-q01 -->
 <!-- question-id:tracking-no-tracking-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. What is identity resolution in EF Core?
+####  What is identity resolution in EF Core?
 
 ##### Expected Answer
 
@@ -1161,7 +1161,7 @@ Identity resolution is important because EF Core cannot safely track two differe
 <!-- question:start:tracking-no-tracking-intermediate-q02 -->
 <!-- question-id:tracking-no-tracking-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. What is `AsNoTrackingWithIdentityResolution()`?
+####  What is `AsNoTrackingWithIdentityResolution()`?
 
 ##### Expected Answer
 
@@ -1184,7 +1184,7 @@ It is useful for read-only graph queries where duplicate entity instances would 
 <!-- question:start:tracking-no-tracking-intermediate-q03 -->
 <!-- question-id:tracking-no-tracking-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. Does projecting to a DTO use tracking?
+####  Does projecting to a DTO use tracking?
 
 ##### Expected Answer
 
@@ -1230,7 +1230,7 @@ Here, `Customer` is still an entity instance, so it can be tracked unless `AsNoT
 <!-- question:start:tracking-no-tracking-intermediate-q04 -->
 <!-- question-id:tracking-no-tracking-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. Why can a tracking query return stale data?
+####  Why can a tracking query return stale data?
 
 ##### Expected Answer
 
@@ -1253,7 +1253,7 @@ To refresh data, you can reload the entity, use a new context, or design the wor
 <!-- question:start:tracking-no-tracking-intermediate-q05 -->
 <!-- question-id:tracking-no-tracking-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. What is the difference between `AsNoTracking()` and `AsNoTrackingWithIdentityResolution()`?
+####  What is the difference between `AsNoTracking()` and `AsNoTrackingWithIdentityResolution()`?
 
 ##### Expected Answer
 
@@ -1276,7 +1276,7 @@ Use `AsNoTracking()` for simple read-only queries and flat result sets. Use `AsN
 <!-- question:start:tracking-no-tracking-intermediate-q06 -->
 <!-- question-id:tracking-no-tracking-intermediate-q06 -->
 <!-- question-level:intermediate -->
-#### 6. Should read-only API endpoints return EF Core entities with `AsNoTracking()`?
+####  Should read-only API endpoints return EF Core entities with `AsNoTracking()`?
 
 ##### Expected Answer
 
@@ -1311,7 +1311,7 @@ DTO projection gives a clear API contract and often generates more efficient SQL
 <!-- question:start:tracking-no-tracking-intermediate-q07 -->
 <!-- question-id:tracking-no-tracking-intermediate-q07 -->
 <!-- question-level:intermediate -->
-#### 7. What happens when the default `QueryTrackingBehavior` is set to `NoTracking`?
+####  What happens when the default `QueryTrackingBehavior` is set to `NoTracking`?
 
 ##### Expected Answer
 
@@ -1348,7 +1348,7 @@ This can be useful for read-heavy applications or query-only contexts. However, 
 <!-- question:start:tracking-no-tracking-advanced-q01 -->
 <!-- question-id:tracking-no-tracking-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. Why is it usually discouraged to perform a no-tracking query and then attach the returned entities to the same context?
+####  Why is it usually discouraged to perform a no-tracking query and then attach the returned entities to the same context?
 
 ##### Expected Answer
 
@@ -1377,7 +1377,7 @@ For typical update workflows, it is usually better to query with tracking, modif
 <!-- question:start:tracking-no-tracking-advanced-q02 -->
 <!-- question-id:tracking-no-tracking-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. How does identity resolution relate to the error about another instance with the same key already being tracked?
+####  How does identity resolution relate to the error about another instance with the same key already being tracked?
 
 ##### Expected Answer
 
@@ -1409,7 +1409,7 @@ await dbContext.SaveChangesAsync(cancellationToken);
 <!-- question:start:tracking-no-tracking-advanced-q03 -->
 <!-- question-id:tracking-no-tracking-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How would you choose between tracking, `AsNoTracking`, and `AsNoTrackingWithIdentityResolution` in a high-traffic API?
+####  How would you choose between tracking, `AsNoTracking`, and `AsNoTrackingWithIdentityResolution` in a high-traffic API?
 
 ##### Expected Answer
 
@@ -1436,7 +1436,7 @@ The final decision should be validated with profiling for important endpoints be
 <!-- question:start:tracking-no-tracking-advanced-q04 -->
 <!-- question-id:tracking-no-tracking-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. How can tracking behavior affect filtered includes and navigation properties?
+####  How can tracking behavior affect filtered includes and navigation properties?
 
 ##### Expected Answer
 
@@ -1459,7 +1459,7 @@ For predictable read-only filtered include results, use a short-lived context, `
 <!-- question:start:tracking-no-tracking-advanced-q05 -->
 <!-- question-id:tracking-no-tracking-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. How does tracking behavior influence memory usage in batch processing?
+####  How does tracking behavior influence memory usage in batch processing?
 
 ##### Expected Answer
 
@@ -1482,7 +1482,7 @@ The key idea is to avoid using one long-lived context that tracks thousands or m
 <!-- question:start:tracking-no-tracking-advanced-q06 -->
 <!-- question-id:tracking-no-tracking-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 6. What are the risks of setting global no-tracking behavior in a shared application `DbContext`?
+####  What are the risks of setting global no-tracking behavior in a shared application `DbContext`?
 
 ##### Expected Answer
 
@@ -1503,7 +1503,7 @@ This can create subtle bugs because the code looks correct at first glance. A sa
 <!-- question:start:tracking-no-tracking-advanced-q07 -->
 <!-- question-id:tracking-no-tracking-advanced-q07 -->
 <!-- question-level:advanced -->
-#### 7. In a CQRS architecture, how would you apply tracking and no-tracking habits?
+####  In a CQRS architecture, how would you apply tracking and no-tracking habits?
 
 ##### Expected Answer
 
@@ -1548,7 +1548,7 @@ await dbContext.SaveChangesAsync(cancellationToken);
 <!-- question:start:tracking-no-tracking-advanced-q08 -->
 <!-- question-id:tracking-no-tracking-advanced-q08 -->
 <!-- question-level:advanced -->
-#### 8. Is `AsNoTracking` always faster than tracking?
+####  Is `AsNoTracking` always faster than tracking?
 
 ##### Expected Answer
 

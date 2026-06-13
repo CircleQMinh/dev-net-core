@@ -1244,7 +1244,7 @@ A practical rule: if the code is primarily choosing a value, consider a switch e
 
 <!-- question-group:start:beginner -->
 
-#### 1. What is a switch expression in C#?
+####  What is a switch expression in C#?
 
 <!-- question:start:switch-expressions-beginner-q01 -->
 <!-- question-id:switch-expressions-beginner-q01 -->
@@ -1278,7 +1278,7 @@ Unlike a switch statement, a switch expression is designed to return a value. It
 
 <!-- question:end:switch-expressions-beginner-q01 -->
 
-#### 2. What is the difference between a switch statement and a switch expression?
+####  What is the difference between a switch statement and a switch expression?
 
 <!-- question:start:switch-expressions-beginner-q02 -->
 <!-- question-id:switch-expressions-beginner-q02 -->
@@ -1314,7 +1314,7 @@ string result = score switch
 
 <!-- question:end:switch-expressions-beginner-q02 -->
 
-#### 3. What does `_` mean in a switch expression?
+####  What does `_` mean in a switch expression?
 
 <!-- question:start:switch-expressions-beginner-q03 -->
 <!-- question-id:switch-expressions-beginner-q03 -->
@@ -1347,7 +1347,7 @@ It helps make a switch expression exhaustive, meaning that all possible input va
 
 <!-- question:end:switch-expressions-beginner-q03 -->
 
-#### 4. Can switch expressions be used with enums?
+####  Can switch expressions be used with enums?
 
 <!-- question:start:switch-expressions-beginner-q04 -->
 <!-- question-id:switch-expressions-beginner-q04 -->
@@ -1385,7 +1385,7 @@ When working with enums, it is important to handle all valid values and decide w
 
 <!-- question:end:switch-expressions-beginner-q04 -->
 
-#### 5. What happens if no switch expression arm matches?
+####  What happens if no switch expression arm matches?
 
 <!-- question:start:switch-expressions-beginner-q05 -->
 <!-- question-id:switch-expressions-beginner-q05 -->
@@ -1436,7 +1436,7 @@ string label = priority switch
 
 <!-- question-group:start:intermediate -->
 
-#### 6. How does arm ordering affect a switch expression?
+####  How does arm ordering affect a switch expression?
 
 <!-- question:start:switch-expressions-intermediate-q06 -->
 <!-- question-id:switch-expressions-intermediate-q06 -->
@@ -1483,7 +1483,7 @@ The `>= 90` arm is effectively unreachable because any value greater than or equ
 
 <!-- question:end:switch-expressions-intermediate-q06 -->
 
-#### 7. What are relational and logical patterns in switch expressions?
+####  What are relational and logical patterns in switch expressions?
 
 <!-- question:start:switch-expressions-intermediate-q07 -->
 <!-- question-id:switch-expressions-intermediate-q07 -->
@@ -1518,7 +1518,7 @@ These patterns are useful for range-based business rules such as grading, pricin
 
 <!-- question:end:switch-expressions-intermediate-q07 -->
 
-#### 8. How do property patterns work in switch expressions?
+####  How do property patterns work in switch expressions?
 
 <!-- question:start:switch-expressions-intermediate-q08 -->
 <!-- question-id:switch-expressions-intermediate-q08 -->
@@ -1552,7 +1552,7 @@ The switch expression checks the shape and property values of the object. Proper
 
 <!-- question:end:switch-expressions-intermediate-q08 -->
 
-#### 9. What are tuple patterns and when would you use them?
+####  What are tuple patterns and when would you use them?
 
 <!-- question:start:switch-expressions-intermediate-q09 -->
 <!-- question-id:switch-expressions-intermediate-q09 -->
@@ -1588,7 +1588,7 @@ However, if there are too many tuple elements, the code can become difficult to 
 
 <!-- question:end:switch-expressions-intermediate-q09 -->
 
-#### 10. How do `when` guards work in switch expressions?
+####  How do `when` guards work in switch expressions?
 
 <!-- question:start:switch-expressions-intermediate-q10 -->
 <!-- question-id:switch-expressions-intermediate-q10 -->
@@ -1622,7 +1622,7 @@ Case guards are useful when the pattern alone cannot express the complete condit
 
 <!-- question:end:switch-expressions-intermediate-q10 -->
 
-#### 11. How can switch expressions help with null handling?
+####  How can switch expressions help with null handling?
 
 <!-- question:start:switch-expressions-intermediate-q11 -->
 <!-- question-id:switch-expressions-intermediate-q11 -->
@@ -1658,7 +1658,7 @@ This approach keeps null handling close to the decision logic and avoids unsafe 
 
 <!-- question:end:switch-expressions-intermediate-q11 -->
 
-#### 12. What type must the arms of a switch expression return?
+####  What type must the arms of a switch expression return?
 
 <!-- question:start:switch-expressions-intermediate-q12 -->
 <!-- question-id:switch-expressions-intermediate-q12 -->
@@ -1708,7 +1708,7 @@ The arms return unrelated types. Although assigning to `object` can sometimes ma
 
 <!-- question-group:start:advanced -->
 
-#### 13. When should you avoid switch expressions?
+####  When should you avoid switch expressions?
 
 <!-- question:start:switch-expressions-advanced-q13 -->
 <!-- question-id:switch-expressions-advanced-q13 -->
@@ -1740,7 +1740,7 @@ For workflows, a switch statement, `if/else`, or separate service is often clear
 
 <!-- question:end:switch-expressions-advanced-q13 -->
 
-#### 14. How do switch expressions compare with polymorphism?
+####  How do switch expressions compare with polymorphism?
 
 <!-- question:start:switch-expressions-advanced-q14 -->
 <!-- question-id:switch-expressions-advanced-q14 -->
@@ -1785,7 +1785,7 @@ Switch expressions centralize decision logic. Polymorphism distributes behavior 
 
 <!-- question:end:switch-expressions-advanced-q14 -->
 
-#### 15. How do switch expressions compare with dictionary lookups?
+####  How do switch expressions compare with dictionary lookups?
 
 <!-- question:start:switch-expressions-advanced-q15 -->
 <!-- question-id:switch-expressions-advanced-q15 -->
@@ -1834,7 +1834,7 @@ A dictionary is easier to maintain when mappings are large, configurable, or loa
 
 <!-- question:end:switch-expressions-advanced-q15 -->
 
-#### 16. What is the risk of using `_` in every switch expression?
+####  What is the risk of using `_` in every switch expression?
 
 <!-- question:start:switch-expressions-advanced-q16 -->
 <!-- question-id:switch-expressions-advanced-q16 -->
@@ -1875,7 +1875,7 @@ For external user input or integration input, a fallback may be correct because 
 
 <!-- question:end:switch-expressions-advanced-q16 -->
 
-#### 17. How would you use switch expressions for state transitions?
+####  How would you use switch expressions for state transitions?
 
 <!-- question:start:switch-expressions-advanced-q17 -->
 <!-- question-id:switch-expressions-advanced-q17 -->
@@ -1913,7 +1913,7 @@ This is readable for a small state machine. If the transition rules grow, requir
 
 <!-- question:end:switch-expressions-advanced-q17 -->
 
-#### 18. How do list patterns work in switch expressions?
+####  How do list patterns work in switch expressions?
 
 <!-- question:start:switch-expressions-advanced-q18 -->
 <!-- question-id:switch-expressions-advanced-q18 -->
@@ -1953,7 +1953,7 @@ They are useful for command parsing, token matching, and small sequence classifi
 
 <!-- question:end:switch-expressions-advanced-q18 -->
 
-#### 19. How can switch expressions improve maintainability, and how can they hurt it?
+####  How can switch expressions improve maintainability, and how can they hurt it?
 
 <!-- question:start:switch-expressions-advanced-q19 -->
 <!-- question-id:switch-expressions-advanced-q19 -->
@@ -2001,7 +2001,7 @@ The second example may be better expressed with named methods or separate rule c
 
 <!-- question:end:switch-expressions-advanced-q19 -->
 
-#### 20. What are good testing practices for switch expressions?
+####  What are good testing practices for switch expressions?
 
 <!-- question:start:switch-expressions-advanced-q20 -->
 <!-- question-id:switch-expressions-advanced-q20 -->

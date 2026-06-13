@@ -684,7 +684,7 @@ Finally, I would validate the design using load tests, failure tests, observabil
 <!-- question:start:throughput-latency-targets-beginner-q01 -->
 <!-- question-id:throughput-latency-targets-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is the difference between throughput and latency?
+####  What is the difference between throughput and latency?
 
 ##### Expected Answer
 
@@ -707,7 +707,7 @@ In architecture discussions, throughput helps estimate capacity, scaling, and bo
 <!-- question:start:throughput-latency-targets-beginner-q02 -->
 <!-- question-id:throughput-latency-targets-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What does concurrency mean in system design?
+####  What does concurrency mean in system design?
 
 ##### Expected Answer
 
@@ -730,7 +730,7 @@ Concurrency matters because it affects memory usage, connection pools, thread po
 <!-- question:start:throughput-latency-targets-beginner-q03 -->
 <!-- question-id:throughput-latency-targets-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What is availability, and why is it important?
+####  What is availability, and why is it important?
 
 ##### Expected Answer
 
@@ -753,7 +753,7 @@ A system can be technically running but still unavailable from a user's perspect
 <!-- question:start:throughput-latency-targets-beginner-q04 -->
 <!-- question-id:throughput-latency-targets-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. Why should cost be treated as a requirement?
+####  Why should cost be treated as a requirement?
 
 ##### Expected Answer
 
@@ -780,7 +780,7 @@ Cost targets help the team choose between options such as always-on compute, ser
 <!-- question:start:throughput-latency-targets-intermediate-q01 -->
 <!-- question-id:throughput-latency-targets-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. How would you decompose a vague requirement like "the system must handle one million users"?
+####  How would you decompose a vague requirement like "the system must handle one million users"?
 
 ##### Expected Answer
 
@@ -803,7 +803,7 @@ I would also define latency targets, availability targets, consistency needs, an
 <!-- question:start:throughput-latency-targets-intermediate-q02 -->
 <!-- question-id:throughput-latency-targets-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. How do caching and queues affect throughput, latency, consistency, and cost?
+####  How do caching and queues affect throughput, latency, consistency, and cost?
 
 ##### Expected Answer
 
@@ -826,7 +826,7 @@ Both patterns are useful, but they should be chosen based on business requiremen
 <!-- question:start:throughput-latency-targets-intermediate-q03 -->
 <!-- question-id:throughput-latency-targets-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. How would you choose between strong consistency and eventual consistency?
+####  How would you choose between strong consistency and eventual consistency?
 
 ##### Expected Answer
 
@@ -849,7 +849,7 @@ The important habit is to define consistency per operation. A system can use str
 <!-- question:start:throughput-latency-targets-intermediate-q04 -->
 <!-- question-id:throughput-latency-targets-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. What metrics would you monitor to know whether a system is meeting its targets?
+####  What metrics would you monitor to know whether a system is meeting its targets?
 
 ##### Expected Answer
 
@@ -870,7 +870,7 @@ For concurrency and saturation, I would monitor CPU, memory, thread pool behavio
 <!-- question:start:throughput-latency-targets-intermediate-q05 -->
 <!-- question-id:throughput-latency-targets-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. Why can increasing concurrency make a system slower?
+####  Why can increasing concurrency make a system slower?
 
 ##### Expected Answer
 
@@ -899,7 +899,7 @@ A better design uses bounded concurrency, rate limiting, queues, backpressure, t
 <!-- question:start:throughput-latency-targets-advanced-q01 -->
 <!-- question-id:throughput-latency-targets-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. How would you design targets for a checkout system?
+####  How would you design targets for a checkout system?
 
 ##### Expected Answer
 
@@ -922,7 +922,7 @@ The architecture might use synchronous processing for payment authorization and 
 <!-- question:start:throughput-latency-targets-advanced-q02 -->
 <!-- question-id:throughput-latency-targets-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. How would you handle p99 latency problems in a distributed system?
+####  How would you handle p99 latency problems in a distributed system?
 
 ##### Expected Answer
 
@@ -945,7 +945,7 @@ The goal is not only to improve average latency but to reduce outliers that user
 <!-- question:start:throughput-latency-targets-advanced-q03 -->
 <!-- question-id:throughput-latency-targets-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How do multi-region systems affect availability, latency, consistency, and cost?
+####  How do multi-region systems affect availability, latency, consistency, and cost?
 
 ##### Expected Answer
 
@@ -968,7 +968,7 @@ A good answer should choose active-active, active-passive, or regional read repl
 <!-- question:start:throughput-latency-targets-advanced-q04 -->
 <!-- question-id:throughput-latency-targets-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. How would you balance cost optimization with high availability?
+####  How would you balance cost optimization with high availability?
 
 ##### Expected Answer
 
@@ -991,7 +991,7 @@ I would also track unit economics, such as cost per transaction, and use right-s
 <!-- question:start:throughput-latency-targets-advanced-q05 -->
 <!-- question-id:throughput-latency-targets-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. How do error budgets help with architecture and release decisions?
+####  How do error budgets help with architecture and release decisions?
 
 ##### Expected Answer
 

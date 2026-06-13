@@ -1011,7 +1011,7 @@ Good EF Core tracking habits:
 <!-- question:start:dbcontext-change-tracking-beginner-q01 -->
 <!-- question-id:dbcontext-change-tracking-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is `DbContext` in EF Core?
+####  What is `DbContext` in EF Core?
 
 ##### Expected Answer
 
@@ -1035,7 +1035,7 @@ A `DbContext` should not be treated as a singleton or shared across threads. It 
 <!-- question:start:dbcontext-change-tracking-beginner-q02 -->
 <!-- question-id:dbcontext-change-tracking-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What is a `DbSet`?
+####  What is a `DbSet`?
 
 ##### Expected Answer
 
@@ -1064,7 +1064,7 @@ var customers = await dbContext.Customers
 <!-- question:start:dbcontext-change-tracking-beginner-q03 -->
 <!-- question-id:dbcontext-change-tracking-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What are the main EF Core entity states?
+####  What are the main EF Core entity states?
 
 ##### Expected Answer
 
@@ -1092,7 +1092,7 @@ These states determine what `SaveChanges` does. For example, `Added` creates an 
 <!-- question:start:dbcontext-change-tracking-beginner-q04 -->
 <!-- question-id:dbcontext-change-tracking-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. What is the Change Tracker?
+####  What is the Change Tracker?
 
 ##### Expected Answer
 
@@ -1116,7 +1116,7 @@ For example, if a tracked customer's `Name` property changes, the Change Tracker
 <!-- question:start:dbcontext-change-tracking-beginner-q05 -->
 <!-- question-id:dbcontext-change-tracking-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. What happens when you call `SaveChanges`?
+####  What happens when you call `SaveChanges`?
 
 ##### Expected Answer
 
@@ -1156,7 +1156,7 @@ EF Core detects the changed name and sends an update.
 <!-- question:start:dbcontext-change-tracking-intermediate-q01 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 6. What is the difference between `Add`, `Attach`, and `Update`?
+####  What is the difference between `Add`, `Attach`, and `Update`?
 
 ##### Expected Answer
 
@@ -1184,7 +1184,7 @@ The important interview detail is that these methods can apply to an entire obje
 <!-- question:start:dbcontext-change-tracking-intermediate-q02 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 7. When should you use `AsNoTracking`?
+####  When should you use `AsNoTracking`?
 
 ##### Expected Answer
 
@@ -1214,7 +1214,7 @@ Do not use `AsNoTracking` if you plan to modify the returned entity and expect `
 <!-- question:start:dbcontext-change-tracking-intermediate-q03 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 8. Why can calling `Update` on a DTO or client-provided entity be dangerous?
+####  Why can calling `Update` on a DTO or client-provided entity be dangerous?
 
 ##### Expected Answer
 
@@ -1238,7 +1238,7 @@ A safer pattern is to use a DTO, load the existing entity from the database, val
 <!-- question:start:dbcontext-change-tracking-intermediate-q04 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 9. How can you update a single property without loading the full entity?
+####  How can you update a single property without loading the full entity?
 
 ##### Expected Answer
 
@@ -1279,7 +1279,7 @@ This can be efficient because it avoids a select query. However, it should be us
 <!-- question:start:dbcontext-change-tracking-intermediate-q05 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 10. What is `DetectChanges` and when is it called?
+####  What is `DetectChanges` and when is it called?
 
 ##### Expected Answer
 
@@ -1303,7 +1303,7 @@ You can call it manually when debugging or when automatic change detection is di
 <!-- question:start:dbcontext-change-tracking-intermediate-q06 -->
 <!-- question-id:dbcontext-change-tracking-intermediate-q06 -->
 <!-- question-level:intermediate -->
-#### 11. What causes the error that another instance with the same key is already being tracked?
+####  What causes the error that another instance with the same key is already being tracked?
 
 ##### Expected Answer
 
@@ -1340,7 +1340,7 @@ A common fix is to use the tracked entity and apply DTO values to it instead of 
 <!-- question:start:dbcontext-change-tracking-advanced-q01 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 12. How would you design a safe update endpoint using EF Core?
+####  How would you design a safe update endpoint using EF Core?
 
 ##### Expected Answer
 
@@ -1392,7 +1392,7 @@ This avoids overposting, avoids duplicate tracking, supports property-level upda
 <!-- question:start:dbcontext-change-tracking-advanced-q02 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 13. How does EF Core handle graph updates with `Add`, `Attach`, and `Update`?
+####  How does EF Core handle graph updates with `Add`, `Attach`, and `Update`?
 
 ##### Expected Answer
 
@@ -1416,7 +1416,7 @@ This behavior is powerful but risky with client-provided graphs. A client graph 
 <!-- question:start:dbcontext-change-tracking-advanced-q03 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 14. How would you use the Change Tracker for auditing?
+####  How would you use the Change Tracker for auditing?
 
 ##### Expected Answer
 
@@ -1463,7 +1463,7 @@ The key is to inspect entries before calling the base `SaveChangesAsync`. For co
 <!-- question:start:dbcontext-change-tracking-advanced-q04 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 15. How does `DbContext` lifetime affect tracking behavior and bugs?
+####  How does `DbContext` lifetime affect tracking behavior and bugs?
 
 ##### Expected Answer
 
@@ -1487,7 +1487,7 @@ In ASP.NET Core, scoped per request is a good default. For background jobs, para
 <!-- question:start:dbcontext-change-tracking-advanced-q05 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 16. How would you optimize a large import that adds many entities?
+####  How would you optimize a large import that adds many entities?
 
 ##### Expected Answer
 
@@ -1534,7 +1534,7 @@ For very large imports, provider-specific bulk insert tools may be more appropri
 <!-- question:start:dbcontext-change-tracking-advanced-q06 -->
 <!-- question-id:dbcontext-change-tracking-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 17. How does EF Core change tracking interact with concurrency control?
+####  How does EF Core change tracking interact with concurrency control?
 
 ##### Expected Answer
 

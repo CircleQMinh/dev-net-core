@@ -530,7 +530,7 @@ For least privilege:
 <!-- question:start:cors-secure-headers-secrets-least-privilege-beginner-q01 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is CORS, and why is it needed?
+####  What is CORS, and why is it needed?
 
 ##### Expected Answer
 
@@ -555,7 +555,7 @@ CORS is not authentication or authorization. It does not prove the identity of t
 <!-- question:start:cors-secure-headers-secrets-least-privilege-beginner-q02 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What are secure HTTP response headers?
+####  What are secure HTTP response headers?
 
 ##### Expected Answer
 
@@ -580,7 +580,7 @@ Secure headers are defense-in-depth controls. They do not replace proper authent
 <!-- question:start:cors-secure-headers-secrets-least-privilege-beginner-q03 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What is considered a secret in an application?
+####  What is considered a secret in an application?
 
 ##### Expected Answer
 
@@ -603,7 +603,7 @@ Secrets should not be committed to source control or stored directly in applicat
 <!-- question:start:cors-secure-headers-secrets-least-privilege-beginner-q04 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. What does least privilege mean?
+####  What does least privilege mean?
 
 ##### Expected Answer
 
@@ -632,7 +632,7 @@ Least privilege reduces the impact of mistakes, bugs, stolen credentials, and co
 <!-- question:start:cors-secure-headers-secrets-least-privilege-intermediate-q01 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. Why is `AllowAnyOrigin` dangerous for authenticated APIs?
+####  Why is `AllowAnyOrigin` dangerous for authenticated APIs?
 
 ##### Expected Answer
 
@@ -655,7 +655,7 @@ A private API should explicitly list trusted frontend origins, allow only requir
 <!-- question:start:cors-secure-headers-secrets-least-privilege-intermediate-q02 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. How should CORS middleware be ordered in ASP.NET Core?
+####  How should CORS middleware be ordered in ASP.NET Core?
 
 ##### Expected Answer
 
@@ -688,7 +688,7 @@ Incorrect order can cause missing CORS headers, failed preflight requests, or co
 <!-- question:start:cors-secure-headers-secrets-least-privilege-intermediate-q03 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. How would you store secrets safely in an ASP.NET Core application?
+####  How would you store secrets safely in an ASP.NET Core application?
 
 ##### Expected Answer
 
@@ -719,7 +719,7 @@ builder.Configuration.AddAzureKeyVault(
 <!-- question:start:cors-secure-headers-secrets-least-privilege-intermediate-q04 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. What is Content Security Policy, and how does it help?
+####  What is Content Security Policy, and how does it help?
 
 ##### Expected Answer
 
@@ -748,7 +748,7 @@ CSP must be tuned for each application. A strict policy can break legitimate scr
 <!-- question:start:cors-secure-headers-secrets-least-privilege-intermediate-q05 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. How is least privilege applied to an API endpoint?
+####  How is least privilege applied to an API endpoint?
 
 ##### Expected Answer
 
@@ -791,7 +791,7 @@ if (order.TenantId != currentUser.TenantId)
 <!-- question:start:cors-secure-headers-secrets-least-privilege-advanced-q01 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. How would you design secure browser access for a React frontend and ASP.NET Core API?
+####  How would you design secure browser access for a React frontend and ASP.NET Core API?
 
 ##### Expected Answer
 
@@ -818,7 +818,7 @@ The API and frontend should use HTTPS, HSTS, and secure headers. The frontend sh
 <!-- question:start:cors-secure-headers-secrets-least-privilege-advanced-q02 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. What is the difference between CORS, authentication, authorization, and CSRF protection?
+####  What is the difference between CORS, authentication, authorization, and CSRF protection?
 
 ##### Expected Answer
 
@@ -845,7 +845,7 @@ These controls solve different problems and should not be treated as interchange
 <!-- question:start:cors-secure-headers-secrets-least-privilege-advanced-q03 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How would you handle a leaked production secret?
+####  How would you handle a leaked production secret?
 
 ##### Expected Answer
 
@@ -870,7 +870,7 @@ Finally, add prevention controls such as secret scanning, pre-commit hooks, pipe
 <!-- question:start:cors-secure-headers-secrets-least-privilege-advanced-q04 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. How would you apply least privilege to cloud infrastructure for an application?
+####  How would you apply least privilege to cloud infrastructure for an application?
 
 ##### Expected Answer
 
@@ -895,7 +895,7 @@ Also apply least privilege inside the application: database users should not use
 <!-- question:start:cors-secure-headers-secrets-least-privilege-advanced-q05 -->
 <!-- question-id:cors-secure-headers-secrets-least-privilege-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. What are the trade-offs of strict security headers?
+####  What are the trade-offs of strict security headers?
 
 ##### Expected Answer
 

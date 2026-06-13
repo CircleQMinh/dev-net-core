@@ -727,7 +727,7 @@ Good security habits include:
 <!-- question:start:cookie-security-csrf-browser-beginner-q01 -->
 <!-- question-id:cookie-security-csrf-browser-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is a cookie, and why is it important for authentication?
+####  What is a cookie, and why is it important for authentication?
 
 ##### Expected Answer
 
@@ -750,7 +750,7 @@ The security concern is that cookies are automatically sent by the browser. This
 <!-- question:start:cookie-security-csrf-browser-beginner-q02 -->
 <!-- question-id:cookie-security-csrf-browser-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What do `HttpOnly`, `Secure`, and `SameSite` mean?
+####  What do `HttpOnly`, `Secure`, and `SameSite` mean?
 
 ##### Expected Answer
 
@@ -773,7 +773,7 @@ The security concern is that cookies are automatically sent by the browser. This
 <!-- question:start:cookie-security-csrf-browser-beginner-q03 -->
 <!-- question-id:cookie-security-csrf-browser-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What is CSRF?
+####  What is CSRF?
 
 ##### Expected Answer
 
@@ -796,7 +796,7 @@ CSRF usually targets state-changing operations such as updating an email address
 <!-- question:start:cookie-security-csrf-browser-beginner-q04 -->
 <!-- question-id:cookie-security-csrf-browser-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. Is CORS the same as CSRF protection?
+####  Is CORS the same as CSRF protection?
 
 ##### Expected Answer
 
@@ -825,7 +825,7 @@ A malicious website may not be able to read the response because of CORS or the 
 <!-- question:start:cookie-security-csrf-browser-intermediate-q01 -->
 <!-- question-id:cookie-security-csrf-browser-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. How do anti-forgery tokens prevent CSRF?
+####  How do anti-forgery tokens prevent CSRF?
 
 ##### Expected Answer
 
@@ -848,7 +848,7 @@ For SPAs using cookie authentication, the server may issue a CSRF token that Jav
 <!-- question:start:cookie-security-csrf-browser-intermediate-q02 -->
 <!-- question-id:cookie-security-csrf-browser-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. How would you configure a secure authentication cookie in ASP.NET Core?
+####  How would you configure a secure authentication cookie in ASP.NET Core?
 
 ##### Expected Answer
 
@@ -888,7 +888,7 @@ For many normal web apps, `SameSite=Lax` is a practical default. For stricter sy
 <!-- question:start:cookie-security-csrf-browser-intermediate-q03 -->
 <!-- question-id:cookie-security-csrf-browser-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. Compare cookie-based authentication and bearer-token authentication in browser apps.
+####  Compare cookie-based authentication and bearer-token authentication in browser apps.
 
 ##### Expected Answer
 
@@ -912,7 +912,7 @@ Neither approach is always better. Cookie authentication is often strong for bro
 <!-- question:start:cookie-security-csrf-browser-intermediate-q04 -->
 <!-- question-id:cookie-security-csrf-browser-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. Why should state-changing operations not use `GET`?
+####  Why should state-changing operations not use `GET`?
 
 ##### Expected Answer
 
@@ -939,7 +939,7 @@ State-changing operations should use methods such as `POST`, `PUT`, `PATCH`, or 
 <!-- question:start:cookie-security-csrf-browser-advanced-q01 -->
 <!-- question-id:cookie-security-csrf-browser-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. How would you design CSRF protection for a React SPA that uses cookie authentication with an ASP.NET Core API?
+####  How would you design CSRF protection for a React SPA that uses cookie authentication with an ASP.NET Core API?
 
 ##### Expected Answer
 
@@ -987,7 +987,7 @@ The design should also consider deployment details. If the SPA and API are on di
 <!-- question:start:cookie-security-csrf-browser-advanced-q02 -->
 <!-- question-id:cookie-security-csrf-browser-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. When is `SameSite=None` required, and what risks does it introduce?
+####  When is `SameSite=None` required, and what risks does it introduce?
 
 ##### Expected Answer
 
@@ -1011,7 +1011,7 @@ A candidate should also mention that not every app needs `SameSite=None`. Using 
 <!-- question:start:cookie-security-csrf-browser-advanced-q03 -->
 <!-- question-id:cookie-security-csrf-browser-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How does XSS change the security model of CSRF protection?
+####  How does XSS change the security model of CSRF protection?
 
 ##### Expected Answer
 
@@ -1035,7 +1035,7 @@ Therefore, CSRF tokens are necessary but not sufficient. Applications also need 
 <!-- question:start:cookie-security-csrf-browser-advanced-q04 -->
 <!-- question-id:cookie-security-csrf-browser-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. What browser security headers would you consider for a cookie-authenticated web application?
+####  What browser security headers would you consider for a cookie-authenticated web application?
 
 ##### Expected Answer
 
@@ -1064,7 +1064,7 @@ The exact configuration depends on the app. A strict CSP can break existing scri
 <!-- question:start:cookie-security-csrf-browser-advanced-q05 -->
 <!-- question-id:cookie-security-csrf-browser-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. How would you troubleshoot a cookie not being sent from a browser-based client?
+####  How would you troubleshoot a cookie not being sent from a browser-based client?
 
 ##### Expected Answer
 

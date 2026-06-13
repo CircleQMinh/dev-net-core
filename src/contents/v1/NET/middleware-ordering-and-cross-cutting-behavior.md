@@ -571,7 +571,7 @@ This order is not universal, but it demonstrates the reasoning:
 <!-- question:start:middleware-ordering-beginner-q01 -->
 <!-- question-id:middleware-ordering-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is middleware in ASP.NET Core?
+####  What is middleware in ASP.NET Core?
 
 ##### Expected Answer
 
@@ -591,7 +591,7 @@ A request flows through middleware in registration order. After an endpoint or t
 <!-- question:start:middleware-ordering-beginner-q02 -->
 <!-- question-id:middleware-ordering-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. Why does middleware order matter?
+####  Why does middleware order matter?
 
 ##### Expected Answer
 
@@ -611,7 +611,7 @@ Incorrect ordering can cause security issues, missing headers, failed authentica
 <!-- question:start:middleware-ordering-beginner-q03 -->
 <!-- question-id:middleware-ordering-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What is the difference between `Use` and `Run`?
+####  What is the difference between `Use` and `Run`?
 
 ##### Expected Answer
 
@@ -631,7 +631,7 @@ Use `Use` when the request should usually continue to later middleware. Use `Run
 <!-- question:start:middleware-ordering-beginner-q04 -->
 <!-- question-id:middleware-ordering-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. What does it mean to short-circuit the middleware pipeline?
+####  What does it mean to short-circuit the middleware pipeline?
 
 ##### Expected Answer
 
@@ -651,7 +651,7 @@ Short-circuiting should be used carefully because it can bypass middleware that 
 <!-- question:start:middleware-ordering-beginner-q05 -->
 <!-- question-id:middleware-ordering-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. What are cross-cutting concerns in a web application?
+####  What are cross-cutting concerns in a web application?
 
 ##### Expected Answer
 
@@ -676,7 +676,7 @@ Examples include exception handling, request logging, correlation IDs, authentic
 <!-- question:start:middleware-ordering-intermediate-q01 -->
 <!-- question-id:middleware-ordering-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. What is the correct order for authentication and authorization middleware?
+####  What is the correct order for authentication and authorization middleware?
 
 ##### Expected Answer
 
@@ -701,7 +701,7 @@ Authentication populates `HttpContext.User` with the caller's identity and claim
 <!-- question:start:middleware-ordering-intermediate-q02 -->
 <!-- question-id:middleware-ordering-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. Where should exception handling middleware be placed?
+####  Where should exception handling middleware be placed?
 
 ##### Expected Answer
 
@@ -721,7 +721,7 @@ It cannot catch exceptions thrown by middleware registered before it, so placing
 <!-- question:start:middleware-ordering-intermediate-q03 -->
 <!-- question-id:middleware-ordering-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. Where should CORS middleware be placed?
+####  Where should CORS middleware be placed?
 
 ##### Expected Answer
 
@@ -749,7 +749,7 @@ This placement allows the selected endpoint and policy metadata to be available 
 <!-- question:start:middleware-ordering-intermediate-q04 -->
 <!-- question-id:middleware-ordering-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. Why might `HttpContext.GetEndpoint()` return `null` in custom middleware?
+####  Why might `HttpContext.GetEndpoint()` return `null` in custom middleware?
 
 ##### Expected Answer
 
@@ -769,7 +769,7 @@ For example, custom middleware that checks attributes such as `[Authorize]`, cus
 <!-- question:start:middleware-ordering-intermediate-q05 -->
 <!-- question-id:middleware-ordering-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. How would you implement request logging as middleware?
+####  How would you implement request logging as middleware?
 
 ##### Expected Answer
 
@@ -823,7 +823,7 @@ public sealed class RequestTimingMiddleware
 <!-- question:start:middleware-ordering-intermediate-q06 -->
 <!-- question-id:middleware-ordering-intermediate-q06 -->
 <!-- question-level:intermediate -->
-#### 6. What is the difference between middleware and MVC filters?
+####  What is the difference between middleware and MVC filters?
 
 ##### Expected Answer
 
@@ -848,7 +848,7 @@ Middleware is better for broad HTTP concerns such as exception handling, CORS, r
 <!-- question:start:middleware-ordering-advanced-q01 -->
 <!-- question-id:middleware-ordering-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. How would you design a production middleware pipeline for an API?
+####  How would you design a production middleware pipeline for an API?
 
 ##### Expected Answer
 
@@ -898,7 +898,7 @@ The exact order depends on the app, but the candidate should explain the reason 
 <!-- question:start:middleware-ordering-advanced-q02 -->
 <!-- question-id:middleware-ordering-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. How can middleware ordering create security bugs?
+####  How can middleware ordering create security bugs?
 
 ##### Expected Answer
 
@@ -918,7 +918,7 @@ Security middleware should be ordered so that requests are authenticated and aut
 <!-- question:start:middleware-ordering-advanced-q03 -->
 <!-- question-id:middleware-ordering-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How do you handle exceptions in middleware without corrupting the response?
+####  How do you handle exceptions in middleware without corrupting the response?
 
 ##### Expected Answer
 
@@ -963,7 +963,7 @@ catch (Exception ex)
 <!-- question:start:middleware-ordering-advanced-q04 -->
 <!-- question-id:middleware-ordering-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. What are the risks of reading the request body in middleware?
+####  What are the risks of reading the request body in middleware?
 
 ##### Expected Answer
 
@@ -983,7 +983,7 @@ It should also avoid logging sensitive data such as passwords, tokens, financial
 <!-- question:start:middleware-ordering-advanced-q05 -->
 <!-- question-id:middleware-ordering-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. How do middleware, endpoint filters, MVC filters, and MediatR behaviors differ for cross-cutting concerns?
+####  How do middleware, endpoint filters, MVC filters, and MediatR behaviors differ for cross-cutting concerns?
 
 ##### Expected Answer
 
@@ -1003,7 +1003,7 @@ A good design chooses the narrowest layer that correctly owns the concern. HTTP-
 <!-- question:start:middleware-ordering-advanced-q06 -->
 <!-- question-id:middleware-ordering-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 6. How would you debug an issue where middleware is not running?
+####  How would you debug an issue where middleware is not running?
 
 ##### Expected Answer
 
@@ -1024,7 +1024,7 @@ Also check environment-specific registration. Middleware may only be registered 
 <!-- question:start:middleware-ordering-advanced-q07 -->
 <!-- question-id:middleware-ordering-advanced-q07 -->
 <!-- question-level:advanced -->
-#### 7. How should scoped services be used in custom middleware?
+####  How should scoped services be used in custom middleware?
 
 ##### Expected Answer
 

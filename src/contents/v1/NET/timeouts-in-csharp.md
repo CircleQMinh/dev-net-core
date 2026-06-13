@@ -672,7 +672,7 @@ Another mistake is setting all timeouts to the same value. A search endpoint, a 
 
 <!-- question-group:start:beginner -->
 
-#### 1. What is a timeout in C#?
+####  What is a timeout in C#?
 
 <!-- question:start:timeouts-in-csharp-beginner-q01 -->
 <!-- question-id:timeouts-in-csharp-beginner-q01 -->
@@ -696,7 +696,7 @@ A key point is that a timeout does not always kill the underlying operation. Som
 
 <!-- question:end:timeouts-in-csharp-beginner-q01 -->
 
-#### 2. What is the difference between timeout and cancellation?
+####  What is the difference between timeout and cancellation?
 
 <!-- question:start:timeouts-in-csharp-beginner-q02 -->
 <!-- question-id:timeouts-in-csharp-beginner-q02 -->
@@ -720,7 +720,7 @@ In C#, a timeout is often implemented by canceling a `CancellationTokenSource` a
 
 <!-- question:end:timeouts-in-csharp-beginner-q02 -->
 
-#### 3. How do you create a timeout using `CancellationTokenSource`?
+####  How do you create a timeout using `CancellationTokenSource`?
 
 <!-- question:start:timeouts-in-csharp-beginner-q03 -->
 <!-- question-id:timeouts-in-csharp-beginner-q03 -->
@@ -760,7 +760,7 @@ The token must be passed to the operation. If the method ignores the token, the 
 
 <!-- question:end:timeouts-in-csharp-beginner-q03 -->
 
-#### 4. What exception do you usually see when an operation is canceled?
+####  What exception do you usually see when an operation is canceled?
 
 <!-- question:start:timeouts-in-csharp-beginner-q04 -->
 <!-- question-id:timeouts-in-csharp-beginner-q04 -->
@@ -784,7 +784,7 @@ A good answer should mention that exception type depends on the API being used.
 
 <!-- question:end:timeouts-in-csharp-beginner-q04 -->
 
-#### 5. Why is `Thread.Sleep` usually a bad choice in async C# code?
+####  Why is `Thread.Sleep` usually a bad choice in async C# code?
 
 <!-- question:start:timeouts-in-csharp-beginner-q05 -->
 <!-- question-id:timeouts-in-csharp-beginner-q05 -->
@@ -818,7 +818,7 @@ This allows the thread to return to the thread pool while the delay is pending.
 
 <!-- question-group:start:intermediate -->
 
-#### 6. What is the difference between `Task.WaitAsync` and `CancellationTokenSource.CancelAfter`?
+####  What is the difference between `Task.WaitAsync` and `CancellationTokenSource.CancelAfter`?
 
 <!-- question:start:timeouts-in-csharp-intermediate-q01 -->
 <!-- question-id:timeouts-in-csharp-intermediate-q01 -->
@@ -842,7 +842,7 @@ Use `WaitAsync` when you need to limit waiting for a task, especially when the o
 
 <!-- question:end:timeouts-in-csharp-intermediate-q01 -->
 
-#### 7. How should you handle timeouts in `HttpClient`?
+####  How should you handle timeouts in `HttpClient`?
 
 <!-- question:start:timeouts-in-csharp-intermediate-q02 -->
 <!-- question-id:timeouts-in-csharp-intermediate-q02 -->
@@ -881,7 +881,7 @@ In production, use named or typed clients, set reasonable timeouts per dependenc
 
 <!-- question:end:timeouts-in-csharp-intermediate-q02 -->
 
-#### 8. How do you combine a request cancellation token with a local timeout?
+####  How do you combine a request cancellation token with a local timeout?
 
 <!-- question:start:timeouts-in-csharp-intermediate-q03 -->
 <!-- question-id:timeouts-in-csharp-intermediate-q03 -->
@@ -915,7 +915,7 @@ The linked token is canceled if the request is aborted or if the local timeout e
 
 <!-- question:end:timeouts-in-csharp-intermediate-q03 -->
 
-#### 9. How are database command timeouts different from cancellation tokens?
+####  How are database command timeouts different from cancellation tokens?
 
 <!-- question:start:timeouts-in-csharp-intermediate-q04 -->
 <!-- question-id:timeouts-in-csharp-intermediate-q04 -->
@@ -956,7 +956,7 @@ options.UseSqlServer(connectionString, sql =>
 
 <!-- question:end:timeouts-in-csharp-intermediate-q04 -->
 
-#### 10. What is the risk of retrying operations after a timeout?
+####  What is the risk of retrying operations after a timeout?
 
 <!-- question:start:timeouts-in-csharp-intermediate-q05 -->
 <!-- question-id:timeouts-in-csharp-intermediate-q05 -->
@@ -986,7 +986,7 @@ Retries should have a total timeout budget, per-attempt timeout, backoff, jitter
 
 <!-- question-group:start:advanced -->
 
-#### 11. How would you design timeout handling for a microservice calling multiple downstream services?
+####  How would you design timeout handling for a microservice calling multiple downstream services?
 
 <!-- question:start:timeouts-in-csharp-advanced-q01 -->
 <!-- question-id:timeouts-in-csharp-advanced-q01 -->
@@ -1011,7 +1011,7 @@ The design should include logging, metrics, tracing, and clear timeout error res
 
 <!-- question:end:timeouts-in-csharp-advanced-q01 -->
 
-#### 12. Why is it dangerous to use `Task.WaitAsync` as the only timeout mechanism?
+####  Why is it dangerous to use `Task.WaitAsync` as the only timeout mechanism?
 
 <!-- question:start:timeouts-in-csharp-advanced-q02 -->
 <!-- question-id:timeouts-in-csharp-advanced-q02 -->
@@ -1035,7 +1035,7 @@ For code you control, prefer cancellation-aware APIs and pass a cancellation tok
 
 <!-- question:end:timeouts-in-csharp-advanced-q02 -->
 
-#### 13. How do total timeout and per-attempt timeout differ in resilience policies?
+####  How do total timeout and per-attempt timeout differ in resilience policies?
 
 <!-- question:start:timeouts-in-csharp-advanced-q03 -->
 <!-- question-id:timeouts-in-csharp-advanced-q03 -->
@@ -1059,7 +1059,7 @@ Without a total timeout, retries can make the actual user wait much longer than 
 
 <!-- question:end:timeouts-in-csharp-advanced-q03 -->
 
-#### 14. How should an API distinguish between client cancellation and server-side timeout?
+####  How should an API distinguish between client cancellation and server-side timeout?
 
 <!-- question:start:timeouts-in-csharp-advanced-q04 -->
 <!-- question-id:timeouts-in-csharp-advanced-q04 -->
@@ -1104,7 +1104,7 @@ The exact response depends on application policy. The important part is not trea
 
 <!-- question:end:timeouts-in-csharp-advanced-q04 -->
 
-#### 15. How do you choose timeout values in a production system?
+####  How do you choose timeout values in a production system?
 
 <!-- question:start:timeouts-in-csharp-advanced-q05 -->
 <!-- question-id:timeouts-in-csharp-advanced-q05 -->
@@ -1129,7 +1129,7 @@ Timeouts should be configurable and reviewed over time. Setting all timeouts to 
 
 <!-- question:end:timeouts-in-csharp-advanced-q05 -->
 
-#### 16. How would you test timeout behavior without making tests slow and flaky?
+####  How would you test timeout behavior without making tests slow and flaky?
 
 <!-- question:start:timeouts-in-csharp-advanced-q06 -->
 <!-- question-id:timeouts-in-csharp-advanced-q06 -->

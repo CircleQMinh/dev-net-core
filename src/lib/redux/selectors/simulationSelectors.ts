@@ -20,11 +20,11 @@ export const selectSimulationDifficultyLevel = (state: RootState) =>
 export const selectSimulationQuestionCountMode = (state: RootState) =>
   state.simulation.questionCountMode;
 
-export const selectSimulationQuestionsPerTopic = (state: RootState) =>
-  state.simulation.questionsPerTopic;
+export const selectSimulationQuestionsPerCategory = (state: RootState) =>
+  state.simulation.questionsPerCategory;
 
-export const selectSimulationCustomQuestionsPerTopic = (state: RootState) =>
-  state.simulation.customQuestionsPerTopic;
+export const selectSimulationCustomQuestionsPerCategory = (state: RootState) =>
+  state.simulation.customQuestionsPerCategory;
 
 export const selectSimulationCurrentSessionId = (state: RootState) =>
   state.simulation.currentSessionId;

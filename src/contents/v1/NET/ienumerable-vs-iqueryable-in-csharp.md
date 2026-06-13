@@ -1294,7 +1294,7 @@ IQueryable<T>
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q01 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q01 -->
 <!-- question-level: beginner -->
-#### 1. What is `IEnumerable<T>` in C#?
+####  What is `IEnumerable<T>` in C#?
 
 ##### Expected Answer
 
@@ -1329,7 +1329,7 @@ In LINQ, `IEnumerable<T>` is commonly used for in-memory queries. Methods such a
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q02 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q02 -->
 <!-- question-level: beginner -->
-#### 2. What is `IQueryable<T>` in C#?
+####  What is `IQueryable<T>` in C#?
 
 ##### Expected Answer
 
@@ -1360,7 +1360,7 @@ The query is not executed immediately. It is executed when enumerated or when a 
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q03 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q03 -->
 <!-- question-level: beginner -->
-#### 3. What is the main difference between `IEnumerable<T>` and `IQueryable<T>`?
+####  What is the main difference between `IEnumerable<T>` and `IQueryable<T>`?
 
 ##### Expected Answer
 
@@ -1398,7 +1398,7 @@ This can be translated to SQL and filtered by the database.
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q04 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q04 -->
 <!-- question-level: beginner -->
-#### 4. Does `IQueryable<T>` inherit from `IEnumerable<T>`?
+####  Does `IQueryable<T>` inherit from `IEnumerable<T>`?
 
 ##### Expected Answer
 
@@ -1433,7 +1433,7 @@ The `foreach` triggers execution of the query.
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q05 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q05 -->
 <!-- question-level: beginner -->
-#### 5. When does a LINQ query execute?
+####  When does a LINQ query execute?
 
 ##### Expected Answer
 
@@ -1468,7 +1468,7 @@ Execution can be triggered by methods such as `ToList()`, `ToArray()`, `Count()`
 <!-- question:start:ienumerable-vs-iqueryable-beginner-q06 -->
 <!-- question-id: ienumerable-vs-iqueryable-beginner-q06 -->
 <!-- question-level: beginner -->
-#### 6. What does `ToList()` do in a LINQ query?
+####  What does `ToList()` do in a LINQ query?
 
 ##### Expected Answer
 
@@ -1515,7 +1515,7 @@ This loads all users first, then filters in memory.
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q01 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q01 -->
 <!-- question-level: intermediate -->
-#### 1. Why can using `IEnumerable<T>` with EF Core cause performance problems?
+####  Why can using `IEnumerable<T>` with EF Core cause performance problems?
 
 ##### Expected Answer
 
@@ -1558,7 +1558,7 @@ This lets the database filter and limit the result set.
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q02 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q02 -->
 <!-- question-level: intermediate -->
-#### 2. What is the difference between `Func<T, bool>` and `Expression<Func<T, bool>>`?
+####  What is the difference between `Func<T, bool>` and `Expression<Func<T, bool>>`?
 
 ##### Expected Answer
 
@@ -1598,7 +1598,7 @@ The expression tree allows EF Core to translate the predicate into SQL.
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q03 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q03 -->
 <!-- question-level: intermediate -->
-#### 3. What does `AsEnumerable()` do?
+####  What does `AsEnumerable()` do?
 
 ##### Expected Answer
 
@@ -1631,7 +1631,7 @@ The first `Where` can be translated to SQL. The second `Where` runs in memory wh
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q04 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q04 -->
 <!-- question-level: intermediate -->
-#### 4. What does `AsQueryable()` do?
+####  What does `AsQueryable()` do?
 
 ##### Expected Answer
 
@@ -1662,7 +1662,7 @@ A common mistake is thinking `AsQueryable()` automatically improves performance.
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q05 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q05 -->
 <!-- question-level: intermediate -->
-#### 5. Why should filtering and paging happen before `ToList()`?
+####  Why should filtering and paging happen before `ToList()`?
 
 ##### Expected Answer
 
@@ -1706,7 +1706,7 @@ The second version allows the database to filter and return only the requested p
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q06 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q06 -->
 <!-- question-level: intermediate -->
-#### 6. Should repositories return `IQueryable<T>`?
+####  Should repositories return `IQueryable<T>`?
 
 ##### Expected Answer
 
@@ -1755,7 +1755,7 @@ public Task<List<UserDto>> GetActiveUsersAsync()
 <!-- question:start:ienumerable-vs-iqueryable-intermediate-q07 -->
 <!-- question-id: ienumerable-vs-iqueryable-intermediate-q07 -->
 <!-- question-level: intermediate -->
-#### 7. What is multiple enumeration, and why can it be a problem?
+####  What is multiple enumeration, and why can it be a problem?
 
 ##### Expected Answer
 
@@ -1808,7 +1808,7 @@ foreach (Order order in orders)
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q01 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q01 -->
 <!-- question-level: advanced -->
-#### 1. How does a query provider execute an `IQueryable<T>` query?
+####  How does a query provider execute an `IQueryable<T>` query?
 
 ##### Expected Answer
 
@@ -1844,7 +1844,7 @@ The query is built before `ToListAsync()`. The provider executes it at `ToListAs
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q02 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q02 -->
 <!-- question-level: advanced -->
-#### 2. Why can a LINQ query work with `List<T>.AsQueryable()` but fail with EF Core?
+####  Why can a LINQ query work with `List<T>.AsQueryable()` but fail with EF Core?
 
 ##### Expected Answer
 
@@ -1876,7 +1876,7 @@ This is why tests based only on `AsQueryable()` can give false confidence for da
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q03 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q03 -->
 <!-- question-level: advanced -->
-#### 3. How can `IQueryable<T>` cause `DbContext` lifetime problems?
+####  How can `IQueryable<T>` cause `DbContext` lifetime problems?
 
 ##### Expected Answer
 
@@ -1928,7 +1928,7 @@ public async Task<List<UserDto>> GetUsersAsync()
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q04 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q04 -->
 <!-- question-level: advanced -->
-#### 4. How do you design a search API using `IQueryable<T>` safely?
+####  How do you design a search API using `IQueryable<T>` safely?
 
 ##### Expected Answer
 
@@ -1987,7 +1987,7 @@ This keeps the query server-side, limits what the caller can control, and return
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q05 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q05 -->
 <!-- question-level: advanced -->
-#### 5. What is the difference between provider-side projection and in-memory projection?
+####  What is the difference between provider-side projection and in-memory projection?
 
 ##### Expected Answer
 
@@ -2035,7 +2035,7 @@ The second version loads full entities first. That may retrieve unnecessary colu
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q06 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q06 -->
 <!-- question-level: advanced -->
-#### 6. How would you explain server-side evaluation vs client-side evaluation in EF Core?
+####  How would you explain server-side evaluation vs client-side evaluation in EF Core?
 
 ##### Expected Answer
 
@@ -2087,7 +2087,7 @@ The server should do the database-friendly work first. The application should on
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q07 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q07 -->
 <!-- question-level: advanced -->
-#### 7. What are the risks of exposing `IQueryable<T>` from an API endpoint?
+####  What are the risks of exposing `IQueryable<T>` from an API endpoint?
 
 ##### Expected Answer
 
@@ -2118,7 +2118,7 @@ A safer approach is to define request models with allowed filters and sort field
 <!-- question:start:ienumerable-vs-iqueryable-advanced-q08 -->
 <!-- question-id: ienumerable-vs-iqueryable-advanced-q08 -->
 <!-- question-level: advanced -->
-#### 8. In a clean architecture application, where should `IQueryable<T>` be used?
+####  In a clean architecture application, where should `IQueryable<T>` be used?
 
 ##### Expected Answer
 

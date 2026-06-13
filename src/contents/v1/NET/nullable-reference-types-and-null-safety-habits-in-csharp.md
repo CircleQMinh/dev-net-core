@@ -1874,7 +1874,7 @@ The improved version makes the nullable behavior explicit and forces callers to 
 <!-- question-id:nullable-reference-types-beginner-q01 -->
 <!-- question-level:beginner -->
 
-#### 1. What are nullable reference types in C#?
+####  What are nullable reference types in C#?
 
 ##### Expected Answer
 
@@ -1907,7 +1907,7 @@ Nullable reference types do not create new runtime types. `string` and `string?`
 <!-- question-id:nullreferenceexception-beginner-q02 -->
 <!-- question-level:beginner -->
 
-#### 2. What is a `NullReferenceException`?
+####  What is a `NullReferenceException`?
 
 ##### Expected Answer
 
@@ -1937,7 +1937,7 @@ Nullable reference types help reduce this risk by warning when a value may be nu
 <!-- question-id:enable-nullable-context-beginner-q03 -->
 <!-- question-level:beginner -->
 
-#### 3. How do you enable nullable reference types in a C# project?
+####  How do you enable nullable reference types in a C# project?
 
 ##### Expected Answer
 
@@ -1970,7 +1970,7 @@ For new code, enabling nullable reference types at the project level is usually 
 <!-- question-id:nullable-reference-vs-value-beginner-q04 -->
 <!-- question-level:beginner -->
 
-#### 4. What is the difference between `string?` and `int?`?
+####  What is the difference between `string?` and `int?`?
 
 ##### Expected Answer
 
@@ -2000,7 +2000,7 @@ The key difference is that nullable value types use a real runtime wrapper, whil
 <!-- question-id:null-coalescing-beginner-q05 -->
 <!-- question-level:beginner -->
 
-#### 5. What do the `?.`, `??`, and `??=` operators do?
+####  What do the `?.`, `??`, and `??=` operators do?
 
 ##### Expected Answer
 
@@ -2038,7 +2038,7 @@ These operators help write concise null-handling code, but they should not be us
 <!-- question-id:null-forgiving-beginner-q06 -->
 <!-- question-level:beginner -->
 
-#### 6. What does the null-forgiving operator `!` do?
+####  What does the null-forgiving operator `!` do?
 
 ##### Expected Answer
 
@@ -2075,7 +2075,7 @@ It should be used sparingly, mainly when the developer knows something the compi
 <!-- question-id:null-state-analysis-intermediate-q01 -->
 <!-- question-level:intermediate -->
 
-#### 1. How does C# null-state analysis work?
+####  How does C# null-state analysis work?
 
 ##### Expected Answer
 
@@ -2113,7 +2113,7 @@ The compiler uses assignments, null checks, conditional branches, pattern matchi
 <!-- question-id:required-vs-constructor-intermediate-q02 -->
 <!-- question-level:intermediate -->
 
-#### 2. How do `required` properties help with nullable reference types?
+####  How do `required` properties help with nullable reference types?
 
 ##### Expected Answer
 
@@ -2157,7 +2157,7 @@ Constructors are often better for domain models with business rules because they
 <!-- question-id:guard-clauses-intermediate-q03 -->
 <!-- question-level:intermediate -->
 
-#### 3. Why are guard clauses still needed if nullable reference types are enabled?
+####  Why are guard clauses still needed if nullable reference types are enabled?
 
 ##### Expected Answer
 
@@ -2199,7 +2199,7 @@ Guard clauses are especially important at public boundaries and when constructin
 <!-- question-id:null-return-design-intermediate-q04 -->
 <!-- question-level:intermediate -->
 
-#### 4. When should a method return `T?`, throw an exception, return an empty collection, or use a result type?
+####  When should a method return `T?`, throw an exception, return an empty collection, or use a result type?
 
 ##### Expected Answer
 
@@ -2239,7 +2239,7 @@ The method signature should communicate the expected behavior clearly.
 <!-- question-id:nullable-collections-intermediate-q05 -->
 <!-- question-level:intermediate -->
 
-#### 5. Why should collections usually be non-null?
+####  Why should collections usually be non-null?
 
 ##### Expected Answer
 
@@ -2275,7 +2275,7 @@ Non-null collections also make iteration safer and simpler.
 <!-- question-id:aspnetcore-nullability-intermediate-q06 -->
 <!-- question-level:intermediate -->
 
-#### 6. How do nullable reference types affect ASP.NET Core request models?
+####  How do nullable reference types affect ASP.NET Core request models?
 
 ##### Expected Answer
 
@@ -2309,7 +2309,7 @@ ASP.NET Core can use nullable metadata during model validation, but nullable ann
 <!-- question-id:efcore-nullability-intermediate-q07 -->
 <!-- question-level:intermediate -->
 
-#### 7. How do nullable reference types affect EF Core entities?
+####  How do nullable reference types affect EF Core entities?
 
 ##### Expected Answer
 
@@ -2362,7 +2362,7 @@ public List<OrderItem> Items { get; } = new();
 <!-- question-id:nullable-attributes-advanced-q01 -->
 <!-- question-level:advanced -->
 
-#### 1. What are nullable static analysis attributes and when should you use them?
+####  What are nullable static analysis attributes and when should you use them?
 
 ##### Expected Answer
 
@@ -2408,7 +2408,7 @@ Other useful attributes include `MaybeNull`, `NotNull`, `AllowNull`, `DisallowNu
 <!-- question-id:nullability-generics-advanced-q02 -->
 <!-- question-level:advanced -->
 
-#### 2. Why is nullability more complex with generics?
+####  Why is nullability more complex with generics?
 
 ##### Expected Answer
 
@@ -2461,7 +2461,7 @@ Generic APIs may also need nullable attributes such as `MaybeNull` to describe r
 <!-- question-id:nullable-migration-advanced-q03 -->
 <!-- question-level:advanced -->
 
-#### 3. How would you migrate an existing large C# codebase to nullable reference types?
+####  How would you migrate an existing large C# codebase to nullable reference types?
 
 ##### Expected Answer
 
@@ -2497,7 +2497,7 @@ For legacy projects, teams may temporarily use `#nullable enable` file by file o
 <!-- question-id:null-object-vs-nullable-advanced-q04 -->
 <!-- question-level:advanced -->
 
-#### 4. When would you use the Null Object pattern instead of returning null?
+####  When would you use the Null Object pattern instead of returning null?
 
 ##### Expected Answer
 
@@ -2538,7 +2538,7 @@ However, it should not be used when absence is important business information. I
 <!-- question-id:api-contract-design-advanced-q05 -->
 <!-- question-level:advanced -->
 
-#### 5. How should nullable reference types influence API and library design?
+####  How should nullable reference types influence API and library design?
 
 ##### Expected Answer
 
@@ -2581,7 +2581,7 @@ For reusable libraries, nullable annotations and attributes are especially impor
 <!-- question-id:null-safety-architecture-advanced-q06 -->
 <!-- question-level:advanced -->
 
-#### 6. How do nullable reference types support Clean Architecture or domain-driven design?
+####  How do nullable reference types support Clean Architecture or domain-driven design?
 
 ##### Expected Answer
 

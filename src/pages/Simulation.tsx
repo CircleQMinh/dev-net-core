@@ -16,10 +16,10 @@ import { GenerateSimulationQuestions } from "../shared/GenerateSimulationQuestio
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import {
   selectSimulationCurrentSessionId,
-  selectSimulationCustomQuestionsPerTopic,
+  selectSimulationCustomQuestionsPerCategory,
   selectSimulationDifficultyLevel,
   selectSimulationQuestionCountMode,
-  selectSimulationQuestionsPerTopic,
+  selectSimulationQuestionsPerCategory,
   selectSimulationSelectedCategoryIds,
   selectSimulationSelectedSubTopicIds,
   selectSimulationSelectedTopicIds,
@@ -31,7 +31,7 @@ import {
   createSimulationSession,
   loadSimulationSession,
   loadSimulationSessionState,
-  setCustomQuestionsPerTopic,
+  setCustomQuestionsPerCategory,
   setSimulationDifficultyLevel,
   setSimulationQuestionCountMode,
   simulationQuestionCounts,
@@ -377,15 +377,15 @@ export default function Simulation() {
   const hasAttemptedResume = useRef(false);
   const curriculumCategories = useMemo(() => getAllCurriculumCategories(), []);
   const currentSessionId = useAppSelector(selectSimulationCurrentSessionId);
-  const customQuestionsPerTopic = useAppSelector(
-    selectSimulationCustomQuestionsPerTopic
+  const customQuestionsPerCategory = useAppSelector(
+    selectSimulationCustomQuestionsPerCategory
   );
   const difficultyLevel = useAppSelector(selectSimulationDifficultyLevel);
   const questionCountMode = useAppSelector(
     selectSimulationQuestionCountMode
   );
-  const questionsPerTopic = useAppSelector(
-    selectSimulationQuestionsPerTopic
+  const questionsPerCategory = useAppSelector(
+    selectSimulationQuestionsPerCategory
   );
   const simulationStep = useAppSelector(selectSimulationStep);
   const selectedCategoryIds = useAppSelector(
@@ -397,7 +397,7 @@ export default function Simulation() {
   );
   const [startError, setStartError] = useState("");
   const [customQuestionCountInput, setCustomQuestionCountInput] = useState(
-    String(customQuestionsPerTopic)
+    String(customQuestionsPerCategory)
   );
   const selectedOption = useMemo(
     () =>
@@ -462,7 +462,7 @@ export default function Simulation() {
     const parsedValue = Number(value);
 
     if (isValidQuestionCount(parsedValue)) {
-      dispatch(setCustomQuestionsPerTopic(parsedValue));
+      dispatch(setCustomQuestionsPerCategory(parsedValue));
       setStartError("");
     }
   };
@@ -482,26 +482,27 @@ export default function Simulation() {
       !isValidQuestionCount(customQuestionCount)
     ) {
       setStartError(
-        "Enter a whole number greater than zero for custom questions per topic."
+        "Enter a whole number greater than zero for custom questions per category."
       );
       return;
     }
 
-    const validatedQuestionsPerTopic =
+    const validatedQuestionsPerCategory =
       questionCountMode === "custom"
         ? customQuestionCount
-        : questionsPerTopic;
+        : questionsPerCategory;
 
-    if (!isValidQuestionCount(validatedQuestionsPerTopic)) {
+    if (!isValidQuestionCount(validatedQuestionsPerCategory)) {
       setStartError(
-        "Number of questions per topic must be a whole number greater than zero."
+        "Number of questions per category must be a whole number greater than zero."
       );
       return;
     }
 
     const generatedQuestions = GenerateSimulationQuestions({
       difficultyLevel,
-      numberOfQuestionsPerTopic: validatedQuestionsPerTopic,
+      numberOfQuestionsPerCategory: validatedQuestionsPerCategory,
+      selectedCategoryIds,
       selectedSubTopicIds,
       selectedTopicIds,
     });
@@ -518,22 +519,27 @@ export default function Simulation() {
     const sessionId = createSimulationSessionId();
     const timestamp = new Date().toISOString();
     const session: SimulationSessionState = {
+      answersByQuestionId: {},
       completedQuestionIds: [],
       createdAt: timestamp,
+      currentEvaluationQuestionId: generatedQuestions[0]?.id,
       currentQuestionIndex: 0,
-      customQuestionsPerTopic:
+      customQuestionsPerCategory:
         questionCountMode === "custom"
           ? customQuestionCount
-          : customQuestionsPerTopic,
+          : customQuestionsPerCategory,
       difficultyLevel,
+      elapsedTimeInSeconds: 0,
+      evaluationsByQuestionId: {},
       questionCountMode,
       questionIds: generatedQuestions.map((question) => question.id),
       questions: generatedQuestions,
-      questionsPerTopic: validatedQuestionsPerTopic,
+      questionsPerCategory: validatedQuestionsPerCategory,
       selectedCategoryIds: [...selectedCategoryIds],
       selectedSubTopicIds: [...selectedSubTopicIds],
       selectedTopicIds: [...selectedTopicIds],
       sessionId,
+      startedAt: timestamp,
       step: "session",
       updatedAt: timestamp,
     };
@@ -565,8 +571,8 @@ export default function Simulation() {
   }, [dispatch, location.pathname, navigate]);
 
   useEffect(() => {
-    setCustomQuestionCountInput(String(customQuestionsPerTopic));
-  }, [customQuestionsPerTopic]);
+    setCustomQuestionCountInput(String(customQuestionsPerCategory));
+  }, [customQuestionsPerCategory]);
 
   useEffect(() => {
     if (
@@ -604,7 +610,7 @@ export default function Simulation() {
           <p className="max-w-2xl text-base leading-7 theme-muted">
             Configure the parameters of your technical assessment. Adjust
             difficulty, focus areas, and the number of questions selected for
-            each topic.
+            each category.
           </p>
         </header>
 
@@ -657,7 +663,7 @@ export default function Simulation() {
         <GlassPanel className="flex flex-col gap-6 p-6 md:p-12">
           <PanelHeader
             icon={<FormatListNumberedOutlinedIcon />}
-            label="Number of Questions per topic"
+            label="Number of Questions per category"
           />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {questionCountOptions.map((option) => {
@@ -698,12 +704,12 @@ export default function Simulation() {
             >
               <p
                 aria-pressed={questionCountMode === "custom"}
-                className="gleeple-heading cursor-pointer text-[12px] font-bold uppercase leading-none tracking-[0.05em]"
+                className="gleeple-heading cursor-pointer text-[12px] font-bold uppercase leading-none tracking-[0.05em] my-1"
               >
-                Custom
+                Custom:
               </p>
               <input
-                aria-label="Custom questions per topic"
+                aria-label="Custom questions per category"
                 className="gleeple-code w-24 rounded border border-[var(--color-card-border)] bg-[var(--color-code-surface)] px-3 py-2 text-center text-sm text-[var(--color-on-surface)] outline-none focus:border-[var(--color-primary-container)]"
                 inputMode="numeric"
                 max={10}

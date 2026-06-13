@@ -904,7 +904,7 @@ The best approach is to treat the OpenAPI document as part of the API contract, 
 <!-- question-group:start:beginner -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-beginner-q01 -->
-#### 1. What is OpenAPI, and why is it useful in ASP.NET Core APIs?
+####  What is OpenAPI, and why is it useful in ASP.NET Core APIs?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-beginner-q01 -->
 <!-- question-level:beginner -->
@@ -928,7 +928,7 @@ A strong answer should explain that OpenAPI is not just a documentation page. It
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-beginner-q01 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-beginner-q02 -->
-#### 2. What is the difference between OpenAPI and Swagger?
+####  What is the difference between OpenAPI and Swagger?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-beginner-q02 -->
 <!-- question-level:beginner -->
@@ -949,7 +949,7 @@ In many projects, people say "Swagger" when they mean the OpenAPI document or th
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-beginner-q02 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-beginner-q03 -->
-#### 3. How do you enable OpenAPI generation in an ASP.NET Core application?
+####  How do you enable OpenAPI generation in an ASP.NET Core application?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-beginner-q03 -->
 <!-- question-level:beginner -->
@@ -988,7 +988,7 @@ Many applications also use Swagger UI or another visual tool to display the gene
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-beginner-q03 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-beginner-q04 -->
-#### 4. What is endpoint metadata?
+####  What is endpoint metadata?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-beginner-q04 -->
 <!-- question-level:beginner -->
@@ -1017,7 +1017,7 @@ OpenAPI generation reads this metadata to build a more accurate API document.
 <!-- question-group:start:intermediate -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q01 -->
-#### 1. How do Minimal APIs provide metadata for OpenAPI generation?
+####  How do Minimal APIs provide metadata for OpenAPI generation?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q01 -->
 <!-- question-level:intermediate -->
@@ -1053,7 +1053,7 @@ This makes the generated OpenAPI document more accurate because it describes bot
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q01 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q02 -->
-#### 2. How do controller-based APIs provide metadata for OpenAPI generation?
+####  How do controller-based APIs provide metadata for OpenAPI generation?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q02 -->
 <!-- question-level:intermediate -->
@@ -1092,7 +1092,7 @@ The generated OpenAPI document can then show the route, operation name, response
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q02 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q03 -->
-#### 3. Why should APIs use DTOs instead of exposing EF Core entities directly in OpenAPI contracts?
+####  Why should APIs use DTOs instead of exposing EF Core entities directly in OpenAPI contracts?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q03 -->
 <!-- question-level:intermediate -->
@@ -1116,7 +1116,7 @@ DTOs allow the API to control exactly what the client can send and receive.
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q03 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q04 -->
-#### 4. What are operation IDs, and why do they matter?
+####  What are operation IDs, and why do they matter?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q04 -->
 <!-- question-level:intermediate -->
@@ -1149,7 +1149,7 @@ Good operation IDs include `GetCustomerById`, `CreateOrder`, and `CancelSubscrip
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q04 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q05 -->
-#### 5. How should an API document validation and error responses?
+####  How should an API document validation and error responses?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-intermediate-q05 -->
 <!-- question-level:intermediate -->
@@ -1199,7 +1199,7 @@ This helps clients implement predictable error handling.
 <!-- question-group:start:advanced -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q01 -->
-#### 1. How would you design OpenAPI documentation for a large enterprise API?
+####  How would you design OpenAPI documentation for a large enterprise API?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q01 -->
 <!-- question-level:advanced -->
@@ -1227,7 +1227,7 @@ The documentation should also be secured if it contains non-public API details.
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-advanced-q01 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q02 -->
-#### 2. What problems can happen when OpenAPI documentation drifts from runtime behavior?
+####  What problems can happen when OpenAPI documentation drifts from runtime behavior?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q02 -->
 <!-- question-level:advanced -->
@@ -1251,7 +1251,7 @@ To reduce drift, teams should keep metadata close to endpoints, use strongly typ
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-advanced-q02 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q03 -->
-#### 3. How should OpenAPI documents be secured in production?
+####  How should OpenAPI documents be secured in production?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q03 -->
 <!-- question-level:advanced -->
@@ -1283,7 +1283,7 @@ The decision depends on whether the API is public, partner-facing, internal, or 
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-advanced-q03 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q04 -->
-#### 4. How do OpenAPI documents help with client generation, and what makes a document client-generation friendly?
+####  How do OpenAPI documents help with client generation, and what makes a document client-generation friendly?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q04 -->
 <!-- question-level:advanced -->
@@ -1308,7 +1308,7 @@ If the OpenAPI document is inaccurate, generated clients may compile but fail at
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-advanced-q04 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q05 -->
-#### 5. How would you handle API versioning with OpenAPI?
+####  How would you handle API versioning with OpenAPI?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q05 -->
 <!-- question-level:advanced -->
@@ -1333,7 +1333,7 @@ The team should also define a release process for OpenAPI changes. Breaking chan
 <!-- question:end:openapi-generation-endpoint-metadata-api-discoverability-advanced-q05 -->
 
 <!-- question:start:openapi-generation-endpoint-metadata-api-discoverability-advanced-q06 -->
-#### 6. How would you customize generated OpenAPI output in ASP.NET Core?
+####  How would you customize generated OpenAPI output in ASP.NET Core?
 
 <!-- question-id:openapi-generation-endpoint-metadata-api-discoverability-advanced-q06 -->
 <!-- question-level:advanced -->

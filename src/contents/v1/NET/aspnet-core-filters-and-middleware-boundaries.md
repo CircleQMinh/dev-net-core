@@ -697,7 +697,7 @@ Good production habits include:
 <!-- question:start:aspnet-core-filters-beginner-q01 -->
 <!-- question-id:aspnet-core-filters-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What are filters in ASP.NET Core?
+####  What are filters in ASP.NET Core?
 
 ##### Expected Answer
 
@@ -719,7 +719,7 @@ Filters run after ASP.NET Core has selected an action to execute. This is differ
 <!-- question:start:aspnet-core-filters-beginner-q02 -->
 <!-- question-id:aspnet-core-filters-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What are the main filter types in ASP.NET Core?
+####  What are the main filter types in ASP.NET Core?
 
 ##### Expected Answer
 
@@ -739,7 +739,7 @@ Authorization filters run first and determine whether the user is allowed to acc
 <!-- question:start:aspnet-core-filters-beginner-q03 -->
 <!-- question-id:aspnet-core-filters-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. What is the difference between middleware and filters?
+####  What is the difference between middleware and filters?
 
 ##### Expected Answer
 
@@ -761,7 +761,7 @@ Middleware is better for app-wide HTTP concerns such as exception handling, stat
 <!-- question:start:aspnet-core-filters-beginner-q04 -->
 <!-- question-id:aspnet-core-filters-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. What is an action filter?
+####  What is an action filter?
 
 ##### Expected Answer
 
@@ -781,7 +781,7 @@ Action filters are commonly used for auditing, validation, logging of business-l
 <!-- question:start:aspnet-core-filters-beginner-q05 -->
 <!-- question-id:aspnet-core-filters-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. How can a filter short-circuit a request?
+####  How can a filter short-circuit a request?
 
 ##### Expected Answer
 
@@ -807,7 +807,7 @@ For example, an action filter can return `BadRequestObjectResult` if a required 
 <!-- question:start:aspnet-core-filters-intermediate-q01 -->
 <!-- question-id:aspnet-core-filters-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 6. When would you use a resource filter instead of an action filter?
+####  When would you use a resource filter instead of an action filter?
 
 ##### Expected Answer
 
@@ -827,7 +827,7 @@ Use an action filter when model binding has already completed and you need acces
 <!-- question:start:aspnet-core-filters-intermediate-q02 -->
 <!-- question-id:aspnet-core-filters-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 7. Why are authorization policies usually preferred over custom authorization filters?
+####  Why are authorization policies usually preferred over custom authorization filters?
 
 ##### Expected Answer
 
@@ -847,7 +847,7 @@ Custom authorization filters are lower-level and easier to misuse. For most busi
 <!-- question:start:aspnet-core-filters-intermediate-q03 -->
 <!-- question-id:aspnet-core-filters-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 8. What are the limitations of exception filters?
+####  What are the limitations of exception filters?
 
 ##### Expected Answer
 
@@ -867,7 +867,7 @@ For global production exception handling, exception middleware is usually prefer
 <!-- question:start:aspnet-core-filters-intermediate-q04 -->
 <!-- question-id:aspnet-core-filters-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 9. How do global, controller, and action filters execute?
+####  How do global, controller, and action filters execute?
 
 ##### Expected Answer
 
@@ -889,7 +889,7 @@ The order can be customized by implementing `IOrderedFilter` or by setting an or
 <!-- question:start:aspnet-core-filters-intermediate-q05 -->
 <!-- question-id:aspnet-core-filters-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 10. How do you inject services into filters?
+####  How do you inject services into filters?
 
 ##### Expected Answer
 
@@ -915,7 +915,7 @@ A normal attribute constructor cannot directly receive services from DI because 
 <!-- question:start:aspnet-core-filters-advanced-q01 -->
 <!-- question-id:aspnet-core-filters-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 11. How would you decide whether global API error handling should be middleware or an exception filter?
+####  How would you decide whether global API error handling should be middleware or an exception filter?
 
 ##### Expected Answer
 
@@ -937,7 +937,7 @@ A production API often uses exception middleware for the global safety net and a
 <!-- question:start:aspnet-core-filters-advanced-q02 -->
 <!-- question-id:aspnet-core-filters-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 12. What problems can happen if filters contain mutable state?
+####  What problems can happen if filters contain mutable state?
 
 ##### Expected Answer
 
@@ -957,7 +957,7 @@ Filters should generally be stateless. If they need request-specific data, they 
 <!-- question:start:aspnet-core-filters-advanced-q03 -->
 <!-- question-id:aspnet-core-filters-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 13. How does short-circuiting differ between middleware and filters?
+####  How does short-circuiting differ between middleware and filters?
 
 ##### Expected Answer
 
@@ -979,7 +979,7 @@ The key difference is that middleware controls the broader HTTP pipeline, while 
 <!-- question:start:aspnet-core-filters-advanced-q04 -->
 <!-- question-id:aspnet-core-filters-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 14. Why might a result filter not run when an exception occurs?
+####  Why might a result filter not run when an exception occurs?
 
 ##### Expected Answer
 
@@ -999,7 +999,7 @@ This is why result filters should not be used for cleanup or error handling that
 <!-- question:start:aspnet-core-filters-advanced-q05 -->
 <!-- question-id:aspnet-core-filters-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 15. How would you design cross-cutting behavior for a large ASP.NET Core API?
+####  How would you design cross-cutting behavior for a large ASP.NET Core API?
 
 ##### Expected Answer
 
@@ -1022,7 +1022,7 @@ The design should avoid putting everything into one large filter or middleware. 
 <!-- question:start:aspnet-core-filters-advanced-q06 -->
 <!-- question-id:aspnet-core-filters-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 16. What is the difference between MVC filters and endpoint filters?
+####  What is the difference between MVC filters and endpoint filters?
 
 ##### Expected Answer
 

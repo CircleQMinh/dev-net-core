@@ -848,7 +848,7 @@ This verifies that the second context cannot silently overwrite the first update
 
 <!-- question-group:start:beginner -->
 
-#### 1. What is optimistic concurrency in EF Core?
+####  What is optimistic concurrency in EF Core?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q01 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q01 -->
@@ -873,7 +873,7 @@ This prevents stale data from silently overwriting newer data.
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q01 -->
 
-#### 2. What is a concurrency token?
+####  What is a concurrency token?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q02 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q02 -->
@@ -898,7 +898,7 @@ If the value in the database has changed, EF Core knows another operation update
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q02 -->
 
-#### 3. What is a transaction?
+####  What is a transaction?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q03 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q03 -->
@@ -920,7 +920,7 @@ In EF Core, a single `SaveChanges` call is transactional by default when the dat
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q03 -->
 
-#### 4. What exception does EF Core throw when a concurrency conflict is detected?
+####  What exception does EF Core throw when a concurrency conflict is detected?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q04 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-beginner-q04 -->
@@ -948,7 +948,7 @@ This commonly happens when a concurrency token no longer matches the current dat
 
 <!-- question-group:start:intermediate -->
 
-#### 5. How does EF Core use a `rowversion` column to detect concurrency conflicts?
+####  How does EF Core use a `rowversion` column to detect concurrency conflicts?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q05 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q05 -->
@@ -979,7 +979,7 @@ If no other update happened, the row version matches and one row is updated. If 
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q05 -->
 
-#### 6. What are Current Values, Original Values, and Database Values in concurrency conflict handling?
+####  What are Current Values, Original Values, and Database Values in concurrency conflict handling?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q06 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q06 -->
@@ -1006,7 +1006,7 @@ For example, if a user changed the product name while another user changed the p
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q06 -->
 
-#### 7. When do you need a manual transaction in EF Core?
+####  When do you need a manual transaction in EF Core?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q07 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q07 -->
@@ -1031,7 +1031,7 @@ Manual transactions should be kept short and should not include slow external ca
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q07 -->
 
-#### 8. What is a savepoint, and when would you use one?
+####  What is a savepoint, and when would you use one?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q08 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q08 -->
@@ -1056,7 +1056,7 @@ Savepoints are useful when only part of a transaction should be retried or undon
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q08 -->
 
-#### 9. What is the difference between optimistic concurrency and transactions?
+####  What is the difference between optimistic concurrency and transactions?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q09 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q09 -->
@@ -1083,7 +1083,7 @@ In many real applications, both are used together: a transaction protects atomic
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q09 -->
 
-#### 10. How should an API respond to an EF Core concurrency conflict?
+####  How should an API respond to an EF Core concurrency conflict?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q10 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q10 -->
@@ -1114,7 +1114,7 @@ The exact response should be part of the API contract.
 
 <!-- question-group:start:advanced -->
 
-#### 11. How would you design conflict handling for an edit screen where multiple users can update the same record?
+####  How would you design conflict handling for an edit screen where multiple users can update the same record?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q11 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q11 -->
@@ -1140,7 +1140,7 @@ The design should avoid blindly overwriting data. It should also define what hap
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q11 -->
 
-#### 12. How do execution strategies affect manual transactions in EF Core?
+####  How do execution strategies affect manual transactions in EF Core?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q12 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q12 -->
@@ -1165,7 +1165,7 @@ This is especially important for cloud databases where transient failures are ex
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q12 -->
 
-#### 13. When would you use isolation levels instead of concurrency tokens?
+####  When would you use isolation levels instead of concurrency tokens?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q13 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q13 -->
@@ -1190,7 +1190,7 @@ However, stronger isolation levels can increase blocking, deadlocks, or retry re
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q13 -->
 
-#### 14. How would you avoid duplicate external side effects when using transactions and retries?
+####  How would you avoid duplicate external side effects when using transactions and retries?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q14 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q14 -->
@@ -1215,7 +1215,7 @@ This design keeps the database transaction focused on durable state and makes si
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q14 -->
 
-#### 15. How would you test optimistic concurrency behavior?
+####  How would you test optimistic concurrency behavior?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q15 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q15 -->
@@ -1241,7 +1241,7 @@ The test should verify both the exception and the final database state.
 
 <!-- question:end:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q15 -->
 
-#### 16. What are the risks of automatically retrying every concurrency exception?
+####  What are the risks of automatically retrying every concurrency exception?
 
 <!-- question:start:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q16 -->
 <!-- question-id:optimistic-concurrency-transactions-savepoints-conflict-handling-advanced-q16 -->

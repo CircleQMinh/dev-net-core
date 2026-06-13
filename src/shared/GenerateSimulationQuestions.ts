@@ -3,8 +3,9 @@ import {
   type CommonInterviewQuestion,
 } from "../components/content/markdown";
 import {
-  getAllCurriculumTopics,
+  getAllCurriculumCategories,
   getCurriculumSubTopicsByTopic,
+  getCurriculumTopicsByCategory,
 } from "./function";
 import type { SimulationDifficultyLevel } from "../lib/redux/slices/simulationSlice";
 
@@ -19,7 +20,8 @@ type SimulationQuestionCandidate = {
 
 export type GenerateSimulationQuestionsInput = {
   difficultyLevel: SimulationDifficultyLevel;
-  numberOfQuestionsPerTopic: number;
+  numberOfQuestionsPerCategory: number;
+  selectedCategoryIds: string[];
   selectedSubTopicIds: string[];
   selectedTopicIds: string[];
 };
@@ -68,51 +70,59 @@ const difficultyProfiles: Record<
 
 export function GenerateSimulationQuestions({
   difficultyLevel,
-  numberOfQuestionsPerTopic,
+  numberOfQuestionsPerCategory,
+  selectedCategoryIds,
   selectedSubTopicIds,
   selectedTopicIds,
 }: GenerateSimulationQuestionsInput): SimulationQuestion[] {
   if (
-    !Number.isSafeInteger(numberOfQuestionsPerTopic) ||
-    numberOfQuestionsPerTopic <= 0
+    !Number.isSafeInteger(numberOfQuestionsPerCategory) ||
+    numberOfQuestionsPerCategory <= 0
   ) {
     return [];
   }
 
-  const topicsById = new Map(
-    getAllCurriculumTopics().map((topic) => [topic.id, topic])
+  const categoriesById = new Map(
+    getAllCurriculumCategories().map((category) => [category.id, category])
   );
+  const selectedTopicIdSet = new Set(selectedTopicIds);
   const selectedSubTopicIdSet = new Set(selectedSubTopicIds);
-  const uniqueSelectedTopicIds = Array.from(new Set(selectedTopicIds));
+  const uniqueSelectedCategoryIds = Array.from(new Set(selectedCategoryIds));
 
-  return uniqueSelectedTopicIds.flatMap((topicId) => {
-    const topic = topicsById.get(topicId);
+  const selectedQuestions = uniqueSelectedCategoryIds.flatMap((categoryId) => {
+    const category = categoriesById.get(categoryId);
 
-    if (!topic) {
+    if (!category) {
       return [];
     }
 
-    const candidates = getCurriculumSubTopicsByTopic(topic)
-      .filter((subTopic) => selectedSubTopicIdSet.has(subTopic.id))
-      .flatMap((subTopic) =>
-        createQuestionCandidates(
-          extractCommonInterviewQuestions(subTopic.loadContentSync()),
-          {
-            category: subTopic.category,
-            subTopic: subTopic.subtopic,
-            subTopicId: subTopic.id,
-            topic: subTopic.topic,
-            topicId,
-          }
-        )
+    const candidates = getCurriculumTopicsByCategory(category)
+      .filter((topic) => selectedTopicIdSet.has(topic.id))
+      .flatMap((topic) =>
+        getCurriculumSubTopicsByTopic(topic)
+          .filter((subTopic) => selectedSubTopicIdSet.has(subTopic.id))
+          .flatMap((subTopic) =>
+            createQuestionCandidates(
+              extractCommonInterviewQuestions(subTopic.loadContentSync()),
+              {
+                category: subTopic.category,
+                subTopic: subTopic.subtopic,
+                subTopicId: subTopic.id,
+                topic: subTopic.topic,
+                topicId: topic.id,
+              }
+            )
+          )
       );
 
     return selectQuestionsForDifficulty(
       candidates,
-      numberOfQuestionsPerTopic,
+      numberOfQuestionsPerCategory,
       difficultyProfiles[difficultyLevel]
     );
   });
+
+  return shuffleItems(selectedQuestions);
 }
 
 function createQuestionCandidates(
@@ -153,20 +163,33 @@ function selectQuestionsForDifficulty(
   requestedCount: number,
   profile: DifficultyProfile
 ) {
-  const selectionCount = Math.min(requestedCount, candidates.length);
+  const uniqueCandidates = Array.from(
+    new Map(
+      candidates.map((candidate) => [candidate.question.id, candidate])
+    ).values()
+  );
+  const shuffledCandidates = shuffleItems(uniqueCandidates);
+  const selectionCount = Math.min(
+    requestedCount,
+    shuffledCandidates.length
+  );
 
   if (selectionCount === 0) {
     return [];
   }
 
   const targetCounts = allocateQuestionLevels(selectionCount, profile);
+  const selectedCandidates: SimulationQuestionCandidate[] = [];
   const selectedQuestionIds = new Set<string>();
 
   questionLevels.forEach((level) => {
-    candidates
+    shuffledCandidates
       .filter((candidate) => candidate.difficulty === level)
       .slice(0, targetCounts[level])
-      .forEach((candidate) => selectedQuestionIds.add(candidate.question.id));
+      .forEach((candidate) => {
+        selectedCandidates.push(candidate);
+        selectedQuestionIds.add(candidate.question.id);
+      });
   });
 
   if (selectedQuestionIds.size < selectionCount) {
@@ -177,12 +200,21 @@ function selectQuestionsForDifficulty(
     );
     const fallbackCandidates = [
       ...fallbackLevelOrder.flatMap((level) =>
-        candidates.filter((candidate) => candidate.difficulty === level)
+        shuffledCandidates.filter(
+          (candidate) =>
+            candidate.difficulty === level &&
+            !selectedQuestionIds.has(candidate.question.id)
+        )
       ),
-      ...candidates.filter((candidate) => candidate.difficulty === "Other"),
+      ...shuffledCandidates.filter(
+        (candidate) =>
+          candidate.difficulty === "Other" &&
+          !selectedQuestionIds.has(candidate.question.id)
+      ),
     ];
 
     for (const candidate of fallbackCandidates) {
+      selectedCandidates.push(candidate);
       selectedQuestionIds.add(candidate.question.id);
 
       if (selectedQuestionIds.size === selectionCount) {
@@ -191,9 +223,23 @@ function selectQuestionsForDifficulty(
     }
   }
 
-  return candidates
-    .filter((candidate) => selectedQuestionIds.has(candidate.question.id))
-    .map((candidate) => candidate.question);
+  return shuffleItems(selectedCandidates).map(
+    (candidate) => candidate.question
+  );
+}
+
+function shuffleItems<T>(items: readonly T[]) {
+  const shuffledItems = [...items];
+
+  for (let index = shuffledItems.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffledItems[index], shuffledItems[randomIndex]] = [
+      shuffledItems[randomIndex],
+      shuffledItems[index],
+    ];
+  }
+
+  return shuffledItems;
 }
 
 function allocateQuestionLevels(

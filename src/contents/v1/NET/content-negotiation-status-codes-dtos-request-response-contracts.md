@@ -1049,7 +1049,7 @@ Write integration tests for important status codes and response shapes.
 
 <!-- question-group:start:beginner -->
 
-#### 1. What is a DTO, and why is it used in Web APIs?
+####  What is a DTO, and why is it used in Web APIs?
 
 <!-- question:start:dto-purpose-beginner-q01 -->
 <!-- question-id:dto-purpose-beginner-q01 -->
@@ -1073,7 +1073,7 @@ For example, an entity might contain fields like `Cost`, `IsDeleted`, or `Create
 
 <!-- question:end:dto-purpose-beginner-q01 -->
 
-#### 2. What is content negotiation?
+####  What is content negotiation?
 
 <!-- question:start:content-negotiation-beginner-q02 -->
 <!-- question-id:content-negotiation-beginner-q02 -->
@@ -1097,7 +1097,7 @@ In ASP.NET Core, content negotiation is commonly handled by `ObjectResult` and o
 
 <!-- question:end:content-negotiation-beginner-q02 -->
 
-#### 3. What is the difference between `Accept` and `Content-Type`?
+####  What is the difference between `Accept` and `Content-Type`?
 
 <!-- question:start:accept-vs-content-type-beginner-q03 -->
 <!-- question-id:accept-vs-content-type-beginner-q03 -->
@@ -1121,7 +1121,7 @@ For a JSON API request, a client may send both headers: `Content-Type` for the r
 
 <!-- question:end:accept-vs-content-type-beginner-q03 -->
 
-#### 4. What status code should an API return when a resource is not found?
+####  What status code should an API return when a resource is not found?
 
 <!-- question:start:not-found-status-code-beginner-q04 -->
 <!-- question-id:not-found-status-code-beginner-q04 -->
@@ -1144,7 +1144,7 @@ In ASP.NET Core, this is commonly done with `return NotFound();`.
 
 <!-- question:end:not-found-status-code-beginner-q04 -->
 
-#### 5. What status code should be returned after successfully creating a resource?
+####  What status code should be returned after successfully creating a resource?
 
 <!-- question:start:created-status-code-beginner-q05 -->
 <!-- question-id:created-status-code-beginner-q05 -->
@@ -1183,7 +1183,7 @@ This returns `201 Created`, includes the URL of the new resource, and can includ
 
 <!-- question-group:start:intermediate -->
 
-#### 6. Why should APIs avoid returning EF Core entities directly?
+####  Why should APIs avoid returning EF Core entities directly?
 
 <!-- question:start:avoid-returning-entities-intermediate-q06 -->
 <!-- question-id:avoid-returning-entities-intermediate-q06 -->
@@ -1207,7 +1207,7 @@ DTOs give the API a deliberate contract. They allow the API to expose only the f
 
 <!-- question:end:avoid-returning-entities-intermediate-q06 -->
 
-#### 7. When should you use `ActionResult<T>` instead of `IActionResult`?
+####  When should you use `ActionResult<T>` instead of `IActionResult`?
 
 <!-- question:start:actionresult-vs-iactionresult-intermediate-q07 -->
 <!-- question-id:actionresult-vs-iactionresult-intermediate-q07 -->
@@ -1246,7 +1246,7 @@ public async Task<ActionResult<ProductResponseDto>> GetById(int id)
 
 <!-- question:end:actionresult-vs-iactionresult-intermediate-q07 -->
 
-#### 8. What is `ProblemDetails`, and why is it useful?
+####  What is `ProblemDetails`, and why is it useful?
 
 <!-- question:start:problemdetails-intermediate-q08 -->
 <!-- question-id:problemdetails-intermediate-q08 -->
@@ -1270,7 +1270,7 @@ It commonly includes fields such as `type`, `title`, `status`, `detail`, and `in
 
 <!-- question:end:problemdetails-intermediate-q08 -->
 
-#### 9. What is the difference between `400 Bad Request`, `409 Conflict`, and `422 Unprocessable Entity`?
+####  What is the difference between `400 Bad Request`, `409 Conflict`, and `422 Unprocessable Entity`?
 
 <!-- question:start:badrequest-conflict-unprocessable-intermediate-q09 -->
 <!-- question-id:badrequest-conflict-unprocessable-intermediate-q09 -->
@@ -1294,7 +1294,7 @@ It commonly includes fields such as `type`, `title`, `status`, `detail`, and `in
 
 <!-- question:end:badrequest-conflict-unprocessable-intermediate-q09 -->
 
-#### 10. How does ASP.NET Core handle automatic validation errors with `[ApiController]`?
+####  How does ASP.NET Core handle automatic validation errors with `[ApiController]`?
 
 <!-- question:start:apicontroller-validation-intermediate-q10 -->
 <!-- question-id:apicontroller-validation-intermediate-q10 -->
@@ -1318,7 +1318,7 @@ This reduces repetitive code because developers do not need to manually check `M
 
 <!-- question:end:apicontroller-validation-intermediate-q10 -->
 
-#### 11. How do `[Consumes]`, `[Produces]`, and `[ProducesResponseType]` help API design?
+####  How do `[Consumes]`, `[Produces]`, and `[ProducesResponseType]` help API design?
 
 <!-- question:start:api-metadata-attributes-intermediate-q11 -->
 <!-- question-id:api-metadata-attributes-intermediate-q11 -->
@@ -1350,7 +1350,7 @@ These attributes make the API contract clearer and improve generated OpenAPI doc
 
 <!-- question-group:start:advanced -->
 
-#### 12. How would you design a stable request/response contract for a public API?
+####  How would you design a stable request/response contract for a public API?
 
 <!-- question:start:stable-api-contract-advanced-q12 -->
 <!-- question-id:stable-api-contract-advanced-q12 -->
@@ -1377,7 +1377,7 @@ The API should also include integration tests that verify important response sha
 
 <!-- question:end:stable-api-contract-advanced-q12 -->
 
-#### 13. How do you prevent over-posting in ASP.NET Core APIs?
+####  How do you prevent over-posting in ASP.NET Core APIs?
 
 <!-- question:start:prevent-overposting-advanced-q13 -->
 <!-- question-id:prevent-overposting-advanced-q13 -->
@@ -1401,7 +1401,7 @@ For example, a client should not be allowed to set fields like `Id`, `IsAdmin`, 
 
 <!-- question:end:prevent-overposting-advanced-q13 -->
 
-#### 14. How should an API handle validation errors versus domain/business-rule errors?
+####  How should an API handle validation errors versus domain/business-rule errors?
 
 <!-- question:start:validation-vs-domain-errors-advanced-q14 -->
 <!-- question-id:validation-vs-domain-errors-advanced-q14 -->
@@ -1427,7 +1427,7 @@ The key is to return predictable status codes and consistent `ProblemDetails` re
 
 <!-- question:end:validation-vs-domain-errors-advanced-q14 -->
 
-#### 15. How does content negotiation affect error responses?
+#### How does content negotiation affect error responses?
 
 <!-- question:start:content-negotiation-error-responses-advanced-q15 -->
 <!-- question-id:content-negotiation-error-responses-advanced-q15 -->
@@ -1453,7 +1453,7 @@ For practical API design, the team should define whether errors always use `Prob
 
 <!-- question:end:content-negotiation-error-responses-advanced-q15 -->
 
-#### 16. What are the trade-offs between manual DTO mapping and using a mapping library?
+####  What are the trade-offs between manual DTO mapping and using a mapping library?
 
 <!-- question:start:dto-mapping-tradeoffs-advanced-q16 -->
 <!-- question-id:dto-mapping-tradeoffs-advanced-q16 -->
@@ -1477,7 +1477,7 @@ The best choice depends on project size, team preference, complexity, and how se
 
 <!-- question:end:dto-mapping-tradeoffs-advanced-q16 -->
 
-#### 17. How would you test request/response contracts in an ASP.NET Core API?
+####  How would you test request/response contracts in an ASP.NET Core API?
 
 <!-- question:start:testing-api-contracts-advanced-q17 -->
 <!-- question-id:testing-api-contracts-advanced-q17 -->
@@ -1502,7 +1502,7 @@ Tests can also verify JSON property names, required fields, null behavior, pagin
 
 <!-- question:end:testing-api-contracts-advanced-q17 -->
 
-#### 18. How do Minimal APIs represent response contracts differently from controllers?
+####  How do Minimal APIs represent response contracts differently from controllers?
 
 <!-- question:start:minimal-api-contracts-advanced-q18 -->
 <!-- question-id:minimal-api-contracts-advanced-q18 -->

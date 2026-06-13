@@ -1020,7 +1020,7 @@ Avoid mocking so much that tests only prove the mocks were configured correctly.
 
 <!-- question-group:start:beginner -->
 
-#### 1. What is a test double?
+####  What is a test double?
 
 <!-- question:start:test-doubles-beginner-q01 -->
 <!-- question-id:test-doubles-beginner-q01 -->
@@ -1043,7 +1043,7 @@ Test doubles are useful because unit tests should usually be fast, deterministic
 
 <!-- question:end:test-doubles-beginner-q01 -->
 
-#### 2. What is the difference between a mock and a stub?
+####  What is the difference between a mock and a stub?
 
 <!-- question:start:test-doubles-beginner-q02 -->
 <!-- question-id:test-doubles-beginner-q02 -->
@@ -1067,7 +1067,7 @@ The main difference is that a stub supports the test by providing data, while a 
 
 <!-- question:end:test-doubles-beginner-q02 -->
 
-#### 3. What is a fake?
+####  What is a fake?
 
 <!-- question:start:test-doubles-beginner-q03 -->
 <!-- question-id:test-doubles-beginner-q03 -->
@@ -1091,7 +1091,7 @@ Fakes are useful when many tests need the same simple behavior and setting up mo
 
 <!-- question:end:test-doubles-beginner-q03 -->
 
-#### 4. What is a spy?
+####  What is a spy?
 
 <!-- question:start:test-doubles-beginner-q04 -->
 <!-- question-id:test-doubles-beginner-q04 -->
@@ -1114,7 +1114,7 @@ A spy can be easier to understand than a mocking library when the interaction is
 
 <!-- question:end:test-doubles-beginner-q04 -->
 
-#### 5. Why should unit tests avoid real external systems?
+####  Why should unit tests avoid real external systems?
 
 <!-- question:start:test-doubles-beginner-q05 -->
 <!-- question-id:test-doubles-beginner-q05 -->
@@ -1138,7 +1138,7 @@ Using test doubles allows the test to control dependency behavior and focus on t
 
 <!-- question:end:test-doubles-beginner-q05 -->
 
-#### 6. Should every dependency be mocked?
+####  Should every dependency be mocked?
 
 <!-- question:start:test-doubles-beginner-q06 -->
 <!-- question-id:test-doubles-beginner-q06 -->
@@ -1166,7 +1166,7 @@ Mocking everything can make tests brittle and hard to understand. A better habit
 
 <!-- question-group:start:intermediate -->
 
-#### 1. When should you use a mock instead of a fake?
+####  When should you use a mock instead of a fake?
 
 <!-- question:start:test-doubles-intermediate-q01 -->
 <!-- question-id:test-doubles-intermediate-q01 -->
@@ -1190,7 +1190,7 @@ A mock is better for verifying "this dependency was called correctly." A fake is
 
 <!-- question:end:test-doubles-intermediate-q01 -->
 
-#### 2. What does it mean when mocking hides real integration problems?
+####  What does it mean when mocking hides real integration problems?
 
 <!-- question:start:test-doubles-intermediate-q02 -->
 <!-- question-id:test-doubles-intermediate-q02 -->
@@ -1214,7 +1214,7 @@ The solution is not to avoid mocks completely. The solution is to combine mocks 
 
 <!-- question:end:test-doubles-intermediate-q02 -->
 
-#### 3. Why is mocking EF Core queries risky?
+####  Why is mocking EF Core queries risky?
 
 <!-- question:start:test-doubles-intermediate-q03 -->
 <!-- question-id:test-doubles-intermediate-q03 -->
@@ -1238,7 +1238,7 @@ Mocking a repository can be acceptable when testing business logic, but persiste
 
 <!-- question:end:test-doubles-intermediate-q03 -->
 
-#### 4. What is the difference between state verification and interaction verification?
+####  What is the difference between state verification and interaction verification?
 
 <!-- question:start:test-doubles-intermediate-q04 -->
 <!-- question-id:test-doubles-intermediate-q04 -->
@@ -1262,7 +1262,7 @@ State verification is usually less coupled to implementation details and should 
 
 <!-- question:end:test-doubles-intermediate-q04 -->
 
-#### 5. How can ASP.NET Core integration tests use test doubles without losing integration value?
+####  How can ASP.NET Core integration tests use test doubles without losing integration value?
 
 <!-- question:start:test-doubles-intermediate-q05 -->
 <!-- question-id:test-doubles-intermediate-q05 -->
@@ -1286,7 +1286,7 @@ The key is to replace only the boundary that must be controlled, not everything.
 
 <!-- question:end:test-doubles-intermediate-q05 -->
 
-#### 6. What are common signs of over-mocking?
+####  What are common signs of over-mocking?
 
 <!-- question:start:test-doubles-intermediate-q06 -->
 <!-- question-id:test-doubles-intermediate-q06 -->
@@ -1311,7 +1311,7 @@ Over-mocking often means the test is too coupled to implementation details or th
 
 <!-- question:end:test-doubles-intermediate-q06 -->
 
-#### 7. How do you decide between unit tests and integration tests?
+####  How do you decide between unit tests and integration tests?
 
 <!-- question:start:test-doubles-intermediate-q07 -->
 <!-- question-id:test-doubles-intermediate-q07 -->
@@ -1341,7 +1341,7 @@ A practical test suite usually has both. Unit tests provide fast feedback. Integ
 
 <!-- question-group:start:advanced -->
 
-#### 1. How would you test a service that calls an external payment provider?
+####  How would you test a service that calls an external payment provider?
 
 <!-- question:start:test-doubles-advanced-q01 -->
 <!-- question-id:test-doubles-advanced-q01 -->
@@ -1368,7 +1368,7 @@ This gives fast unit tests for business decisions and separate integration confi
 
 <!-- question:end:test-doubles-advanced-q01 -->
 
-#### 2. Why can high code coverage from mocked tests be misleading?
+####  Why can high code coverage from mocked tests be misleading?
 
 <!-- question:start:test-doubles-advanced-q02 -->
 <!-- question-id:test-doubles-advanced-q02 -->
@@ -1392,7 +1392,7 @@ Coverage is useful as one signal, but it should be combined with test quality, m
 
 <!-- question:end:test-doubles-advanced-q02 -->
 
-#### 3. How do you avoid brittle tests when using mocks?
+####  How do you avoid brittle tests when using mocks?
 
 <!-- question:start:test-doubles-advanced-q03 -->
 <!-- question-id:test-doubles-advanced-q03 -->
@@ -1417,7 +1417,7 @@ Mock only stable boundaries. Do not mock simple domain objects or pure calculati
 
 <!-- question:end:test-doubles-advanced-q03 -->
 
-#### 4. How should you test EF Core persistence behavior?
+####  How should you test EF Core persistence behavior?
 
 <!-- question:start:test-doubles-advanced-q04 -->
 <!-- question-id:test-doubles-advanced-q04 -->
@@ -1441,7 +1441,7 @@ A repository or query test should execute the real query and assert the result.
 
 <!-- question:end:test-doubles-advanced-q04 -->
 
-#### 5. How do contract tests relate to mocks?
+####  How do contract tests relate to mocks?
 
 <!-- question:start:test-doubles-advanced-q05 -->
 <!-- question-id:test-doubles-advanced-q05 -->
@@ -1465,7 +1465,7 @@ Contract tests are useful for HTTP APIs, message schemas, event-driven systems, 
 
 <!-- question:end:test-doubles-advanced-q05 -->
 
-#### 6. How would you test authorization without hiding real security problems?
+####  How would you test authorization without hiding real security problems?
 
 <!-- question:start:test-doubles-advanced-q06 -->
 <!-- question-id:test-doubles-advanced-q06 -->
@@ -1489,7 +1489,7 @@ Mocking authorization everywhere can hide missing `[Authorize]` attributes, wron
 
 <!-- question:end:test-doubles-advanced-q06 -->
 
-#### 7. What is a good testing strategy for a Clean Architecture .NET application?
+####  What is a good testing strategy for a Clean Architecture .NET application?
 
 <!-- question:start:test-doubles-advanced-q07 -->
 <!-- question-id:test-doubles-advanced-q07 -->
@@ -1514,7 +1514,7 @@ This approach keeps unit tests fast while still proving that real infrastructure
 
 <!-- question:end:test-doubles-advanced-q07 -->
 
-#### 8. What should you do when a test requires many mocks?
+####  What should you do when a test requires many mocks?
 
 <!-- question:start:test-doubles-advanced-q08 -->
 <!-- question-id:test-doubles-advanced-q08 -->

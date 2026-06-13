@@ -1208,7 +1208,7 @@ Use these rules of thumb:
 <!-- question:start:collection-choices-in-csharp-beginner-q01 -->
 <!-- question-id:collection-choices-in-csharp-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is the difference between an array and `List<T>` in C#?
+####  What is the difference between an array and `List<T>` in C#?
 
 ##### Expected Answer
 
@@ -1240,7 +1240,7 @@ dynamicNumbers.Add(3);
 <!-- question:start:collection-choices-in-csharp-beginner-q02 -->
 <!-- question-id:collection-choices-in-csharp-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. When would you use `Dictionary<TKey, TValue>` instead of `List<T>`?
+####  When would you use `Dictionary<TKey, TValue>` instead of `List<T>`?
 
 ##### Expected Answer
 
@@ -1270,7 +1270,7 @@ if (usersById.TryGetValue(42, out User? user))
 <!-- question:start:collection-choices-in-csharp-beginner-q03 -->
 <!-- question-id:collection-choices-in-csharp-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. When would you use `HashSet<T>`?
+####  When would you use `HashSet<T>`?
 
 ##### Expected Answer
 
@@ -1301,7 +1301,7 @@ bool allowed = allowedRoles.Contains("admin");
 <!-- question:start:collection-choices-in-csharp-beginner-q04 -->
 <!-- question-id:collection-choices-in-csharp-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. What is the difference between `Queue<T>` and `Stack<T>`?
+####  What is the difference between `Queue<T>` and `Stack<T>`?
 
 ##### Expected Answer
 
@@ -1333,7 +1333,7 @@ Console.WriteLine(stack.Pop()); // B
 <!-- question:start:collection-choices-in-csharp-beginner-q05 -->
 <!-- question-id:collection-choices-in-csharp-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. Why should modern C# code prefer generic collections over non-generic collections?
+####  Why should modern C# code prefer generic collections over non-generic collections?
 
 ##### Expected Answer
 
@@ -1366,7 +1366,7 @@ int first = numbers[0];
 <!-- question:start:collection-choices-in-csharp-intermediate-q01 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. How do you choose between `List<T>` and `HashSet<T>`?
+####  How do you choose between `List<T>` and `HashSet<T>`?
 
 ##### Expected Answer
 
@@ -1396,7 +1396,7 @@ List<User> visibleUsers = users
 <!-- question:start:collection-choices-in-csharp-intermediate-q02 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. What is the difference between `IEnumerable<T>`, `ICollection<T>`, and `IList<T>`?
+####  What is the difference between `IEnumerable<T>`, `ICollection<T>`, and `IList<T>`?
 
 ##### Expected Answer
 
@@ -1426,7 +1426,7 @@ public decimal CalculateTotal(IEnumerable<OrderLine> lines)
 <!-- question:start:collection-choices-in-csharp-intermediate-q03 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. What is deferred execution, and how does it affect collection choice?
+####  What is deferred execution, and how does it affect collection choice?
 
 ##### Expected Answer
 
@@ -1456,7 +1456,7 @@ If you need stable results, count multiple times, or pass data across layers, ma
 <!-- question:start:collection-choices-in-csharp-intermediate-q04 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. When should you use `SortedDictionary<TKey, TValue>` instead of `Dictionary<TKey, TValue>`?
+####  When should you use `SortedDictionary<TKey, TValue>` instead of `Dictionary<TKey, TValue>`?
 
 ##### Expected Answer
 
@@ -1490,7 +1490,7 @@ foreach (var item in schedule)
 <!-- question:start:collection-choices-in-csharp-intermediate-q05 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. What is the difference between a read-only collection and an immutable collection?
+####  What is the difference between a read-only collection and an immutable collection?
 
 ##### Expected Answer
 
@@ -1528,7 +1528,7 @@ Console.WriteLine(updated.Count);  // 3
 <!-- question:start:collection-choices-in-csharp-intermediate-q06 -->
 <!-- question-id:collection-choices-in-csharp-intermediate-q06 -->
 <!-- question-level:intermediate -->
-#### 6. When should you use `ConcurrentDictionary<TKey, TValue>`?
+####  When should you use `ConcurrentDictionary<TKey, TValue>`?
 
 ##### Expected Answer
 
@@ -1568,7 +1568,7 @@ Do not use it just because it sounds safer. It has overhead and is mainly useful
 <!-- question:start:collection-choices-in-csharp-advanced-q01 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. How would you choose between `Dictionary<TKey, TValue>`, `ImmutableDictionary<TKey, TValue>`, `ConcurrentDictionary<TKey, TValue>`, and `FrozenDictionary<TKey, TValue>`?
+####  How would you choose between `Dictionary<TKey, TValue>`, `ImmutableDictionary<TKey, TValue>`, `ConcurrentDictionary<TKey, TValue>`, and `FrozenDictionary<TKey, TValue>`?
 
 ##### Expected Answer
 
@@ -1612,7 +1612,7 @@ FrozenDictionary<string, int> codes = statusCodes.ToFrozenDictionary(
 <!-- question:start:collection-choices-in-csharp-advanced-q02 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. What problems can occur when using mutable objects as dictionary keys?
+####  What problems can occur when using mutable objects as dictionary keys?
 
 ##### Expected Answer
 
@@ -1667,7 +1667,7 @@ Use immutable key types, records, strings, integers, GUIDs, or value objects wit
 <!-- question:start:collection-choices-in-csharp-advanced-q03 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. Why can `List<T>.Contains` cause performance issues, and how can you fix it?
+####  Why can `List<T>.Contains` cause performance issues, and how can you fix it?
 
 ##### Expected Answer
 
@@ -1705,7 +1705,7 @@ List<User> result = allUsers
 <!-- question:start:collection-choices-in-csharp-advanced-q04 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. How should you expose collections from a domain entity?
+####  How should you expose collections from a domain entity?
 
 ##### Expected Answer
 
@@ -1754,7 +1754,7 @@ public sealed class Order
 <!-- question:start:collection-choices-in-csharp-advanced-q05 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. When would you use `Span<T>` instead of a normal collection?
+####  When would you use `Span<T>` instead of a normal collection?
 
 ##### Expected Answer
 
@@ -1786,7 +1786,7 @@ Console.WriteLine(id.ToString());
 <!-- question:start:collection-choices-in-csharp-advanced-q06 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 6. How do collection choices affect thread safety?
+####  How do collection choices affect thread safety?
 
 ##### Expected Answer
 
@@ -1840,7 +1840,7 @@ public void Increment(string key)
 <!-- question:start:collection-choices-in-csharp-advanced-q07 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q07 -->
 <!-- question-level:advanced -->
-#### 7. What is the difference between `SortedDictionary<TKey, TValue>`, `SortedList<TKey, TValue>`, and `OrderedDictionary<TKey, TValue>`?
+####  What is the difference between `SortedDictionary<TKey, TValue>`, `SortedList<TKey, TValue>`, and `OrderedDictionary<TKey, TValue>`?
 
 ##### Expected Answer
 
@@ -1862,7 +1862,7 @@ public void Increment(string key)
 <!-- question:start:collection-choices-in-csharp-advanced-q08 -->
 <!-- question-id:collection-choices-in-csharp-advanced-q08 -->
 <!-- question-level:advanced -->
-#### 8. How would you choose a collection for a high-read, low-write lookup table?
+####  How would you choose a collection for a high-read, low-write lookup table?
 
 ##### Expected Answer
 

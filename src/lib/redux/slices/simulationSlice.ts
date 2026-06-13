@@ -10,7 +10,7 @@ import type { SimulationQuestion } from "../../../shared/GenerateSimulationQuest
 export const SIMULATION_SESSION_STORAGE_KEY =
   "dev-net-core-simulation-session";
 
-export const DEFAULT_CUSTOM_QUESTIONS_PER_TOPIC = 10;
+export const DEFAULT_CUSTOM_QUESTIONS_PER_CATEGORY = 10;
 
 export const simulationQuestionCounts = {
   short: 5,
@@ -20,21 +20,31 @@ export const simulationQuestionCounts = {
 export type SimulationStep = "setup" | "session" | "result";
 export type SimulationDifficultyLevel = "entry" | "standard" | "expert";
 export type SimulationQuestionCountMode = "short" | "standard" | "custom";
+export type SimulationQuestionEvaluation =
+  | "did-not-know"
+  | "partially-answered"
+  | "answered-well";
 
 export type SimulationSessionState = {
+  answersByQuestionId: Record<string, string>;
+  completedAt?: string;
   completedQuestionIds: string[];
   createdAt: string;
+  currentEvaluationQuestionId?: string;
   currentQuestionIndex: number;
-  customQuestionsPerTopic: number;
+  customQuestionsPerCategory: number;
   difficultyLevel: SimulationDifficultyLevel;
+  elapsedTimeInSeconds: number;
+  evaluationsByQuestionId: Record<string, SimulationQuestionEvaluation>;
   questionCountMode: SimulationQuestionCountMode;
   questionIds: string[];
   questions: SimulationQuestion[];
-  questionsPerTopic: number;
+  questionsPerCategory: number;
   selectedCategoryIds: string[];
   selectedSubTopicIds: string[];
   selectedTopicIds: string[];
   sessionId: string;
+  startedAt: string;
   step: SimulationStep;
   updatedAt: string;
 };
@@ -42,10 +52,10 @@ export type SimulationSessionState = {
 export type SimulationState = {
   currentSession?: SimulationSessionState;
   currentSessionId?: string;
-  customQuestionsPerTopic: number;
+  customQuestionsPerCategory: number;
   difficultyLevel: SimulationDifficultyLevel;
   questionCountMode: SimulationQuestionCountMode;
-  questionsPerTopic: number;
+  questionsPerCategory: number;
   selectedCategoryIds: string[];
   selectedTopicIds: string[];
   selectedSubTopicIds: string[];
@@ -55,6 +65,21 @@ export type SimulationState = {
 type UpdateSimulationSessionPayload = Partial<
   Omit<SimulationSessionState, "sessionId" | "createdAt">
 >;
+
+type SaveSimulationAnswerPayload = {
+  answer: string;
+  questionId: string;
+};
+
+type CompleteSimulationSessionPayload = {
+  completedAt: string;
+  elapsedTimeInSeconds: number;
+};
+
+type SaveSimulationQuestionEvaluationPayload = {
+  evaluation: SimulationQuestionEvaluation;
+  questionId: string;
+};
 
 const initialState: SimulationState = createInitialSimulationState();
 
@@ -66,6 +91,28 @@ const simulationSlice = createSlice({
       state.currentSession = undefined;
       state.currentSessionId = undefined;
       state.simulationStep = "setup";
+    },
+    completeSimulationSession(
+      state,
+      action: PayloadAction<CompleteSimulationSessionPayload>
+    ) {
+      const session = state.currentSession;
+
+      if (
+        !session ||
+        !normalizeDateString(action.payload.completedAt) ||
+        !isValidElapsedTime(action.payload.elapsedTimeInSeconds)
+      ) {
+        return;
+      }
+
+      session.completedAt = action.payload.completedAt;
+      session.elapsedTimeInSeconds = action.payload.elapsedTimeInSeconds;
+      session.step = "result";
+      session.updatedAt = action.payload.completedAt;
+      session.currentEvaluationQuestionId =
+        getNextEvaluationQuestionId(session) ?? session.questionIds[0];
+      state.simulationStep = "result";
     },
     createSimulationSession(
       state,
@@ -80,25 +127,110 @@ const simulationSlice = createSlice({
       applySessionToState(state, action.payload);
     },
     resetSimulationState: () => createInitialSimulationState(),
-    setCustomQuestionsPerTopic(state, action: PayloadAction<number>) {
+    saveSimulationAnswer(
+      state,
+      action: PayloadAction<SaveSimulationAnswerPayload>
+    ) {
+      const session = state.currentSession;
+
+      if (
+        !session ||
+        !session.questionIds.includes(action.payload.questionId)
+      ) {
+        return;
+      }
+
+      const normalizedAnswer = action.payload.answer.trim();
+
+      if (normalizedAnswer) {
+        session.answersByQuestionId[action.payload.questionId] =
+          normalizedAnswer;
+        session.completedQuestionIds = addValues(
+          session.completedQuestionIds,
+          [action.payload.questionId]
+        );
+      } else {
+        delete session.answersByQuestionId[action.payload.questionId];
+        session.completedQuestionIds = removeValues(
+          session.completedQuestionIds,
+          [action.payload.questionId]
+        );
+      }
+
+      session.updatedAt = new Date().toISOString();
+    },
+    saveSimulationQuestionEvaluation(
+      state,
+      action: PayloadAction<SaveSimulationQuestionEvaluationPayload>
+    ) {
+      const session = state.currentSession;
+
+      if (
+        !session ||
+        !session.questionIds.includes(action.payload.questionId)
+      ) {
+        return;
+      }
+
+      session.evaluationsByQuestionId[action.payload.questionId] =
+        action.payload.evaluation;
+      const evaluatedQuestionIndex = session.questionIds.indexOf(
+        action.payload.questionId
+      );
+      session.currentEvaluationQuestionId =
+        session.questionIds[evaluatedQuestionIndex + 1];
+      session.updatedAt = new Date().toISOString();
+    },
+    setCustomQuestionsPerCategory(state, action: PayloadAction<number>) {
       if (!isValidQuestionCount(action.payload)) {
         return;
       }
 
-      state.customQuestionsPerTopic = action.payload;
-      state.questionsPerTopic = action.payload;
+      state.customQuestionsPerCategory = action.payload;
+      state.questionsPerCategory = action.payload;
       state.questionCountMode = "custom";
     },
-    setQuestionsPerTopic(state, action: PayloadAction<number>) {
+    setQuestionsPerCategory(state, action: PayloadAction<number>) {
       if (!isValidQuestionCount(action.payload)) {
         return;
       }
 
-      state.questionsPerTopic = action.payload;
+      state.questionsPerCategory = action.payload;
 
       if (state.questionCountMode === "custom") {
-        state.customQuestionsPerTopic = action.payload;
+        state.customQuestionsPerCategory = action.payload;
       }
+    },
+    setSimulationCurrentQuestionIndex(
+      state,
+      action: PayloadAction<number>
+    ) {
+      const session = state.currentSession;
+
+      if (
+        !session ||
+        !Number.isInteger(action.payload) ||
+        action.payload < 0 ||
+        action.payload >= session.questions.length
+      ) {
+        return;
+      }
+
+      session.currentQuestionIndex = action.payload;
+      session.updatedAt = new Date().toISOString();
+    },
+    setSimulationCurrentEvaluationQuestion(
+      state,
+      action: PayloadAction<string>
+    ) {
+      const session = state.currentSession;
+
+      if (!session || !session.questionIds.includes(action.payload)) {
+        return;
+      }
+
+      session.currentEvaluationQuestionId = action.payload;
+      session.updatedAt = new Date().toISOString();
     },
     setSimulationDifficultyLevel(
       state,
@@ -111,10 +243,24 @@ const simulationSlice = createSlice({
       action: PayloadAction<SimulationQuestionCountMode>
     ) {
       state.questionCountMode = action.payload;
-      state.questionsPerTopic =
+      state.questionsPerCategory =
         action.payload === "custom"
-          ? state.customQuestionsPerTopic
+          ? state.customQuestionsPerCategory
           : simulationQuestionCounts[action.payload];
+    },
+    setSimulationElapsedTime(state, action: PayloadAction<number>) {
+      const session = state.currentSession;
+
+      if (
+        !session ||
+        session.step !== "session" ||
+        !isValidElapsedTime(action.payload)
+      ) {
+        return;
+      }
+
+      session.elapsedTimeInSeconds = action.payload;
+      session.updatedAt = new Date().toISOString();
     },
     setSimulationStep(state, action: PayloadAction<SimulationStep>) {
       state.simulationStep = action.payload;
@@ -224,12 +370,18 @@ const simulationSlice = createSlice({
 
 export const {
   clearSimulationSession,
+  completeSimulationSession,
   createSimulationSession,
   loadSimulationSession,
   resetSimulationState,
-  setCustomQuestionsPerTopic,
-  setQuestionsPerTopic,
+  saveSimulationAnswer,
+  saveSimulationQuestionEvaluation,
+  setCustomQuestionsPerCategory,
+  setQuestionsPerCategory,
+  setSimulationCurrentEvaluationQuestion,
+  setSimulationCurrentQuestionIndex,
   setSimulationDifficultyLevel,
+  setSimulationElapsedTime,
   setSimulationQuestionCountMode,
   setSimulationStep,
   toggleSimulationCategory,
@@ -315,16 +467,42 @@ export function isValidSimulationSessionState(
   return parseSimulationSessionState(value) !== undefined;
 }
 
+export function getSimulationElapsedTimeInSeconds(
+  session: Pick<
+    SimulationSessionState,
+    "completedAt" | "elapsedTimeInSeconds" | "startedAt"
+  >,
+  currentTime = Date.now()
+) {
+  const startedAtTime = Date.parse(session.startedAt);
+  const endedAtTime = session.completedAt
+    ? Date.parse(session.completedAt)
+    : currentTime;
+
+  if (
+    !Number.isFinite(startedAtTime) ||
+    !Number.isFinite(endedAtTime) ||
+    endedAtTime < startedAtTime
+  ) {
+    return session.elapsedTimeInSeconds;
+  }
+
+  return Math.max(
+    session.elapsedTimeInSeconds,
+    Math.floor((endedAtTime - startedAtTime) / 1000)
+  );
+}
+
 function applySessionToState(
   state: SimulationState,
   session: SimulationSessionState
 ) {
   state.currentSession = session;
   state.currentSessionId = session.sessionId;
-  state.customQuestionsPerTopic = session.customQuestionsPerTopic;
+  state.customQuestionsPerCategory = session.customQuestionsPerCategory;
   state.difficultyLevel = session.difficultyLevel;
   state.questionCountMode = session.questionCountMode;
-  state.questionsPerTopic = session.questionsPerTopic;
+  state.questionsPerCategory = session.questionsPerCategory;
   state.selectedCategoryIds = session.selectedCategoryIds;
   state.selectedTopicIds = session.selectedTopicIds;
   state.selectedSubTopicIds = session.selectedSubTopicIds;
@@ -338,10 +516,10 @@ function createInitialSimulationState(): SimulationState {
     return {
       currentSession: savedSession,
       currentSessionId: savedSession.sessionId,
-      customQuestionsPerTopic: savedSession.customQuestionsPerTopic,
+      customQuestionsPerCategory: savedSession.customQuestionsPerCategory,
       difficultyLevel: savedSession.difficultyLevel,
       questionCountMode: savedSession.questionCountMode,
-      questionsPerTopic: savedSession.questionsPerTopic,
+      questionsPerCategory: savedSession.questionsPerCategory,
       selectedCategoryIds: savedSession.selectedCategoryIds,
       selectedTopicIds: savedSession.selectedTopicIds,
       selectedSubTopicIds: savedSession.selectedSubTopicIds,
@@ -353,10 +531,10 @@ function createInitialSimulationState(): SimulationState {
   const defaultState: SimulationState = {
     currentSession: undefined,
     currentSessionId: undefined,
-    customQuestionsPerTopic: DEFAULT_CUSTOM_QUESTIONS_PER_TOPIC,
+    customQuestionsPerCategory: DEFAULT_CUSTOM_QUESTIONS_PER_CATEGORY,
     difficultyLevel: "standard",
     questionCountMode: "standard",
-    questionsPerTopic: simulationQuestionCounts.standard,
+    questionsPerCategory: simulationQuestionCounts.standard,
     selectedCategoryIds: [],
     selectedTopicIds: [],
     selectedSubTopicIds: [],
@@ -387,24 +565,29 @@ function parseSimulationSessionState(
   const sessionId = normalizeNonEmptyString(value.sessionId);
   const step = normalizeSessionStep(value.step);
   const difficultyLevel = normalizeDifficultyLevel(value.difficultyLevel);
-  const questionsPerTopic = normalizeQuestionCount(value.questionsPerTopic);
+  const questionsPerCategory = normalizeQuestionCount(
+    value.questionsPerCategory ?? value.questionsPerTopic
+  );
   const selectedCategoryIds = normalizeStringArray(value.selectedCategoryIds);
   const selectedTopicIds = normalizeStringArray(value.selectedTopicIds);
   const selectedSubTopicIds = normalizeStringArray(value.selectedSubTopicIds);
   const createdAt = normalizeDateString(value.createdAt);
   const updatedAt = normalizeDateString(value.updatedAt);
+  const startedAt =
+    normalizeDateString(value.startedAt) ?? createdAt;
 
   if (
     !sessionId ||
     !step ||
     step === "setup" ||
     !difficultyLevel ||
-    questionsPerTopic === undefined ||
+    questionsPerCategory === undefined ||
     selectedCategoryIds.length === 0 ||
     selectedTopicIds.length === 0 ||
     selectedSubTopicIds.length === 0 ||
     !createdAt ||
     !updatedAt ||
+    !startedAt ||
     !areCurriculumSelectionsValid(
       selectedCategoryIds,
       selectedTopicIds,
@@ -416,17 +599,25 @@ function parseSimulationSessionState(
 
   const questionCountMode =
     normalizeQuestionCountMode(value.questionCountMode) ??
-    inferQuestionCountMode(questionsPerTopic);
-  const customQuestionsPerTopic =
-    normalizeQuestionCount(value.customQuestionsPerTopic) ??
+    inferQuestionCountMode(questionsPerCategory);
+  const customQuestionsPerCategory =
+    normalizeQuestionCount(
+      value.customQuestionsPerCategory ?? value.customQuestionsPerTopic
+    ) ??
     (questionCountMode === "custom"
-      ? questionsPerTopic
-      : DEFAULT_CUSTOM_QUESTIONS_PER_TOPIC);
+      ? questionsPerCategory
+      : DEFAULT_CUSTOM_QUESTIONS_PER_CATEGORY);
   const currentQuestionIndex = normalizeQuestionIndex(
     value.currentQuestionIndex
   );
   const storedQuestionIds = normalizeStringArray(value.questionIds);
   const questions = normalizeSimulationQuestions(value.questions);
+  const generatedQuestionIdsForAnswers =
+    questions?.map((question) => question.id) ?? [];
+  const answersByQuestionId = normalizeSimulationAnswers(
+    value.answersByQuestionId,
+    generatedQuestionIdsForAnswers
+  );
   const completedQuestionIds = normalizeStringArray(
     value.completedQuestionIds
   );
@@ -434,14 +625,16 @@ function parseSimulationSessionState(
   if (
     currentQuestionIndex === undefined ||
     questions === undefined ||
+    answersByQuestionId === undefined ||
     !areSessionQuestionsValid(
       questions,
+      selectedCategoryIds,
       selectedTopicIds,
       selectedSubTopicIds,
-      questionsPerTopic
+      questionsPerCategory
     ) ||
     (questionCountMode !== "custom" &&
-      questionsPerTopic !== simulationQuestionCounts[questionCountMode])
+      questionsPerCategory !== simulationQuestionCounts[questionCountMode])
   ) {
     return undefined;
   }
@@ -458,28 +651,58 @@ function parseSimulationSessionState(
 
   const questionIds =
     generatedQuestionIds.length > 0 ? generatedQuestionIds : storedQuestionIds;
+  const evaluationsByQuestionId = normalizeSimulationEvaluations(
+    value.evaluationsByQuestionId,
+    questionIds
+  );
+  const storedCurrentEvaluationQuestionId = normalizeNonEmptyString(
+    value.currentEvaluationQuestionId
+  );
+  const currentEvaluationQuestionId =
+    storedCurrentEvaluationQuestionId &&
+    questionIds.includes(storedCurrentEvaluationQuestionId)
+      ? storedCurrentEvaluationQuestionId
+      : getFirstUnevaluatedQuestionId(questionIds, evaluationsByQuestionId);
+  const completedAt =
+    step === "result"
+      ? normalizeDateString(value.completedAt) ?? updatedAt
+      : undefined;
+  const elapsedTimeInSeconds =
+    normalizeElapsedTime(value.elapsedTimeInSeconds) ??
+    calculateElapsedTimeFromDates(
+      startedAt,
+      completedAt ?? updatedAt
+    );
 
   if (
-    questions.length > 0 &&
-    currentQuestionIndex >= questions.length
+    (questions.length > 0 && currentQuestionIndex >= questions.length) ||
+    completedQuestionIds.some(
+      (questionId) => !questionIds.includes(questionId)
+    )
   ) {
     return undefined;
   }
 
   return {
+    answersByQuestionId,
+    completedAt,
     completedQuestionIds,
     createdAt,
+    currentEvaluationQuestionId,
     currentQuestionIndex,
-    customQuestionsPerTopic,
+    customQuestionsPerCategory,
     difficultyLevel,
+    elapsedTimeInSeconds,
+    evaluationsByQuestionId,
     questionCountMode,
     questionIds,
     questions,
-    questionsPerTopic,
+    questionsPerCategory,
     selectedCategoryIds,
     selectedSubTopicIds,
     selectedTopicIds,
     sessionId,
+    startedAt,
     step,
     updatedAt,
   };
@@ -505,13 +728,13 @@ function areCurriculumSelectionsValid(
 }
 
 function inferQuestionCountMode(
-  questionsPerTopic: number
+  questionsPerCategory: number
 ): SimulationQuestionCountMode {
-  if (questionsPerTopic === simulationQuestionCounts.short) {
+  if (questionsPerCategory === simulationQuestionCounts.short) {
     return "short";
   }
 
-  if (questionsPerTopic === simulationQuestionCounts.standard) {
+  if (questionsPerCategory === simulationQuestionCounts.standard) {
     return "standard";
   }
 
@@ -645,6 +868,59 @@ function normalizeSimulationQuestions(
   return questions;
 }
 
+function normalizeSimulationAnswers(
+  value: unknown,
+  questionIds: string[]
+): Record<string, string> | undefined {
+  if (value === undefined) {
+    return {};
+  }
+
+  if (!isRecord(value)) {
+    return undefined;
+  }
+
+  const validQuestionIds = new Set(questionIds);
+  const answers: Record<string, string> = {};
+
+  for (const [questionId, answer] of Object.entries(value)) {
+    if (
+      !validQuestionIds.has(questionId) ||
+      typeof answer !== "string" ||
+      !answer.trim()
+    ) {
+      return undefined;
+    }
+
+    answers[questionId] = answer.trim();
+  }
+
+  return answers;
+}
+
+function normalizeSimulationEvaluations(
+  value: unknown,
+  questionIds: string[]
+): Record<string, SimulationQuestionEvaluation> {
+  if (!isRecord(value)) {
+    return {};
+  }
+
+  const validQuestionIds = new Set(questionIds);
+  const evaluations: Record<string, SimulationQuestionEvaluation> = {};
+
+  for (const [questionId, evaluation] of Object.entries(value)) {
+    if (
+      validQuestionIds.has(questionId) &&
+      isSimulationQuestionEvaluation(evaluation)
+    ) {
+      evaluations[questionId] = evaluation;
+    }
+  }
+
+  return evaluations;
+}
+
 function normalizeDateString(value: unknown) {
   if (typeof value !== "string" || !Number.isFinite(Date.parse(value))) {
     return undefined;
@@ -661,12 +937,63 @@ function normalizeString(value: unknown) {
   return typeof value === "string" ? value : undefined;
 }
 
+function normalizeElapsedTime(value: unknown) {
+  const numericValue = typeof value === "number" ? value : Number(value);
+
+  return isValidElapsedTime(numericValue) ? numericValue : undefined;
+}
+
 function isValidQuestionCount(value: number) {
   return Number.isSafeInteger(value) && value > 0;
 }
 
+function isValidElapsedTime(value: number) {
+  return Number.isSafeInteger(value) && value >= 0;
+}
+
+function isSimulationQuestionEvaluation(
+  value: unknown
+): value is SimulationQuestionEvaluation {
+  return (
+    value === "did-not-know" ||
+    value === "partially-answered" ||
+    value === "answered-well"
+  );
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function calculateElapsedTimeFromDates(startedAt: string, endedAt: string) {
+  const startedAtTime = Date.parse(startedAt);
+  const endedAtTime = Date.parse(endedAt);
+
+  if (
+    !Number.isFinite(startedAtTime) ||
+    !Number.isFinite(endedAtTime) ||
+    endedAtTime < startedAtTime
+  ) {
+    return 0;
+  }
+
+  return Math.floor((endedAtTime - startedAtTime) / 1000);
+}
+
+function getFirstUnevaluatedQuestionId(
+  questionIds: string[],
+  evaluationsByQuestionId: Record<string, SimulationQuestionEvaluation>
+) {
+  return questionIds.find(
+    (questionId) => evaluationsByQuestionId[questionId] === undefined
+  );
+}
+
+function getNextEvaluationQuestionId(session: SimulationSessionState) {
+  return getFirstUnevaluatedQuestionId(
+    session.questionIds,
+    session.evaluationsByQuestionId
+  );
 }
 
 function areStringArraysEqual(left: string[], right: string[]) {
@@ -678,30 +1005,42 @@ function areStringArraysEqual(left: string[], right: string[]) {
 
 function areSessionQuestionsValid(
   questions: SimulationQuestion[],
+  selectedCategoryIds: string[],
   selectedTopicIds: string[],
   selectedSubTopicIds: string[],
-  questionsPerTopic: number
+  questionsPerCategory: number
 ) {
+  const categoryIdsByTitle = new Map(
+    getAllCurriculumCategories().map((category) => [
+      category.title,
+      category.id,
+    ])
+  );
+  const selectedCategoryIdSet = new Set(selectedCategoryIds);
   const selectedTopicIdSet = new Set(selectedTopicIds);
   const selectedSubTopicIdSet = new Set(selectedSubTopicIds);
-  const questionCountByTopicId = new Map<string, number>();
+  const questionCountByCategoryId = new Map<string, number>();
 
   for (const question of questions) {
+    const categoryId = categoryIdsByTitle.get(question.category);
+
     if (
+      !categoryId ||
+      !selectedCategoryIdSet.has(categoryId) ||
       !selectedTopicIdSet.has(question.topicId) ||
       !selectedSubTopicIdSet.has(question.subTopicId)
     ) {
       return false;
     }
 
-    const topicQuestionCount =
-      (questionCountByTopicId.get(question.topicId) ?? 0) + 1;
+    const categoryQuestionCount =
+      (questionCountByCategoryId.get(categoryId) ?? 0) + 1;
 
-    if (topicQuestionCount > questionsPerTopic) {
+    if (categoryQuestionCount > questionsPerCategory) {
       return false;
     }
 
-    questionCountByTopicId.set(question.topicId, topicQuestionCount);
+    questionCountByCategoryId.set(categoryId, categoryQuestionCount);
   }
 
   return true;

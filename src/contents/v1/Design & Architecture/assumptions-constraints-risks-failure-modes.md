@@ -586,7 +586,7 @@ Best practices include:
 <!-- question-id:assumptions-constraints-risks-failure-modes-beginner-q01 -->
 <!-- question-level:beginner -->
 
-#### 1. What is the difference between an assumption and a constraint in system design?
+####  What is the difference between an assumption and a constraint in system design?
 
 ##### Expected Answer
 
@@ -610,7 +610,7 @@ In interviews, it is important to separate the two because assumptions can chang
 <!-- question-id:assumptions-constraints-risks-failure-modes-beginner-q02 -->
 <!-- question-level:beginner -->
 
-#### 2. What is a risk in software architecture?
+####  What is a risk in software architecture?
 
 ##### Expected Answer
 
@@ -632,7 +632,7 @@ For example, relying on a third-party payment API creates a risk that checkout m
 <!-- question-id:assumptions-constraints-risks-failure-modes-beginner-q03 -->
 <!-- question-level:beginner -->
 
-#### 3. What is a failure mode?
+####  What is a failure mode?
 
 ##### Expected Answer
 
@@ -656,7 +656,7 @@ Identifying failure modes helps engineers design detection, mitigation, and reco
 <!-- question-id:assumptions-constraints-risks-failure-modes-beginner-q04 -->
 <!-- question-level:beginner -->
 
-#### 4. Why should assumptions be stated explicitly in an interview?
+####  Why should assumptions be stated explicitly in an interview?
 
 ##### Expected Answer
 
@@ -686,7 +686,7 @@ This gives the interviewer a chance to correct the assumption and shows that the
 <!-- question-id:assumptions-constraints-risks-failure-modes-intermediate-q01 -->
 <!-- question-level:intermediate -->
 
-#### 1. How would you identify risks in a proposed architecture?
+####  How would you identify risks in a proposed architecture?
 
 ##### Expected Answer
 
@@ -710,7 +710,7 @@ The output can be a risk register or Failure Mode Analysis table.
 <!-- question-id:assumptions-constraints-risks-failure-modes-intermediate-q02 -->
 <!-- question-level:intermediate -->
 
-#### 2. How do constraints influence architecture trade-offs?
+####  How do constraints influence architecture trade-offs?
 
 ##### Expected Answer
 
@@ -732,7 +732,7 @@ A strong architecture explains the trade-off clearly. Instead of saying "this is
 <!-- question-id:assumptions-constraints-risks-failure-modes-intermediate-q03 -->
 <!-- question-level:intermediate -->
 
-#### 3. How would you handle a third-party API dependency that can fail?
+####  How would you handle a third-party API dependency that can fail?
 
 ##### Expected Answer
 
@@ -756,7 +756,7 @@ I would also add monitoring, alerting, and runbooks for dependency failures.
 <!-- question-id:assumptions-constraints-risks-failure-modes-intermediate-q04 -->
 <!-- question-level:intermediate -->
 
-#### 4. What is blast radius and how can you reduce it?
+####  What is blast radius and how can you reduce it?
 
 ##### Expected Answer
 
@@ -780,7 +780,7 @@ For example, in a multi-tenant SaaS system, one noisy tenant should not be able 
 <!-- question-id:assumptions-constraints-risks-failure-modes-intermediate-q05 -->
 <!-- question-level:intermediate -->
 
-#### 5. How do you decide which risks to mitigate first?
+####  How do you decide which risks to mitigate first?
 
 ##### Expected Answer
 
@@ -810,7 +810,7 @@ The goal is not to eliminate all risk. The goal is to spend engineering effort w
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q01 -->
 <!-- question-level:advanced -->
 
-#### 1. How would you perform Failure Mode Analysis for a critical workflow?
+####  How would you perform Failure Mode Analysis for a critical workflow?
 
 ##### Expected Answer
 
@@ -837,7 +837,7 @@ Finally, I would test the most important scenarios using integration tests, chao
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q02 -->
 <!-- question-level:advanced -->
 
-#### 2. How would you design for payment failure modes in an order system?
+####  How would you design for payment failure modes in an order system?
 
 ##### Expected Answer
 
@@ -863,7 +863,7 @@ If the payment API times out, the system should not blindly retry without idempo
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q03 -->
 <!-- question-level:advanced -->
 
-#### 3. How do assumptions and constraints affect consistency and availability trade-offs?
+####  How do assumptions and constraints affect consistency and availability trade-offs?
 
 ##### Expected Answer
 
@@ -889,7 +889,7 @@ The key is to apply consistency where the business requires it, not everywhere b
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q04 -->
 <!-- question-level:advanced -->
 
-#### 4. How do you communicate residual risk to stakeholders?
+####  How do you communicate residual risk to stakeholders?
 
 ##### Expected Answer
 
@@ -913,7 +913,7 @@ The important part is not to hide residual risk. Architecture decisions should m
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q05 -->
 <!-- question-level:advanced -->
 
-#### 5. How would you prevent a retry strategy from making an outage worse?
+####  How would you prevent a retry strategy from making an outage worse?
 
 ##### Expected Answer
 
@@ -939,7 +939,7 @@ Retries should be used for transient failures, not permanent validation errors. 
 <!-- question-id:assumptions-constraints-risks-failure-modes-advanced-q06 -->
 <!-- question-level:advanced -->
 
-#### 6. How would you use assumptions, constraints, risks, and failure modes during an architecture review?
+####  How would you use assumptions, constraints, risks, and failure modes during an architecture review?
 
 ##### Expected Answer
 

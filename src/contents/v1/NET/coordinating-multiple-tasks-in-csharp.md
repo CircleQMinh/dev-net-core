@@ -599,7 +599,7 @@ Good habits for coordinating multiple tasks:
 
 <!-- question-group:start:beginner -->
 
-#### 1. What does it mean to coordinate multiple tasks in C#?
+####  What does it mean to coordinate multiple tasks in C#?
 
 <!-- question:start:coordinating-multiple-tasks-beginner-q01 -->
 <!-- question-id:coordinating-multiple-tasks-beginner-q01 -->
@@ -623,7 +623,7 @@ A simple example is loading a user profile, recent orders, and notifications at 
 
 <!-- question:end:coordinating-multiple-tasks-beginner-q01 -->
 
-#### 2. What is the difference between awaiting tasks sequentially and using Task.WhenAll?
+####  What is the difference between awaiting tasks sequentially and using Task.WhenAll?
 
 <!-- question:start:coordinating-multiple-tasks-beginner-q02 -->
 <!-- question-id:coordinating-multiple-tasks-beginner-q02 -->
@@ -661,7 +661,7 @@ This can reduce total latency because the application waits for the slowest oper
 
 <!-- question:end:coordinating-multiple-tasks-beginner-q02 -->
 
-#### 3. Does Task.WhenAll start tasks?
+####  Does Task.WhenAll start tasks?
 
 <!-- question:start:coordinating-multiple-tasks-beginner-q03 -->
 <!-- question-id:coordinating-multiple-tasks-beginner-q03 -->
@@ -691,7 +691,7 @@ The calls to `GetAAsync` and `GetBAsync` create and usually start the asynchrono
 
 <!-- question:end:coordinating-multiple-tasks-beginner-q03 -->
 
-#### 4. What is Task.WhenAny used for?
+####  What is Task.WhenAny used for?
 
 <!-- question:start:coordinating-multiple-tasks-beginner-q04 -->
 <!-- question-id:coordinating-multiple-tasks-beginner-q04 -->
@@ -720,7 +720,7 @@ It is useful for fastest-response scenarios, timeouts, races between operations,
 
 <!-- question:end:coordinating-multiple-tasks-beginner-q04 -->
 
-#### 5. What is the difference between concurrency and parallelism?
+####  What is the difference between concurrency and parallelism?
 
 <!-- question:start:coordinating-multiple-tasks-beginner-q05 -->
 <!-- question-id:coordinating-multiple-tasks-beginner-q05 -->
@@ -748,7 +748,7 @@ In C#, `async` and `await` are commonly used for I/O-bound concurrency. They all
 
 <!-- question-group:start:intermediate -->
 
-#### 6. How do exceptions behave with Task.WhenAll?
+####  How do exceptions behave with Task.WhenAll?
 
 <!-- question:start:coordinating-multiple-tasks-intermediate-q01 -->
 <!-- question-id:coordinating-multiple-tasks-intermediate-q01 -->
@@ -790,7 +790,7 @@ The correct handling depends on whether partial success is acceptable or the ent
 
 <!-- question:end:coordinating-multiple-tasks-intermediate-q01 -->
 
-#### 7. How do you limit the number of tasks running at the same time?
+####  How do you limit the number of tasks running at the same time?
 
 <!-- question:start:coordinating-multiple-tasks-intermediate-q02 -->
 <!-- question-id:coordinating-multiple-tasks-intermediate-q02 -->
@@ -845,7 +845,7 @@ Throttling is important when working with APIs, databases, file systems, or othe
 
 <!-- question:end:coordinating-multiple-tasks-intermediate-q02 -->
 
-#### 8. Why is fire-and-forget risky in C#?
+####  Why is fire-and-forget risky in C#?
 
 <!-- question:start:coordinating-multiple-tasks-intermediate-q03 -->
 <!-- question-id:coordinating-multiple-tasks-intermediate-q03 -->
@@ -871,7 +871,7 @@ In ASP.NET Core, this is especially dangerous if the task uses request-scoped de
 
 <!-- question:end:coordinating-multiple-tasks-intermediate-q03 -->
 
-#### 9. How should cancellation be handled when coordinating multiple tasks?
+####  How should cancellation be handled when coordinating multiple tasks?
 
 <!-- question:start:coordinating-multiple-tasks-intermediate-q04 -->
 <!-- question-id:coordinating-multiple-tasks-intermediate-q04 -->
@@ -913,7 +913,7 @@ When using `Task.WhenAny`, canceling remaining tasks usually requires a linked `
 
 <!-- question:end:coordinating-multiple-tasks-intermediate-q04 -->
 
-#### 10. What is the danger of updating a List<T> from multiple tasks?
+####  What is the danger of updating a List<T> from multiple tasks?
 
 <!-- question:start:coordinating-multiple-tasks-intermediate-q05 -->
 <!-- question-id:coordinating-multiple-tasks-intermediate-q05 -->
@@ -959,7 +959,7 @@ Another option is to use a thread-safe collection such as `ConcurrentBag<T>`, bu
 
 <!-- question-group:start:advanced -->
 
-#### 11. How would you process a large number of items concurrently without overloading the system?
+####  How would you process a large number of items concurrently without overloading the system?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q01 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q01 -->
@@ -994,7 +994,7 @@ For streaming workloads, a bounded channel is often better because it provides b
 
 <!-- question:end:coordinating-multiple-tasks-advanced-q01 -->
 
-#### 12. When would you use channels instead of Task.WhenAll?
+####  When would you use channels instead of Task.WhenAll?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q02 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q02 -->
@@ -1018,7 +1018,7 @@ Channels are good for background processing, pipelines, queue-like workloads, an
 
 <!-- question:end:coordinating-multiple-tasks-advanced-q02 -->
 
-#### 13. How would you handle partial failure when coordinating multiple tasks?
+####  How would you handle partial failure when coordinating multiple tasks?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q03 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q03 -->
@@ -1071,7 +1071,7 @@ This allows the caller to separate successful and failed operations.
 
 <!-- question:end:coordinating-multiple-tasks-advanced-q03 -->
 
-#### 14. Why can Task.Run reduce scalability in ASP.NET Core?
+####  Why can Task.Run reduce scalability in ASP.NET Core?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q04 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q04 -->
@@ -1093,7 +1093,7 @@ For I/O-bound work, prefer truly asynchronous APIs such as `HttpClient.SendAsync
 
 <!-- question:end:coordinating-multiple-tasks-advanced-q04 -->
 
-#### 15. How do you coordinate multiple EF Core queries safely?
+####  How do you coordinate multiple EF Core queries safely?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q05 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q05 -->
@@ -1131,7 +1131,7 @@ Safer choices:
 
 <!-- question:end:coordinating-multiple-tasks-advanced-q05 -->
 
-#### 16. How would you design a robust task coordination flow for calling several external APIs?
+####  How would you design a robust task coordination flow for calling several external APIs?
 
 <!-- question:start:coordinating-multiple-tasks-advanced-q06 -->
 <!-- question-id:coordinating-multiple-tasks-advanced-q06 -->

@@ -1198,7 +1198,7 @@ Integration tests are especially useful for verifying route constraints, authori
 ### Beginner
 
 <!-- question:start:endpoint-routing-beginner-q01 -->
-#### 1. What is endpoint routing in ASP.NET Core?
+####  What is endpoint routing in ASP.NET Core?
 
 <!-- question-id:endpoint-routing-beginner-q01 -->
 <!-- question-level:beginner -->
@@ -1231,7 +1231,7 @@ Here, `GET /api/products/10` matches the endpoint, captures `id`, applies the `i
 <!-- question:end:endpoint-routing-beginner-q01 -->
 
 <!-- question:start:endpoint-routing-beginner-q02 -->
-#### 2. What is attribute routing?
+####  What is attribute routing?
 
 <!-- question-id:endpoint-routing-beginner-q02 -->
 <!-- question-level:beginner -->
@@ -1274,7 +1274,7 @@ Attribute routing is common in Web APIs because it makes the public API contract
 <!-- question:end:endpoint-routing-beginner-q02 -->
 
 <!-- question:start:endpoint-routing-beginner-q03 -->
-#### 3. What is a route parameter?
+####  What is a route parameter?
 
 <!-- question-id:endpoint-routing-beginner-q03 -->
 <!-- question-level:beginner -->
@@ -1318,7 +1318,7 @@ Route parameters are commonly used for resource identifiers.
 <!-- question:end:endpoint-routing-beginner-q03 -->
 
 <!-- question:start:endpoint-routing-beginner-q04 -->
-#### 4. What is a route constraint?
+####  What is a route constraint?
 
 <!-- question-id:endpoint-routing-beginner-q04 -->
 <!-- question-level:beginner -->
@@ -1364,7 +1364,7 @@ Route constraints are mainly used to disambiguate routes and define URL shape. T
 <!-- question:end:endpoint-routing-beginner-q04 -->
 
 <!-- question:start:endpoint-routing-beginner-q05 -->
-#### 5. What is an optional route parameter?
+####  What is an optional route parameter?
 
 <!-- question-id:endpoint-routing-beginner-q05 -->
 <!-- question-level:beginner -->
@@ -1414,7 +1414,7 @@ Optional parameters can be useful, but in Web APIs it is often clearer to create
 ### Intermediate
 
 <!-- question:start:endpoint-routing-intermediate-q01 -->
-#### 6. How does ASP.NET Core choose between multiple matching routes?
+####  How does ASP.NET Core choose between multiple matching routes?
 
 <!-- question-id:endpoint-routing-intermediate-q01 -->
 <!-- question-level:intermediate -->
@@ -1458,7 +1458,7 @@ Requests:
 <!-- question:end:endpoint-routing-intermediate-q01 -->
 
 <!-- question:start:endpoint-routing-intermediate-q02 -->
-#### 7. What is the difference between route constraints and model validation?
+####  What is the difference between route constraints and model validation?
 
 <!-- question-id:endpoint-routing-intermediate-q02 -->
 <!-- question-level:intermediate -->
@@ -1513,7 +1513,7 @@ public IActionResult GetById(int id)
 <!-- question:end:endpoint-routing-intermediate-q02 -->
 
 <!-- question:start:endpoint-routing-intermediate-q03 -->
-#### 8. What is a catch-all route and when would you use it?
+####  What is a catch-all route and when would you use it?
 
 <!-- question-id:endpoint-routing-intermediate-q03 -->
 <!-- question-level:intermediate -->
@@ -1554,7 +1554,7 @@ They should be used carefully because they are broad and can hide mistakes if th
 <!-- question:end:endpoint-routing-intermediate-q03 -->
 
 <!-- question:start:endpoint-routing-intermediate-q04 -->
-#### 9. What is the difference between `{*path}` and `{**path}`?
+####  What is the difference between `{*path}` and `{**path}`?
 
 <!-- question-id:endpoint-routing-intermediate-q04 -->
 <!-- question-level:intermediate -->
@@ -1593,7 +1593,7 @@ When the captured value represents an actual path, `{**path}` is usually more su
 <!-- question:end:endpoint-routing-intermediate-q04 -->
 
 <!-- question:start:endpoint-routing-intermediate-q05 -->
-#### 10. What is the difference between conventional routing and attribute routing?
+####  What is the difference between conventional routing and attribute routing?
 
 <!-- question-id:endpoint-routing-intermediate-q05 -->
 <!-- question-level:intermediate -->
@@ -1636,7 +1636,7 @@ Conventional routing is common in MVC-style web applications. Attribute routing 
 <!-- question:end:endpoint-routing-intermediate-q05 -->
 
 <!-- question:start:endpoint-routing-intermediate-q06 -->
-#### 11. Why can optional parameters be problematic in API design?
+####  Why can optional parameters be problematic in API design?
 
 <!-- question-id:endpoint-routing-intermediate-q06 -->
 <!-- question-level:intermediate -->
@@ -1697,7 +1697,7 @@ Separate endpoints improve readability, authorization control, OpenAPI documenta
 ### Advanced
 
 <!-- question:start:endpoint-routing-advanced-q01 -->
-#### 12. How does endpoint routing interact with authorization middleware?
+####  How does endpoint routing interact with authorization middleware?
 
 <!-- question-id:endpoint-routing-advanced-q01 -->
 <!-- question-level:advanced -->
@@ -1742,7 +1742,7 @@ The route defines authorization metadata. The authorization middleware must run 
 <!-- question:end:endpoint-routing-advanced-q01 -->
 
 <!-- question:start:endpoint-routing-advanced-q02 -->
-#### 13. How would you resolve ambiguous route matches?
+####  How would you resolve ambiguous route matches?
 
 <!-- question-id:endpoint-routing-advanced-q02 -->
 <!-- question-level:advanced -->
@@ -1796,7 +1796,7 @@ The best fix is usually to make the route design more explicit.
 <!-- question:end:endpoint-routing-advanced-q02 -->
 
 <!-- question:start:endpoint-routing-advanced-q03 -->
-#### 14. How would you design routes for filtering, sorting, and paging?
+####  How would you design routes for filtering, sorting, and paging?
 
 <!-- question-id:endpoint-routing-advanced-q03 -->
 <!-- question-level:advanced -->
@@ -1852,7 +1852,7 @@ That style is harder to evolve and creates too many route shapes.
 <!-- question:end:endpoint-routing-advanced-q03 -->
 
 <!-- question:start:endpoint-routing-advanced-q04 -->
-#### 15. How would you use route constraints for overloaded-looking routes?
+####  How would you use route constraints for overloaded-looking routes?
 
 <!-- question-id:endpoint-routing-advanced-q04 -->
 <!-- question-level:advanced -->
@@ -1907,7 +1907,7 @@ GET /api/products/by-slug/mechanical-keyboard
 <!-- question:end:endpoint-routing-advanced-q04 -->
 
 <!-- question:start:endpoint-routing-advanced-q05 -->
-#### 16. What are the risks of using `[controller]` and `[action]` token replacement in public APIs?
+####  What are the risks of using `[controller]` and `[action]` token replacement in public APIs?
 
 <!-- question-id:endpoint-routing-advanced-q05 -->
 <!-- question-level:advanced -->
@@ -1963,7 +1963,7 @@ public class ProductsController : ControllerBase
 <!-- question:end:endpoint-routing-advanced-q05 -->
 
 <!-- question:start:endpoint-routing-advanced-q06 -->
-#### 17. How would you debug a route that returns 404 unexpectedly?
+####  How would you debug a route that returns 404 unexpectedly?
 
 <!-- question-id:endpoint-routing-advanced-q06 -->
 <!-- question-level:advanced -->
@@ -2018,7 +2018,7 @@ This returns `404` because `abc` fails the `int` route constraint.
 <!-- question:end:endpoint-routing-advanced-q06 -->
 
 <!-- question:start:endpoint-routing-advanced-q07 -->
-#### 18. When would you use a fallback route, and what are the risks?
+####  When would you use a fallback route, and what are the risks?
 
 <!-- question-id:endpoint-routing-advanced-q07 -->
 <!-- question-level:advanced -->

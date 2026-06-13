@@ -819,7 +819,7 @@ This difference affects logging, metrics, retries, and HTTP response behavior.
 <!-- question:start:cancellationtoken-propagation-beginner-q01 -->
 <!-- question-id:cancellationtoken-propagation-beginner-q01 -->
 <!-- question-level:beginner -->
-#### 1. What is a CancellationToken in C#?
+####  What is a CancellationToken in C#?
 
 ##### Expected Answer
 
@@ -840,7 +840,7 @@ The token does not forcibly stop a method or kill a thread. The method must eith
 <!-- question:start:cancellationtoken-propagation-beginner-q02 -->
 <!-- question-id:cancellationtoken-propagation-beginner-q02 -->
 <!-- question-level:beginner -->
-#### 2. What does CancellationToken propagation mean?
+####  What does CancellationToken propagation mean?
 
 ##### Expected Answer
 
@@ -861,7 +861,7 @@ The goal is to avoid losing the cancellation signal. If a user disconnects or a 
 <!-- question:start:cancellationtoken-propagation-beginner-q03 -->
 <!-- question-id:cancellationtoken-propagation-beginner-q03 -->
 <!-- question-level:beginner -->
-#### 3. Does a CancellationToken automatically stop a running operation?
+####  Does a CancellationToken automatically stop a running operation?
 
 ##### Expected Answer
 
@@ -882,7 +882,7 @@ For example, `Task.Delay(5000, cancellationToken)` can stop early because `Task.
 <!-- question:start:cancellationtoken-propagation-beginner-q04 -->
 <!-- question-id:cancellationtoken-propagation-beginner-q04 -->
 <!-- question-level:beginner -->
-#### 4. Where should CancellationToken appear in a method signature?
+####  Where should CancellationToken appear in a method signature?
 
 ##### Expected Answer
 
@@ -917,7 +917,7 @@ For internal application code, many teams prefer requiring it explicitly to make
 <!-- question:start:cancellationtoken-propagation-beginner-q05 -->
 <!-- question-id:cancellationtoken-propagation-beginner-q05 -->
 <!-- question-level:beginner -->
-#### 5. What is the difference between CancellationToken and CancellationTokenSource?
+####  What is the difference between CancellationToken and CancellationTokenSource?
 
 ##### Expected Answer
 
@@ -946,7 +946,7 @@ Normally, the caller or owner of the operation controls the source. The callee r
 <!-- question:start:cancellationtoken-propagation-intermediate-q01 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q01 -->
 <!-- question-level:intermediate -->
-#### 1. How do you use CancellationToken in an ASP.NET Core API?
+####  How do you use CancellationToken in an ASP.NET Core API?
 
 ##### Expected Answer
 
@@ -983,7 +983,7 @@ If the client disconnects or the request is aborted, downstream operations that 
 <!-- question:start:cancellationtoken-propagation-intermediate-q02 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q02 -->
 <!-- question-level:intermediate -->
-#### 2. How should CancellationToken be used with EF Core?
+####  How should CancellationToken be used with EF Core?
 
 ##### Expected Answer
 
@@ -1010,7 +1010,7 @@ Query composition methods like `Where` and `OrderBy` do not execute the query, s
 <!-- question:start:cancellationtoken-propagation-intermediate-q03 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q03 -->
 <!-- question-level:intermediate -->
-#### 3. How should cancellation be handled in CPU-bound loops?
+####  How should cancellation be handled in CPU-bound loops?
 
 ##### Expected Answer
 
@@ -1040,7 +1040,7 @@ The check should be frequent enough to respond in a timely manner, but not so fr
 <!-- question:start:cancellationtoken-propagation-intermediate-q04 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q04 -->
 <!-- question-level:intermediate -->
-#### 4. What is a linked CancellationTokenSource?
+####  What is a linked CancellationTokenSource?
 
 ##### Expected Answer
 
@@ -1074,7 +1074,7 @@ The linked source should be disposed when finished.
 <!-- question:start:cancellationtoken-propagation-intermediate-q05 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q05 -->
 <!-- question-level:intermediate -->
-#### 5. How should OperationCanceledException be handled?
+####  How should OperationCanceledException be handled?
 
 ##### Expected Answer
 
@@ -1114,7 +1114,7 @@ The exact handling depends on the application, but cancellation should be treate
 <!-- question:start:cancellationtoken-propagation-intermediate-q06 -->
 <!-- question-id:cancellationtoken-propagation-intermediate-q06 -->
 <!-- question-level:intermediate -->
-#### 6. What are common mistakes when using CancellationToken?
+####  What are common mistakes when using CancellationToken?
 
 ##### Expected Answer
 
@@ -1142,7 +1142,7 @@ Another common mistake is assuming that passing a token to `Task.Run` automatica
 <!-- question:start:cancellationtoken-propagation-advanced-q01 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q01 -->
 <!-- question-level:advanced -->
-#### 1. What is the point of no cancellation, and why does it matter?
+####  What is the point of no cancellation, and why does it matter?
 
 ##### Expected Answer
 
@@ -1165,7 +1165,7 @@ The key idea is that cancellation is not only a technical concern. It must respe
 <!-- question:start:cancellationtoken-propagation-advanced-q02 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q02 -->
 <!-- question-level:advanced -->
-#### 2. How would you design cancellation propagation across controller, service, repository, and external API layers?
+####  How would you design cancellation propagation across controller, service, repository, and external API layers?
 
 ##### Expected Answer
 
@@ -1218,7 +1218,7 @@ The design should avoid creating new unrelated token sources in lower layers unl
 <!-- question:start:cancellationtoken-propagation-advanced-q03 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q03 -->
 <!-- question-level:advanced -->
-#### 3. How should CancellationToken be used in a BackgroundService?
+####  How should CancellationToken be used in a BackgroundService?
 
 ##### Expected Answer
 
@@ -1250,7 +1250,7 @@ This allows the application to stop gracefully instead of hanging during shutdow
 <!-- question:start:cancellationtoken-propagation-advanced-q04 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q04 -->
 <!-- question-level:advanced -->
-#### 4. How does cancellation work with Task.Run and Task.WhenAll?
+####  How does cancellation work with Task.Run and Task.WhenAll?
 
 ##### Expected Answer
 
@@ -1293,7 +1293,7 @@ await Task.WhenAll(
 <!-- question:start:cancellationtoken-propagation-advanced-q05 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q05 -->
 <!-- question-level:advanced -->
-#### 5. How do you combine request cancellation with an operation timeout?
+####  How do you combine request cancellation with an operation timeout?
 
 ##### Expected Answer
 
@@ -1329,7 +1329,7 @@ If it is important to know which reason caused cancellation, the code can inspec
 <!-- question:start:cancellationtoken-propagation-advanced-q06 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q06 -->
 <!-- question-level:advanced -->
-#### 6. How do you use CancellationToken with IAsyncEnumerable?
+####  How do you use CancellationToken with IAsyncEnumerable?
 
 ##### Expected Answer
 
@@ -1373,7 +1373,7 @@ This is important for streaming APIs and large asynchronous result sets.
 <!-- question:start:cancellationtoken-propagation-advanced-q07 -->
 <!-- question-id:cancellationtoken-propagation-advanced-q07 -->
 <!-- question-level:advanced -->
-#### 7. Should cancellation be passed to write operations like SaveChangesAsync?
+####  Should cancellation be passed to write operations like SaveChangesAsync?
 
 ##### Expected Answer
 
