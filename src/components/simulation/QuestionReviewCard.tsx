@@ -1,6 +1,5 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { SimulationQuestionEvaluation } from "../../lib/redux/slices/simulationSlice";
@@ -9,6 +8,7 @@ import type { SimulationQuestion } from "../../shared/GenerateSimulationQuestion
 export type QuestionReviewCardProps = {
   answer?: string;
   evaluation?: SimulationQuestionEvaluation;
+  isEvaluationLocked: boolean;
   isExpanded: boolean;
   number: number;
   onEvaluationChange: (evaluation: SimulationQuestionEvaluation) => void;
@@ -50,6 +50,7 @@ const evaluationLabels: Record<SimulationQuestionEvaluation, string> = {
 export function QuestionReviewCard({
   answer,
   evaluation,
+  isEvaluationLocked,
   isExpanded,
   number,
   onEvaluationChange,
@@ -151,21 +152,10 @@ export function QuestionReviewCard({
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {keyPoints.map((keyPoint, index) => (
                   <div className="flex items-start gap-3" key={`${index}-${keyPoint}`}>
-                    {isKeyPointMarked(
-                      evaluation,
-                      index,
-                      keyPoints.length
-                    ) ? (
-                      <CheckCircleOutlineIcon
-                        className="mt-0.5 shrink-0 text-[var(--color-tertiary)]"
-                        sx={{ fontSize: 19 }}
-                      />
-                    ) : (
-                      <RadioButtonUncheckedIcon
-                        className="mt-0.5 shrink-0 theme-muted"
-                        sx={{ fontSize: 19 }}
-                      />
-                    )}
+                    <CheckCircleOutlineIcon
+                      className="mt-0.5 shrink-0 text-[var(--color-tertiary)]"
+                      sx={{ fontSize: 19 }}
+                    />
                     <InlineMarkdown markdown={keyPoint} />
                   </div>
                 ))}
@@ -179,7 +169,9 @@ export function QuestionReviewCard({
 
           <section className="flex flex-col items-start justify-between gap-4 border-t border-[var(--color-card-border)] pt-7 sm:flex-row sm:items-center">
             <span className="gleeple-heading text-[11px] font-bold uppercase theme-muted">
-              Rate your performance on this question:
+              {isEvaluationLocked
+                ? "Evaluation complete. Ratings are locked."
+                : "Rate your performance on this question:"}
             </span>
             <div className="grid w-full grid-cols-1 gap-2 sm:w-auto sm:grid-cols-3">
               {evaluationOptions.map((option) => {
@@ -188,11 +180,16 @@ export function QuestionReviewCard({
                 return (
                   <button
                     aria-pressed={isSelected}
-                    className={`gleeple-heading min-h-11 cursor-pointer rounded border px-4 py-2 text-[11px] font-bold uppercase transition-colors ${
+                    className={`gleeple-heading min-h-11 rounded border px-4 py-2 text-[11px] font-bold uppercase transition-colors ${
                       isSelected
                         ? option.selectedClass
                         : "border-[var(--color-card-border)] bg-[var(--color-surface-container-high)] theme-muted hover:border-[var(--color-primary-container)] hover:text-[var(--color-primary-container)]"
+                    } ${
+                      isEvaluationLocked
+                        ? "cursor-not-allowed opacity-70"
+                        : "cursor-pointer"
                     }`}
+                    disabled={isEvaluationLocked}
                     key={option.value}
                     onClick={() => onEvaluationChange(option.value)}
                     type="button"
@@ -304,20 +301,4 @@ function extractKeyPoints(markdown: string) {
   }
 
   return markdown.trim() ? [markdown.trim()] : [];
-}
-
-function isKeyPointMarked(
-  evaluation: SimulationQuestionEvaluation | undefined,
-  keyPointIndex: number,
-  keyPointCount: number
-) {
-  if (evaluation === "answered-well") {
-    return true;
-  }
-
-  if (evaluation === "partially-answered") {
-    return keyPointIndex < Math.ceil(keyPointCount / 2);
-  }
-
-  return false;
 }

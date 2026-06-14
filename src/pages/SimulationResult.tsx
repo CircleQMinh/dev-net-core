@@ -17,6 +17,7 @@ import {
   type SimulationDifficultyLevel,
   type SimulationQuestionEvaluation,
 } from "../lib/redux/slices/simulationSlice";
+import type { SimulationQuestion } from "../shared/GenerateSimulationQuestions";
 
 const difficultyLabels: Record<SimulationDifficultyLevel, string> = {
   entry: "Entry",
@@ -31,6 +32,13 @@ const evaluationSummaryLabels: Record<
   "did-not-know": "Didn't Know",
   "partially-answered": "Partial",
   "answered-well": "Answered Well",
+};
+
+type SuggestedFocusArea = {
+  id: string;
+  label: string;
+  reason: string;
+  score: number;
 };
 
 export default function SimulationResult() {
@@ -102,8 +110,9 @@ export default function SimulationResult() {
   const answeredQuestionCount = Object.values(
     session.answersByQuestionId
   ).filter((answer) => answer.trim() && answer.trim() !== "Skipped.").length;
-  const evaluationCount = Object.keys(
-    session.evaluationsByQuestionId
+  const evaluationCount = session.questionIds.filter(
+    (questionId) =>
+      session.evaluationsByQuestionId[questionId] !== undefined
   ).length;
   const remainingEvaluationCount = Math.max(
     totalQuestions - evaluationCount,
@@ -126,7 +135,17 @@ export default function SimulationResult() {
     getSimulationElapsedTimeInSeconds(session)
   );
   const isEvaluationComplete =
-    totalQuestions > 0 && evaluationCount === totalQuestions;
+    totalQuestions > 0 &&
+    session.questionIds.every(
+      (questionId) =>
+        session.evaluationsByQuestionId[questionId] !== undefined
+    );
+  const suggestedFocusAreas = isEvaluationComplete
+    ? getSuggestedFocusAreas(
+        session.questions,
+        session.evaluationsByQuestionId
+      )
+    : [];
 
   const selectQuestionForReview = (questionId: string) => {
     pendingScrollQuestionIdRef.current = questionId;
@@ -145,6 +164,10 @@ export default function SimulationResult() {
     questionIndex: number,
     evaluation: SimulationQuestionEvaluation
   ) => {
+    if (isEvaluationComplete) {
+      return;
+    }
+
     const nextQuestion = session.questions[questionIndex + 1];
 
     pendingScrollQuestionIdRef.current = nextQuestion?.id;
@@ -277,6 +300,7 @@ export default function SimulationResult() {
                       evaluation={
                         session.evaluationsByQuestionId[question.id]
                       }
+                      isEvaluationLocked={isEvaluationComplete}
                       isExpanded={question.id === activeQuestionId}
                       number={questionIndex + 1}
                       onEvaluationChange={(evaluation) =>
@@ -351,13 +375,24 @@ export default function SimulationResult() {
               </div>
             </SidebarSection>
 
+            <SidebarSection title="How to Review">
+              <ol className="list-decimal space-y-3 pl-5 text-sm leading-6 theme-muted">
+                <li>Select a question from Quick Navigation.</li>
+                <li>Compare your response with the expected answer and key points.</li>
+                <li>Choose the rating that best reflects your answer.</li>
+                <li>Evaluate every question to unlock your summary and focus areas.</li>
+              </ol>
+              <p className="mt-4 border-t border-[var(--color-card-border)] pt-4 text-xs italic theme-muted">
+                Ratings are locked after the review is complete.
+              </p>
+            </SidebarSection>
           </aside>
         </div>
 
         <ResultSummary
           evaluations={session.evaluationsByQuestionId}
-          focusAreas={subTopicLabels}
           remainingEvaluationCount={remainingEvaluationCount}
+          suggestedFocusAreas={suggestedFocusAreas}
           totalQuestions={totalQuestions}
         />
       </main>
@@ -367,13 +402,13 @@ export default function SimulationResult() {
 
 function ResultSummary({
   evaluations,
-  focusAreas,
   remainingEvaluationCount,
+  suggestedFocusAreas,
   totalQuestions,
 }: {
   evaluations: Record<string, SimulationQuestionEvaluation>;
-  focusAreas: string[];
   remainingEvaluationCount: number;
+  suggestedFocusAreas: SuggestedFocusArea[];
   totalQuestions: number;
 }) {
   const counts = Object.values(evaluations).reduce(
@@ -430,38 +465,58 @@ function ResultSummary({
           </div>
         )}
 
-        <FocusAreas focusAreas={focusAreas} />
+        <FocusAreas
+          isLocked={remainingEvaluationCount > 0}
+          suggestedFocusAreas={suggestedFocusAreas}
+        />
       </div>
     </section>
   );
 }
 
-function FocusAreas({ focusAreas }: { focusAreas: string[] }) {
+function FocusAreas({
+  isLocked,
+  suggestedFocusAreas,
+}: {
+  isLocked: boolean;
+  suggestedFocusAreas: SuggestedFocusArea[];
+}) {
   return (
     <div className="border-t border-[var(--color-card-border)] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
       <h2 className="gleeple-heading mb-5 border-b border-[var(--color-card-border)] pb-3 text-[11px] font-bold uppercase theme-muted">
         Focus Areas
       </h2>
-      <div className="flex flex-wrap gap-2">
-        {focusAreas.slice(0, 8).map((focusArea) => (
-          <span
-            className="gleeple-heading rounded bg-[var(--color-surface-container-high)] px-2 py-1 text-[10px] font-bold uppercase theme-muted"
-            key={focusArea}
-          >
-            {focusArea}
+      {isLocked ? (
+        <div className="flex flex-col items-center rounded-lg border border-dashed border-[var(--color-outline-variant)] px-4 py-8 text-center">
+          <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-[var(--color-surface-container-highest)] theme-muted">
+            <LockOutlinedIcon sx={{ fontSize: 23 }} />
           </span>
-        ))}
-        {focusAreas.length > 8 ? (
-          <span className="gleeple-heading rounded bg-[var(--color-accent-soft)] px-2 py-1 text-[10px] font-bold uppercase text-[var(--color-primary-container)]">
-            +{focusAreas.length - 8} more
-          </span>
-        ) : null}
-        {focusAreas.length === 0 ? (
-          <p className="text-sm theme-muted">
-            No focus areas are available for this session.
+          <p className="text-sm leading-6 theme-muted">
+            Evaluate all questions to unlock suggested focus topics.
           </p>
-        ) : null}
-      </div>
+        </div>
+      ) : suggestedFocusAreas.length > 0 ? (
+        <div className="space-y-3">
+          {suggestedFocusAreas.map((focusArea) => (
+            <div
+              className="rounded border border-[var(--color-card-border)] bg-[var(--color-surface-container-high)] p-3"
+              key={focusArea.id}
+            >
+              <p className="gleeple-heading text-[11px] font-bold uppercase text-[var(--color-primary-container)]">
+                {focusArea.label}
+              </p>
+              <p className="mt-1 text-xs leading-5 theme-muted">
+                {focusArea.reason}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-sm leading-6 theme-muted">
+          No weak focus areas were identified. Every topic was marked Answered
+          Well.
+        </p>
+      )}
     </div>
   );
 }
@@ -539,6 +594,96 @@ function getQuickNavigationClass(
   }
 
   return `${baseClass} border-[var(--color-card-border)] bg-[var(--color-surface-container-high)] theme-muted hover:border-[var(--color-primary-container)] hover:text-[var(--color-primary-container)]`;
+}
+
+function getSuggestedFocusAreas(
+  questions: SimulationQuestion[],
+  evaluations: Record<string, SimulationQuestionEvaluation>
+): SuggestedFocusArea[] {
+  const focusGroups = new Map<
+    string,
+    {
+      didNotKnowCount: number;
+      id: string;
+      label: string;
+      partiallyAnsweredCount: number;
+      score: number;
+    }
+  >();
+
+  questions.forEach((question) => {
+    const evaluation = evaluations[question.id];
+
+    if (!evaluation) {
+      return;
+    }
+
+    const subTopicLabel = question.subTopic.trim();
+    const topicLabel = question.topic.trim();
+    const label = subTopicLabel || topicLabel;
+
+    if (!label) {
+      return;
+    }
+
+    const id = subTopicLabel
+      ? `subtopic:${question.subTopicId || `${question.topicId}:${subTopicLabel}`}`
+      : `topic:${question.topicId || topicLabel}`;
+    const focusGroup = focusGroups.get(id) ?? {
+      didNotKnowCount: 0,
+      id,
+      label,
+      partiallyAnsweredCount: 0,
+      score: 0,
+    };
+
+    if (evaluation === "did-not-know") {
+      focusGroup.didNotKnowCount += 1;
+      focusGroup.score += 2;
+    } else if (evaluation === "partially-answered") {
+      focusGroup.partiallyAnsweredCount += 1;
+      focusGroup.score += 1;
+    }
+
+    focusGroups.set(id, focusGroup);
+  });
+
+  return Array.from(focusGroups.values())
+    .filter((focusGroup) => focusGroup.score > 0)
+    .sort(
+      (left, right) =>
+        right.score - left.score ||
+        right.didNotKnowCount - left.didNotKnowCount ||
+        right.partiallyAnsweredCount - left.partiallyAnsweredCount ||
+        left.label.localeCompare(right.label)
+    )
+    .slice(0, 5)
+    .map((focusGroup) => ({
+      id: focusGroup.id,
+      label: focusGroup.label,
+      reason: formatFocusAreaReason(
+        focusGroup.didNotKnowCount,
+        focusGroup.partiallyAnsweredCount
+      ),
+      score: focusGroup.score,
+    }));
+}
+
+function formatFocusAreaReason(
+  didNotKnowCount: number,
+  partiallyAnsweredCount: number
+) {
+  const reasons: string[] = [];
+
+  if (didNotKnowCount > 0) {
+    reasons.push(`${didNotKnowCount} marked Didn't know`);
+  }
+
+  if (partiallyAnsweredCount > 0) {
+    reasons.push(`${partiallyAnsweredCount} marked Partially answered`);
+  }
+
+  return `${reasons.join(", ")}.`;
 }
 
 function getUniqueValues(values: string[]) {

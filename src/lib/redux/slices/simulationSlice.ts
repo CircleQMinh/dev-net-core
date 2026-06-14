@@ -172,6 +172,17 @@ const simulationSlice = createSlice({
         return;
       }
 
+      const isEvaluationComplete =
+        session.questionIds.length > 0 &&
+        session.questionIds.every(
+          (questionId) =>
+            session.evaluationsByQuestionId[questionId] !== undefined
+        );
+
+      if (isEvaluationComplete) {
+        return;
+      }
+
       session.evaluationsByQuestionId[action.payload.questionId] =
         action.payload.evaluation;
       const evaluatedQuestionIndex = session.questionIds.indexOf(
