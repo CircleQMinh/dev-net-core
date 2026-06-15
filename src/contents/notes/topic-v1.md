@@ -67,38 +67,38 @@
    - ✅ Trade-offs among simplicity, portability, autoscaling, and operational control
 
 2. **Azure Functions and Durable Functions**
-   - HTTP, timer, queue, Service Bus, Event Grid, and Blob triggers
-   - In-process vs isolated worker model for .NET Functions
-   - Cold starts, hosting plan choices, timeout configuration, and scaling behavior
-   - Bindings, connection configuration, dependency injection, logging, and local development
-   - Durable Functions orchestrators, activity functions, durable timers, external events, and durable entities
-   - Function chaining, fan-out/fan-in, async workflow state, replay-safe orchestrator code, and compensation
+   - ✅ HTTP, timer, queue, Service Bus, Event Grid, and Blob triggers
+   - ✅ In-process vs isolated worker model for .NET Functions
+   - ✅ Cold starts, hosting plan choices, timeout configuration, and scaling behavior
+   - ✅ Bindings, connection configuration, dependency injection, logging, and local development
+   - ✅ Durable Functions orchestrators, activity functions, durable timers, external events, and durable entities
+   - ✅ Function chaining, fan-out/fan-in, async workflow state, replay-safe orchestrator code, and compensation
 
 3. **Identity, secrets, and access control**
-   - Microsoft Entra app registrations, scopes, and auth-code flow basics
-   - System-assigned and user-assigned managed identities
-   - Azure Key Vault for secrets, certificates, and connection settings
-   - RBAC, least privilege, and separating human vs workload identities
+   - ✅ Microsoft Entra app registrations, scopes, and auth-code flow basics
+   - ✅ System-assigned and user-assigned managed identities
+   - ✅ Azure Key Vault for secrets, certificates, and connection settings
+   - ✅ RBAC, least privilege, and separating human vs workload identities
 
 4. **Networking, API edge, and secure connectivity**
-   - Azure API Management and policy-based gateways
-   - Rate limiting, quotas, auth offload, and request transformation at the edge
-   - Application Gateway and WAF concepts
-   - Service tags, private networking, and reducing public attack surface
+   - ✅ Azure API Management and policy-based gateways
+   - ✅ Rate limiting, quotas, auth offload, and request transformation at the edge
+   - ✅ Application Gateway and WAF concepts
+   - ✅ Service tags, private networking, and reducing public attack surface
 
 5. **Azure data, storage, and caching services**
-   - Azure SQL Database tiers, scaling, serverless options, and failover groups
-   - Blob Storage, access tiers, lifecycle management, and immutability
-   - Azure Cache for Redis for low-latency reads and session/state scenarios
-   - Matching storage choices to relational, object, and cache workloads
+   - ✅ Azure SQL Database tiers, scaling, serverless options, and failover groups
+   - ✅ Blob Storage, access tiers, lifecycle management, and immutability
+   - ✅ Azure Cache for Redis for low-latency reads and session/state scenarios
+   - ✅ Matching storage choices to relational, object, and cache workloads
 
 6. **Azure Blob Storage and file handling**
-   - Storage accounts, containers, blobs, virtual folders, metadata, and access tiers
-   - Block blobs, append blobs, and page blobs
-   - Shared access signatures, managed identity, RBAC, stored access policies, and public access risks
-   - Large file uploads, block upload, retry behavior, checksums, and resumable upload patterns
-   - Lifecycle management, soft delete, versioning, immutability, encryption, and retention
-   - .NET Blob clients, direct browser upload patterns, and storing metadata separately from binary content
+   - ✅ Storage accounts, containers, blobs, virtual folders, metadata, and access tiers
+   - ✅ Block blobs, append blobs, and page blobs
+   - ✅ Shared access signatures, managed identity, RBAC, stored access policies, and public access risks
+   - ✅ Large file uploads, block upload, retry behavior, checksums, and resumable upload patterns
+   - ✅ Lifecycle management, soft delete, versioning, immutability, encryption, and retention
+   - ✅ .NET Blob clients, direct browser upload patterns, and storing metadata separately from binary content
 
 7. **Messaging and event-driven Azure integration**
    - Service Bus queues, topics, subscriptions, and dead-letter queues
