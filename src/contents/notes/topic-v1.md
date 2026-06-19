@@ -101,22 +101,22 @@
    - ✅ .NET Blob clients, direct browser upload patterns, and storing metadata separately from binary content
 
 7. **Messaging and event-driven Azure integration**
-   - Service Bus queues, topics, subscriptions, and dead-letter queues
-   - Event Grid for event publication and fan-out
-   - Duplicate detection, retries, and poison-message handling
-   - Choosing queues vs topics vs event notifications
+   - ✅ Service Bus queues, topics, subscriptions, and dead-letter queues
+   - ✅ Event Grid for event publication and fan-out
+   - ✅ Duplicate detection, retries, and poison-message handling
+   - ✅ Choosing queues vs topics vs event notifications
 
 8. **Monitoring, tracing, and incident response on Azure**
-   - Metrics vs logs vs traces
-   - Application Insights and OpenTelemetry-aligned observability
-   - Log Analytics queries, dashboards, and availability tests
-   - Alert rules, action groups, and incident response workflows
+   - ✅ Metrics vs logs vs traces
+   - ✅ Application Insights and OpenTelemetry-aligned observability
+   - ✅ Log Analytics queries, dashboards, and availability tests
+   - ✅ Alert rules, action groups, and incident response workflows
 
 9. **Delivery, infrastructure as code, scaling, and cost control**
-   - Bicep fundamentals, modules, and reusable environment definitions
-   - GitHub Actions or Azure DevOps for build, test, deploy, and infrastructure steps
-   - OIDC-based Azure authentication in pipelines
-   - Deployment slots, rollout safety, autoscaling, availability zones, and cost-aware tiering
+   - ✅ Bicep fundamentals, modules, and reusable environment definitions
+   - ✅ GitHub Actions or Azure DevOps for build, test, deploy, and infrastructure steps
+   - ✅ OIDC-based Azure authentication in pipelines
+   - ✅ Deployment slots, rollout safety, autoscaling, availability zones, and cost-aware tiering
 
 ## .NET
 
@@ -192,88 +192,88 @@
 1. **JavaScript fundamentals for React developers**
    - ✅ Closures and lexical scope
    - ✅ Promises and asynchronous JavaScript
-   - Modules and import/export behavior
-   - Strict equality, reference identity, and immutability implications
+   - ✅ Modules and import/export behavior
+   - ✅ Strict equality, reference identity, and immutability implications
 
 2. **TypeScript for React applications**
    - ✅ Everyday types, unions, intersections, and discriminated unions
-   - Narrowing and control-flow analysis
-   - Utility types and conditional types
+   - ✅ Narrowing and control-flow analysis
+   - ✅ Utility types and conditional types
    - ✅ tsconfig basics, strict mode, and module settings
 
 3. **Components, props, state, and rendering behavior**
-   - Functional components and JSX composition
-   - Props flow, local state, and lifting state up
-   - Controlled inputs and event handling
-   - Rerender triggers, derived state, and avoiding duplicated state
+   - ✅ Functional components and JSX composition
+   - ✅ Props flow, local state, and lifting state up
+   - ✅ Controlled inputs and event handling
+   - ✅ Rerender triggers, derived state, and avoiding duplicated state
 
 4. **Hooks, effects, and custom hooks**
-   - useState, useReducer, useContext, and custom hooks
-   - Proper useEffect usage and cleanup
-   - “You might not need an effect” patterns
-   - Memoization with useMemo and dependency correctness
+   - ✅ useState, useReducer, useContext, and custom hooks
+   - ✅ Proper useEffect usage and cleanup
+   - ✅ “You might not need an effect” patterns
+   - ✅ Memoization with useMemo and dependency correctness
 
 5. **Routing, forms, and server communication**
-   - Nested routes, layouts, params, and route boundaries
-   - Route loaders/actions or equivalent data-loading patterns
-   - Forms, validation, optimistic updates, and mutation states
-   - Error states and retry UX for failed requests
+   - ✅ Nested routes, layouts, params, and route boundaries
+   - ✅ Route loaders/actions or equivalent data-loading patterns
+   - ✅ Forms, validation, optimistic updates, and mutation states
+   - ✅ Error states and retry UX for failed requests
 
 6. **Production data access, API clients, and frontend auth**
-   - Centralized API clients with `fetch`, Axios, RTK Query, or TanStack Query
-   - Axios request and response interceptors for auth headers, global errors, logging, and retry behavior
-   - RTK Query custom base queries, including Axios-based baseQuery patterns
-   - Access tokens, refresh tokens, expiration handling, retrying original requests, and refresh-token queue patterns
-   - Browser storage trade-offs: localStorage, sessionStorage, memory storage, and cookies
-   - Secure cookie flags: `HttpOnly`, `Secure`, `SameSite`, path, domain, and expiration
-   - Global loading, error, unauthorized, and network-failure UX patterns
+   - ✅ Centralized API clients with `fetch`, Axios, RTK Query, or TanStack Query
+   - ✅ Axios request and response interceptors for auth headers, global errors, logging, and retry behavior
+   - ✅ RTK Query custom base queries, including Axios-based baseQuery patterns
+   - ✅ Access tokens, refresh tokens, expiration handling, retrying original requests, and refresh-token queue patterns
+   - ✅ Browser storage trade-offs: localStorage, sessionStorage, memory storage, and cookies
+   - ✅ Secure cookie flags: `HttpOnly`, `Secure`, `SameSite`, path, domain, and expiration
+   - ✅ Global loading, error, unauthorized, and network-failure UX patterns
 
 7. **Forms, validation, and frontend performance in production**
-   - React Hook Form fundamentals, uncontrolled inputs, `Controller`, and form state
-   - Built-in validation, async validation, and schema resolvers with Yup or Zod
-   - `watch` vs `useWatch`, form render isolation, and large-form performance
-   - Debounce and throttle for search, filtering, autosave, and expensive UI updates
-   - Code splitting, lazy loading, bundle analysis, and route-level loading
-   - Preventing duplicate requests, canceling stale requests, and avoiding race conditions
-   - Reducing state complexity and avoiding unnecessary rerenders in form-heavy pages
+   - ✅ React Hook Form fundamentals, uncontrolled inputs, `Controller`, and form state
+   - ✅ Built-in validation, async validation, and schema resolvers with Yup or Zod
+   - ✅ `watch` vs `useWatch`, form render isolation, and large-form performance
+   - ✅ Debounce and throttle for search, filtering, autosave, and expensive UI updates
+   - ✅ Code splitting, lazy loading, bundle analysis, and route-level loading
+   - ✅ Preventing duplicate requests, canceling stale requests, and avoiding race conditions
+   - ✅ Reducing state complexity and avoiding unnecessary rerenders in form-heavy pages
 
 8. **State management, performance, and rendering optimization**
-   - Context plus reducer vs external stores
-   - useSyncExternalStore and subscribing to external state
-   - Memoization and avoiding needless rerenders
-   - Suspense, transitions, and rendering priority concepts
+   - ✅ Context plus reducer vs external stores
+   - ✅ useSyncExternalStore and subscribing to external state
+   - ✅ Memoization and avoiding needless rerenders
+   - ✅ Suspense, transitions, and rendering priority concepts
 
 9. **Testing, accessibility, and frontend debugging**
-   - User-centric testing with React Testing Library
-   - Query strategy and avoiding implementation-detail assertions
-   - Keyboard accessibility, semantic HTML, ARIA, and labels/IDs
-   - Debugging rendering, hydration, and interaction issues
+   - ✅ User-centric testing with React Testing Library
+   - ✅ Query strategy and avoiding implementation-detail assertions
+   - ✅ Keyboard accessibility, semantic HTML, ARIA, and labels/IDs
+   - ✅ Debugging rendering, hydration, and interaction issues
 
 ## SQL
 
 1. **Relational modeling and normalization**
    - ✅ Primary keys, foreign keys, and constraints
    - ✅ One-to-one, one-to-many, and many-to-many relationships
-   - Normalization and when denormalization is justified
-   - Data types, nullability, and business-rule enforcement
+   - ✅ Normalization and when denormalization is justified
+   - ✅ Data types, nullability, and business-rule enforcement
 
 2. **Core querying and data retrieval**
    - ✅ SELECT, WHERE, ORDER BY, TOP/OFFSET-FETCH
    - ✅ INNER, LEFT, and other join patterns
-   - GROUP BY and aggregate functions
-   - NULL handling and common filtering mistakes
+   - ✅ GROUP BY and aggregate functions
+   - ✅ NULL handling and common filtering mistakes
 
 3. **SQL practical interview comparisons and SQL Server-specific features**
-   - DELETE vs TRUNCATE, including logging, identity reset, rollback behavior, and foreign key limitations
-   - WHERE vs HAVING and filtering before vs after aggregation
-   - Primary key vs unique constraint, candidate keys, foreign keys, and constraint design
-   - DDL vs DML vs DCL and how schema, data, and permissions changes differ
-   - Local vs global temporary tables and table variables
-   - UNION vs UNION ALL, EXCEPT, INTERSECT, and duplicate handling
-   - CHAR vs VARCHAR vs NVARCHAR and Unicode storage choices
-   - Computed columns, persisted computed columns, and indexed views
-   - MERGE and upsert patterns, including concurrency cautions
-   - Stored procedure transaction patterns with `TRY...CATCH`, output parameters, and error handling
+   - ✅ DELETE vs TRUNCATE, including logging, identity reset, rollback behavior, and foreign key limitations
+   - ✅ WHERE vs HAVING and filtering before vs after aggregation
+   - ✅ Primary key vs unique constraint, candidate keys, foreign keys, and constraint design
+   - ✅ DDL vs DML vs DCL and how schema, data, and permissions changes differ
+   - ✅ Local vs global temporary tables and table variables
+   - ✅ UNION vs UNION ALL, EXCEPT, INTERSECT, and duplicate handling
+   - ✅ CHAR vs VARCHAR vs NVARCHAR and Unicode storage choices
+   - ✅ Computed columns, persisted computed columns, and indexed views
+   - ✅ MERGE and upsert patterns, including concurrency cautions
+   - ✅ Stored procedure transaction patterns with `TRY...CATCH`, output parameters, and error handling
 
 4. **Advanced querying with window functions and CTEs**
    - OVER, PARTITION BY, ROW_NUMBER, RANK, and running aggregates
