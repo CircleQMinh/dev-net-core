@@ -28,7 +28,7 @@ export function PagePlaceholder({ moduleName }: PagePlaceholderProps) {
             <div className="flex items-center justify-center gap-3 text-[var(--color-primary-fixed-dim,var(--color-primary-container))] sm:justify-start">
               <TerminalOutlinedIcon fontSize="small" />
               <span className="gleeple-heading text-[12px] font-bold uppercase leading-none">
-                 Under contruction
+                {moduleName} Under Construction
               </span>
             </div>
 
