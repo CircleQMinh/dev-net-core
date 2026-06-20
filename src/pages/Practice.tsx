@@ -42,10 +42,11 @@ type PracticeSessionProps = {
 
 type PracticeTopicCard = {
   completedQuestionCount: number;
-  primaryLevel: string;
   progress: ContentSubTopicProgress;
   progressPercentage: number;
-  questions: CommonInterviewQuestion[];
+  primaryLevel: string;
+  questionCount: number;
+  questionLevelCounts: CurriculumSubTopicNode["questionLevelCounts"];
   topic: CurriculumSubTopicNode;
 };
 
@@ -90,20 +91,22 @@ function getCompletedQuestionCount(progress: ContentSubTopicProgress) {
   return Math.min(progress.completedQuestion.length, progress.totalQuestion);
 }
 
-function getPrimaryQuestionLevel(questions: CommonInterviewQuestion[]) {
-  if (questions.some((question) => question.level === "Advanced")) {
+function getPrimaryQuestionLevel(
+  levelCounts: CurriculumSubTopicNode["questionLevelCounts"]
+) {
+  if (levelCounts.some((levelCount) => levelCount.level === "Advanced")) {
     return "Advanced";
   }
 
-  if (questions.some((question) => question.level === "Intermediate")) {
+  if (levelCounts.some((levelCount) => levelCount.level === "Intermediate")) {
     return "Intermediate";
   }
 
-  if (questions.some((question) => question.level === "Beginner")) {
+  if (levelCounts.some((levelCount) => levelCount.level === "Beginner")) {
     return "Beginner";
   }
 
-  return questions[0]?.level ?? "Practice";
+  return levelCounts[0]?.level ?? "Practice";
 }
 
 function getCategoryBadgeClass(category: string) {
@@ -126,11 +129,13 @@ function getCategoryBadgeClass(category: string) {
   return "border-[var(--color-accent-border)] bg-[var(--color-accent-soft)] text-[var(--color-primary)]";
 }
 
-function getQuestionLevelCounts(questions: CommonInterviewQuestion[]) {
+function getQuestionLevelCounts(
+  levelCounts: CurriculumSubTopicNode["questionLevelCounts"]
+) {
   return practiceLevels
     .map((level) => ({
       level,
-      count: questions.filter((question) => question.level === level).length,
+      count: levelCounts.find((levelCount) => levelCount.level === level)?.count ?? 0,
     }))
     .filter((item) => item.count > 0);
 }
@@ -139,20 +144,20 @@ function buildPracticeTopicCards(
   progressState: ReturnType<typeof selectContentProgress>
 ): PracticeTopicCard[] {
   return collectSubTopicNodes(generatedCurriculumTree).map((topic) => {
-    const questions = getOrderedPracticeQuestions(topic.loadContentSync());
     const progress = getTopicPracticeProgress(
       progressState,
       topic,
-      questions.length
+      topic.questionCount
     );
     const progressPercentage = getContentSubTopicProgressPercentage(progress);
 
     return {
       completedQuestionCount: getCompletedQuestionCount(progress),
-      primaryLevel: getPrimaryQuestionLevel(questions),
+      primaryLevel: getPrimaryQuestionLevel(topic.questionLevelCounts),
       progress,
       progressPercentage,
-      questions,
+      questionCount: topic.questionCount,
+      questionLevelCounts: topic.questionLevelCounts,
       topic,
     };
   });
@@ -388,7 +393,13 @@ function ResetPracticeProgressButton({ onReset }: { onReset: () => void }) {
   );
 }
 
-function EmptyPracticeState({ onGoBack }: { onGoBack: () => void }) {
+function EmptyPracticeState({
+  message = "Choose a topic from the content page to start an interview practice session.",
+  onGoBack,
+}: {
+  message?: string;
+  onGoBack: () => void;
+}) {
   return (
     <div className="theme-page mx-auto flex min-h-screen max-w-[1440px] items-center justify-center px-6 pb-20 pt-24">
       <section className="theme-content-card max-w-xl rounded-xl p-8 text-center">
@@ -396,8 +407,7 @@ function EmptyPracticeState({ onGoBack }: { onGoBack: () => void }) {
           No practice questions selected
         </h1>
         <p className="mx-auto mt-4 max-w-md leading-7 theme-muted">
-          Choose a topic from the content page to start an interview practice
-          session.
+          {message}
         </p>
         <Button
           onClick={onGoBack}
@@ -408,6 +418,16 @@ function EmptyPracticeState({ onGoBack }: { onGoBack: () => void }) {
           Go back
         </Button>
       </section>
+    </div>
+  );
+}
+
+function PracticeLoadingState() {
+  return (
+    <div className="theme-page mx-auto flex min-h-screen max-w-[1440px] items-center justify-center px-6 pb-20 pt-24">
+      <p className="gleeple-heading text-sm font-semibold uppercase tracking-[0.18em] theme-muted">
+        Loading practice questions...
+      </p>
     </div>
   );
 }
@@ -437,7 +457,6 @@ function PracticeIndexPage() {
         item.topic.category,
         item.topic.topic,
         item.topic.subtopic,
-        ...item.questions.slice(0, 4).map((question) => question.question),
       ]
         .join(" ")
         .toLowerCase();
@@ -446,7 +465,7 @@ function PracticeIndexPage() {
     });
   }, [categoryFilter, practiceTopics, searchQuery]);
   const totalQuestions = practiceTopics.reduce(
-    (total, item) => total + item.questions.length,
+    (total, item) => total + item.questionCount,
     0
   );
   const completedQuestionCount = practiceTopics.reduce(
@@ -454,7 +473,7 @@ function PracticeIndexPage() {
     0
   );
   const completedSessionCount = practiceTopics.filter(
-    (item) => item.questions.length > 0 && item.progressPercentage === 100
+    (item) => item.questionCount > 0 && item.progressPercentage === 100
   ).length;
   const overallMastery =
     totalQuestions === 0
@@ -626,13 +645,13 @@ function TopicGrid({ topics }: { topics: PracticeTopicCard[] }) {
 
 function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
   const isCompleted =
-    item.questions.length > 0 && item.progressPercentage === 100;
+    item.questionCount > 0 && item.progressPercentage === 100;
   const buttonLabel = isCompleted
     ? "Review"
     : item.completedQuestionCount > 0
       ? "Continue"
       : "Start Practice";
-  const levelCounts = getQuestionLevelCounts(item.questions);
+  const levelCounts = getQuestionLevelCounts(item.questionLevelCounts);
 
   return (
     <RouterLink
@@ -666,7 +685,9 @@ function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
           {practiceLevels.map((level) => (
             <span
               className={`h-1.5 w-1.5 rounded-full ${
-                item.questions.some((question) => question.level === level)
+                item.questionLevelCounts.some(
+                  (levelCount) => levelCount.level === level
+                )
                   ? "bg-[var(--color-primary-container)]"
                   : "bg-[var(--color-outline-variant)] opacity-50"
               }`}
@@ -675,7 +696,7 @@ function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
           ))}
         </div>
         <span className="gleeple-heading text-[12px] font-bold uppercase tracking-[0.08em] theme-muted">
-          {item.questions.length} Questions
+          {item.questionCount} Questions
         </span>
       </div>
 
@@ -711,7 +732,7 @@ function PracticeTopicCardLink({ item }: { item: PracticeTopicCard }) {
         <div className="mb-2 flex justify-between gap-3">
           <span className="gleeple-heading text-[12px] font-bold uppercase tracking-[0.08em] theme-muted">
             Progress: {item.progressPercentage}% ({item.completedQuestionCount}/
-            {item.questions.length})
+            {item.questionCount})
           </span>
           {isCompleted ? (
             <span className="gleeple-heading flex items-center gap-1 text-[12px] font-bold uppercase tracking-[0.08em] text-emerald-500">
@@ -1000,19 +1021,76 @@ export default function Practice() {
   const { topicId } = useParams<{ topicId?: string }>();
   const navigate = useNavigate();
   const topic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
-  const markdown = topic?.loadContentSync() ?? "";
-  const questions = useMemo(
-    () => getOrderedPracticeQuestions(markdown),
-    [markdown]
-  );
+  const [loadedPractice, setLoadedPractice] = useState<{
+    error: string;
+    questions: CommonInterviewQuestion[];
+    topicId?: string;
+  }>({
+    error: "",
+    questions: [],
+  });
+  const topicPractice =
+    topic && loadedPractice.topicId === topic.id ? loadedPractice : undefined;
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    if (!topic) {
+      return;
+    }
+
+    topic
+      .loadContent()
+      .then((markdown) => {
+        if (!isCancelled) {
+          setLoadedPractice({
+            error: "",
+            questions: getOrderedPracticeQuestions(markdown),
+            topicId: topic.id,
+          });
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setLoadedPractice({
+            error: "Unable to load practice questions for this topic.",
+            questions: [],
+            topicId: topic.id,
+          });
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [topic]);
 
   if (!topicId) {
     return <PracticeIndexPage />;
   }
 
-  if (!topic || questions.length === 0) {
+  if (!topic) {
     return <EmptyPracticeState onGoBack={() => navigate(-1)} />;
   }
 
-  return <PracticeSession key={topic.id} questions={questions} topic={topic} />;
+  if (!topicPractice) {
+    return <PracticeLoadingState />;
+  }
+
+  if (topicPractice.error || topicPractice.questions.length === 0) {
+    return (
+      <EmptyPracticeState
+        message={topicPractice.error || undefined}
+        onGoBack={() => navigate(-1)}
+      />
+    );
+  }
+
+  return (
+    <PracticeSession
+      key={topic.id}
+      questions={topicPractice.questions}
+      topic={topic}
+    />
+  );
 }

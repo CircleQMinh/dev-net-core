@@ -5,6 +5,7 @@ import Content from "./pages/Content";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Practice from "./pages/Practice";
+import Roadmap from "./pages/Roadmap";
 import Simulation from "./pages/Simulation";
 import SimulationResult from "./pages/SimulationResult";
 import SimulationSession from "./pages/SimulationSession";
@@ -21,6 +22,7 @@ function App() {
           <Route path="/content/:topicId" element={<Content />} />
           <Route path="/content/:topicId/" element={<Content />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/practice/:topicId" element={<Practice />} />
           <Route path="/practice/:topicId/" element={<Practice />} />

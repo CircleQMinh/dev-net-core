@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -13,16 +14,14 @@ import {
   setContentProgress,
   type ContentProgressState,
 } from "../../lib/redux/slices/contentSlice";
+import {
+  curriculumManifest,
+  type CurriculumManifestEntry,
+  type CurriculumManifestQuestionLevelCount,
+} from "../../contents/curriculumManifest.generated";
 import { categoryOrder, topicOrder } from "./curriculumOrder";
 
 type MarkdownLoader = () => Promise<string>;
-
-type CurriculumFrontmatter = {
-  id?: string;
-  topic?: string;
-  subtopic?: string;
-  category?: string;
-};
 
 export type CurriculumSubTopicNode = {
   type: "subtopic";
@@ -33,8 +32,9 @@ export type CurriculumSubTopicNode = {
   category: string;
   path: string;
   contentPath: string;
-  loadContentSync: () => string;
   loadContent: MarkdownLoader;
+  questionCount: number;
+  questionLevelCounts: CurriculumManifestQuestionLevelCount[];
   progress: number;
   completed: boolean;
 };
@@ -64,71 +64,25 @@ type MutableTopicNode = CurriculumTopicNode & {
   children: CurriculumTreeNode[];
 };
 
-const V1_CONTENT_ROOT = "/src/contents/v1/";
-
-const markdownModules = import.meta.glob<string>("/src/contents/v1/**/*.md", {
+const markdownLoaders = import.meta.glob<string>("/src/contents/v1/**/*.md", {
   import: "default",
   query: "?raw",
-  eager: true,
 });
 
-const specialLabels: Record<string, string> = {
-  api: "API",
-  aspnet: "ASP.NET",
-  cqrs: "CQRS",
-  csharp: "C#",
-  ddd: "DDD",
-  di: "DI",
-  dns: "DNS",
-  dotnet: ".NET",
-  ef: "EF",
-  grpc: "gRPC",
-  id: "ID",
-  ioc: "IoC", 
-  iqueryable: "IQueryable",
-  jwt: "JWT",
-  linq: "LINQ",
-  md: "MD",
-  mvc: "MVC",
-  net: ".NET",
-  nhibernate: "NHibernate",
-  oop: "OOP",
-  sql: "SQL",
-  tpl: "TPL",
-  tempdata: "TempData",
-  viewbag: "ViewBag",
-  viewdata: "ViewData",
-  viewmodel: "ViewModel",
-  vs: "vs",
-  webapi: "WebAPI",
-};
-
 function buildCurriculumTree(
-  modules: Record<string, string>
+  entries: CurriculumManifestEntry[]
 ): CurriculumTreeNode[] {
   const roots: MutableTopicNode[] = [];
-  const usedTopicIds = new Set<string>();
 
-  Object.entries(modules)
-    .sort(([left], [right]) => left.localeCompare(right))
-    .forEach(([contentPath, markdown]) => {
-      const relativePath = contentPath.replace(V1_CONTENT_ROOT, "");
-      const segments = relativePath.split("/");
-      const markdownFileName = segments.at(-1);
-
-      if (!markdownFileName) {
-        return;
-      }
-
+  entries
+    .sort((left, right) => left.contentPath.localeCompare(right.contentPath))
+    .forEach((entry) => {
       let currentChildren: CurriculumTreeNode[] = roots;
-      const folderPathSegments: string[] = [];
 
-      segments.slice(0, -1).forEach((folderSegment) => {
-        folderPathSegments.push(folderSegment);
-        const folderPath = folderPathSegments.join("/");
+      entry.folders.forEach((folder) => {
         const existingFolder = currentChildren.find(
           (node): node is MutableTopicNode =>
-            node.type === "topic" && node.path === folderPath
+            node.type === "topic" && node.path === folder.path
         );
 
         if (existingFolder) {
@@ -138,9 +92,9 @@ function buildCurriculumTree(
 
         const folderNode: MutableTopicNode = {
           type: "topic",
-          id: toNodeId(folderPath),
-          title: formatSegmentLabel(folderSegment),
-          path: folderPath,
+          id: toNodeId(folder.path),
+          title: folder.title,
+          path: folder.path,
           children: [],
           progress: 0,
           completed: false,
@@ -150,51 +104,40 @@ function buildCurriculumTree(
         currentChildren = folderNode.children;
       });
 
-      const topicPath = relativePath.replace(/\.md$/i, "");
-      const parentFolderName = segments.at(-2) ?? "v1";
-      const frontmatter = parseMarkdownFrontmatter(markdown);
-      const category =
-        frontmatter.category?.trim() || formatSegmentLabel(parentFolderName);
-      const topicTitle =
-        frontmatter.topic?.trim() || formatSegmentLabel(parentFolderName);
-      const subtopicTitle =
-        frontmatter.subtopic?.trim() ||
-        frontmatter.topic?.trim() ||
-        formatSegmentLabel(markdownFileName.replace(/\.md$/i, ""));
-      const fallbackId = slugify(topicPath);
-      const topicId = getUniqueTopicId(
-        frontmatter.id?.trim() || fallbackId,
-        fallbackId,
-        usedTopicIds,
-        contentPath
-      );
-      const physicalFolderPath = folderPathSegments.join("/");
-      const topicFolderPath = [physicalFolderPath, slugify(topicTitle)]
-        .filter(Boolean)
-        .join("/");
       const topicFolder = getOrCreateFolder(
         currentChildren,
-        topicFolderPath,
-        topicTitle
+        entry.topicFolderPath,
+        entry.topic
       );
 
       topicFolder.children.push({
         type: "subtopic",
-        id: topicId,
-        title: subtopicTitle,
-        topic: topicTitle,
-        subtopic: subtopicTitle,
-        category,
-        path: topicPath,
-        contentPath,
-        loadContentSync: () => markdown,
-        loadContent: async () => markdown,
+        id: entry.id,
+        title: entry.title,
+        topic: entry.topic,
+        subtopic: entry.subtopic,
+        category: entry.category,
+        path: entry.path,
+        contentPath: entry.contentPath,
+        loadContent: () => loadMarkdownContent(entry.contentPath),
+        questionCount: entry.questionCount,
+        questionLevelCounts: entry.questionLevelCounts,
         progress: 0,
         completed: false,
       });
     });
 
   return applyTopicProgress(sortNodes(roots));
+}
+
+async function loadMarkdownContent(contentPath: string) {
+  const loadMarkdown = markdownLoaders[contentPath];
+
+  if (!loadMarkdown) {
+    throw new Error(`No markdown loader found for ${contentPath}`);
+  }
+
+  return loadMarkdown();
 }
 
 function getOrCreateFolder(
@@ -493,68 +436,6 @@ export function getMarkdownBody(markdown: string) {
   return markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, "").trim();
 }
 
-function parseMarkdownFrontmatter(markdown: string): CurriculumFrontmatter {
-  const frontmatterMatch = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  const frontmatterBody = frontmatterMatch?.[1];
-
-  if (!frontmatterBody) {
-    return {};
-  }
-
-  return frontmatterBody.split(/\r?\n/).reduce<CurriculumFrontmatter>(
-    (frontmatter, line) => {
-      const separatorIndex = line.indexOf(":");
-
-      if (separatorIndex === -1) {
-        return frontmatter;
-      }
-
-      const key = line.slice(0, separatorIndex).trim();
-      const value = stripWrappingQuotes(line.slice(separatorIndex + 1).trim());
-
-      if (
-        key === "id" ||
-        key === "topic" ||
-        key === "subtopic" ||
-        key === "category"
-      ) {
-        frontmatter[key] = value;
-      }
-
-      return frontmatter;
-    },
-    {}
-  );
-}
-
-function getUniqueTopicId(
-  requestedId: string,
-  fallbackId: string,
-  usedTopicIds: Set<string>,
-  contentPath: string
-) {
-  if (!usedTopicIds.has(requestedId)) {
-    usedTopicIds.add(requestedId);
-    return requestedId;
-  }
-
-  let duplicateIndex = 2;
-  let uniqueId = `${requestedId}--${fallbackId}`;
-
-  while (usedTopicIds.has(uniqueId)) {
-    uniqueId = `${requestedId}--${fallbackId}-${duplicateIndex}`;
-    duplicateIndex += 1;
-  }
-
-  usedTopicIds.add(uniqueId);
-  console.warn(
-    `Duplicate curriculum topic id "${requestedId}" found in v1 content. ` +
-      `Using "${uniqueId}" for ${contentPath}.`
-  );
-
-  return uniqueId;
-}
-
 function toNodeId(path: string) {
   return path
     .replace(/\\/g, "/")
@@ -562,51 +443,7 @@ function toNodeId(path: string) {
     .toLowerCase();
 }
 
-function slugify(value: string) {
-  return (
-    value
-      .replace(/\\/g, "/")
-      .replace(/\.md$/i, "")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "") || "topic"
-  );
-}
-
-function formatSegmentLabel(segment: string) {
-  return segment
-    .replace(/\.md$/i, "")
-    .replace(/([a-z])(\d)/gi, "$1 $2")
-    .split(/[-_\s.]+/)
-    .filter(Boolean)
-    .map((word) => {
-      const lowerWord = word.toLowerCase();
-
-      if (specialLabels[lowerWord]) {
-        return specialLabels[lowerWord];
-      }
-
-      return `${word.charAt(0).toUpperCase()}${word.slice(1).toLowerCase()}`;
-    })
-    .join(" ");
-}
-
-function stripWrappingQuotes(value: string) {
-  const firstCharacter = value.at(0);
-  const lastCharacter = value.at(-1);
-
-  if (
-    value.length >= 2 &&
-    ((firstCharacter === `"` && lastCharacter === `"`) ||
-      (firstCharacter === "'" && lastCharacter === "'"))
-  ) {
-    return value.slice(1, -1);
-  }
-
-  return value;
-}
-
-export const generatedCurriculumTree = buildCurriculumTree(markdownModules);
+export const generatedCurriculumTree = buildCurriculumTree(curriculumManifest);
 
 export function CurriculumTreeView({
   nodes = generatedCurriculumTree,
@@ -647,9 +484,20 @@ export function CurriculumTreeView({
   );
 
   useEffect(() => {
-    setExpandedFolderIds(
-      new Set(getAncestorTopicIds(progressNodes, selectedTopicId))
+    let isCancelled = false;
+    const nextExpandedFolderIds = new Set(
+      getAncestorTopicIds(progressNodes, selectedTopicId)
     );
+
+    queueMicrotask(() => {
+      if (!isCancelled) {
+        setExpandedFolderIds(nextExpandedFolderIds);
+      }
+    });
+
+    return () => {
+      isCancelled = true;
+    };
   }, [progressNodes, selectedTopicId]);
 
   const toggleFolder = (folder: CurriculumTopicNode) => {

@@ -68,13 +68,13 @@ const difficultyProfiles: Record<
   },
 };
 
-export function GenerateSimulationQuestions({
+export async function GenerateSimulationQuestions({
   difficultyLevel,
   numberOfQuestionsPerCategory,
   selectedCategoryIds,
   selectedSubTopicIds,
   selectedTopicIds,
-}: GenerateSimulationQuestionsInput): SimulationQuestion[] {
+}: GenerateSimulationQuestionsInput): Promise<SimulationQuestion[]> {
   if (
     !Number.isSafeInteger(numberOfQuestionsPerCategory) ||
     numberOfQuestionsPerCategory <= 0
@@ -89,38 +89,48 @@ export function GenerateSimulationQuestions({
   const selectedSubTopicIdSet = new Set(selectedSubTopicIds);
   const uniqueSelectedCategoryIds = Array.from(new Set(selectedCategoryIds));
 
-  const selectedQuestions = uniqueSelectedCategoryIds.flatMap((categoryId) => {
+  const selectedQuestions: SimulationQuestion[] = [];
+
+  for (const categoryId of uniqueSelectedCategoryIds) {
     const category = categoriesById.get(categoryId);
 
     if (!category) {
-      return [];
+      continue;
     }
 
-    const candidates = getCurriculumTopicsByCategory(category)
-      .filter((topic) => selectedTopicIdSet.has(topic.id))
-      .flatMap((topic) =>
-        getCurriculumSubTopicsByTopic(topic)
-          .filter((subTopic) => selectedSubTopicIdSet.has(subTopic.id))
-          .flatMap((subTopic) =>
-            createQuestionCandidates(
-              extractCommonInterviewQuestions(subTopic.loadContentSync()),
-              {
-                category: subTopic.category,
-                subTopic: subTopic.subtopic,
-                subTopicId: subTopic.id,
-                topic: subTopic.topic,
-                topicId: topic.id,
-              }
-            )
-          )
-      );
+    const candidates: SimulationQuestionCandidate[] = [];
 
-    return selectQuestionsForDifficulty(
-      candidates,
-      numberOfQuestionsPerCategory,
-      difficultyProfiles[difficultyLevel]
+    for (const topic of getCurriculumTopicsByCategory(category).filter(
+      (topic) => selectedTopicIdSet.has(topic.id)
+    )) {
+      for (const subTopic of getCurriculumSubTopicsByTopic(topic).filter(
+        (subTopic) => selectedSubTopicIdSet.has(subTopic.id)
+      )) {
+        const markdown = await subTopic.loadContent();
+
+        candidates.push(
+          ...createQuestionCandidates(
+            extractCommonInterviewQuestions(markdown),
+            {
+              category: subTopic.category,
+              subTopic: subTopic.subtopic,
+              subTopicId: subTopic.id,
+              topic: subTopic.topic,
+              topicId: topic.id,
+            }
+          )
+        );
+      }
+    }
+
+    selectedQuestions.push(
+      ...selectQuestionsForDifficulty(
+        candidates,
+        numberOfQuestionsPerCategory,
+        difficultyProfiles[difficultyLevel]
+      )
     );
-  });
+  }
 
   return shuffleItems(selectedQuestions);
 }

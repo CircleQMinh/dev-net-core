@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "generate:curriculum": "node scripts/generate-curriculum-manifest.mjs",
+    "predev": "npm run generate:curriculum",
     "dev": "vite",
+    "prebuild": "npm run generate:curriculum",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

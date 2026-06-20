@@ -396,6 +396,7 @@ export default function Simulation() {
     selectSimulationSelectedSubTopicIds
   );
   const [startError, setStartError] = useState("");
+  const [isStartingSimulation, setIsStartingSimulation] = useState(false);
   const [customQuestionCountInput, setCustomQuestionCountInput] = useState(
     String(customQuestionsPerCategory)
   );
@@ -467,7 +468,11 @@ export default function Simulation() {
     }
   };
 
-  const startSetupSession = () => {
+  const startSetupSession = async () => {
+    if (isStartingSimulation) {
+      return;
+    }
+
     if (selectedSubTopicIds.length === 0) {
       setStartError(
         "Select at least one subtopic before starting a simulation."
@@ -499,18 +504,31 @@ export default function Simulation() {
       return;
     }
 
-    const generatedQuestions = GenerateSimulationQuestions({
-      difficultyLevel,
-      numberOfQuestionsPerCategory: validatedQuestionsPerCategory,
-      selectedCategoryIds,
-      selectedSubTopicIds,
-      selectedTopicIds,
-    });
+    let generatedQuestions;
+
+    setIsStartingSimulation(true);
+
+    try {
+      generatedQuestions = await GenerateSimulationQuestions({
+        difficultyLevel,
+        numberOfQuestionsPerCategory: validatedQuestionsPerCategory,
+        selectedCategoryIds,
+        selectedSubTopicIds,
+        selectedTopicIds,
+      });
+    } catch {
+      setStartError(
+        "Unable to load interview questions for the selected topics."
+      );
+      setIsStartingSimulation(false);
+      return;
+    }
 
     if (generatedQuestions.length === 0) {
       setStartError(
         "No interview questions are available for the selected topics and difficulty."
       );
+      setIsStartingSimulation(false);
       return;
     }
 
@@ -548,6 +566,7 @@ export default function Simulation() {
     dispatch(clearSimulationSession());
     dispatch(createSimulationSession(session));
     navigate(`/simulation/session/${sessionId}`);
+    setIsStartingSimulation(false);
   };
 
   useEffect(() => {
@@ -738,11 +757,12 @@ export default function Simulation() {
             </p>
           ) : null}
           <button
-            className="gleeple-heading cursor-pointer rounded bg-[var(--color-primary-container)] px-8 py-4 text-[12px] font-bold uppercase leading-none tracking-[0.05em] text-[var(--color-on-primary-container)] shadow-[var(--shadow-accent-glow)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98]"
+            className="gleeple-heading cursor-pointer rounded bg-[var(--color-primary-container)] px-8 py-4 text-[12px] font-bold uppercase leading-none tracking-[0.05em] text-[var(--color-on-primary-container)] shadow-[var(--shadow-accent-glow)] transition-all hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={isStartingSimulation}
             onClick={startSetupSession}
             type="button"
           >
-            Start simulation
+            {isStartingSimulation ? "Loading questions..." : "Start simulation"}
           </button>
         </div>
       </div>
