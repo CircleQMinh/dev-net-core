@@ -199,6 +199,48 @@ button {
   z-index: -1;
 }
 
+.placeholder-pulse-badge {
+  animation: placeholder-pulse-glow 2s infinite;
+}
+
+.placeholder-spin-slow {
+  animation: placeholder-spin 10s linear infinite;
+}
+
+.placeholder-spin-medium {
+  animation: placeholder-spin 8s linear infinite;
+}
+
+.placeholder-spin-reverse {
+  animation: placeholder-spin-reverse 15s linear infinite;
+}
+
+@keyframes placeholder-pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary-container, #00f0ff) 40%, transparent);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes placeholder-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes placeholder-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 @keyframes simulation-scan {
   from {
     top: 0;

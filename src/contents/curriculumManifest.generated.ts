@@ -11,6 +11,14 @@ export type CurriculumManifestQuestionLevelCount = {
   level: string;
 };
 
+export type CurriculumManifestSampleQuestion = {
+  answerExcerpt: string;
+  id: string;
+  label: string;
+  level: string;
+  question: string;
+};
+
 export type CurriculumManifestEntry = {
   category: string;
   contentPath: string;
@@ -19,6 +27,7 @@ export type CurriculumManifestEntry = {
   path: string;
   questionCount: number;
   questionLevelCounts: CurriculumManifestQuestionLevelCount[];
+  sampleQuestions: CurriculumManifestSampleQuestion[];
   subtopic: string;
   title: string;
   topic: string;
@@ -52,6 +61,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start with a user-impacting or operationally meaningful symptom. Define a threshold, evaluation window, severity, owner, action group, and runbook. Include enough context in the alert description for triage. Test the...",
+        "id": "alert-rules-action-groups-and-incident-response-workflows-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you design an actionable alert?"
+      }
+    ],
     "subtopic": "Alert rules, action groups, and incident response workflows",
     "title": "Alert rules, action groups, and incident response workflows",
     "topic": "Monitoring, tracing, and incident response on Azure",
@@ -81,6 +99,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Azure App Service is a good fit when the workload is a web app or HTTP API, the team wants managed hosting, the application can run on a supported runtime or container, and the application benefits from platform...",
+        "id": "app-service-plans-paas-web-hosting-fit-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When is Azure App Service the right hosting choice?"
       }
     ],
     "subtopic": "App Service plans and PaaS web hosting fit",
@@ -114,6 +141,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Configure an HTTPS listener with the public-facing certificate for the application hostname. If backend traffic can be unencrypted under the threat model, backend settings can use HTTP. If encryption is required...",
+        "id": "application-gateway-and-waf-concepts-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you configure TLS from the client through Application Gateway to the backend?"
+      }
+    ],
     "subtopic": "Application Gateway and WAF concepts",
     "title": "Application Gateway and WAF concepts",
     "topic": "Networking, API edge, and secure connectivity",
@@ -143,6 +179,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Automatically instrument framework-level operations such as HTTP requests, outbound HTTP calls, common database calls, exceptions, and runtime metrics. Manually instrument domain-specific operations such as checkout,...",
+        "id": "application-insights-and-opentelemetry-aligned-observability-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What should be automatically instrumented versus manually instrumented?"
       }
     ],
     "subtopic": "Application Insights and OpenTelemetry-aligned observability",
@@ -176,6 +221,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Policies can be defined at global, workspace, product, API, and operation scopes. A narrower policy uses <base / to inherit policies from broader scopes. The element's location controls when parent statements run...",
+        "id": "azure-api-management-and-policy-based-gateways-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do APIM policy scopes and the base element work?"
+      }
+    ],
     "subtopic": "Azure API Management and policy-based gateways",
     "title": "Azure API Management and policy-based gateways",
     "topic": "Networking, API edge, and secure connectivity",
@@ -205,6 +259,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use TTL jitter so related keys do not expire simultaneously. When one popular key misses, coalesce concurrent requests so only one caller loads the source. A distributed per-key lock, stale-while-revalidate strategy,...",
+        "id": "azure-cache-for-redis-low-latency-reads-and-session-state-scenarios-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you prevent a cache stampede on a popular key?"
       }
     ],
     "subtopic": "Azure Cache for Redis for low-latency reads and session/state scenarios",
@@ -238,6 +301,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Deploy them as separate container apps so they can be versioned, secured, and scaled independently. Give the API HTTP ingress and an HTTP concurrency rule. Keep the worker without public ingress and use a queue-based...",
+        "id": "azure-container-apps-for-containerized-apis-and-background-workloads-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you host an API and a queue worker in Azure Container Apps?"
+      }
+    ],
     "subtopic": "Azure Container Apps for containerized APIs and background workloads",
     "title": "Azure Container Apps for containerized APIs and background workloads",
     "topic": "Azure compute choices and hosting models",
@@ -267,6 +339,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Azure Functions scales by adding or removing instances of the Functions host. In dynamic scale plans such as Consumption, Flex Consumption, and Premium, a scale controller monitors trigger event sources and decides...",
+        "id": "azure-functions-hosting-options-and-current-scale-guidance-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How does Azure Functions scale?"
       }
     ],
     "subtopic": "Azure Functions Hosting Options and Current Scale Guidance",
@@ -300,6 +381,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Control-plane access manages the Azure vault resource, including configuration, networking, and deletion. Data-plane access operates on secrets, keys, and certificates. A role such as Key Vault Contributor can manage...",
+        "id": "azure-key-vault-for-secrets-certificates-and-connection-settings-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between Key Vault control-plane and data-plane access?"
+      }
+    ],
     "subtopic": "Azure Key Vault for secrets, certificates, and connection settings",
     "title": "Azure Key Vault for secrets, certificates, and connection settings",
     "topic": "Identity, secrets, and access control",
@@ -329,6 +419,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Most of the scale operation occurs online, but the final switchover can terminate existing connections and roll back uncommitted transactions. New connections are directed to the target compute. Applications should...",
+        "id": "azure-sql-database-tiers-scaling-serverless-options-and-failover-groups-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What happens to application connections when an Azure SQL database is scaled?"
       }
     ],
     "subtopic": "Azure SQL Database tiers, scaling, serverless options, and failover groups",
@@ -362,6 +461,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use one shared infrastructure definition with modules and separate environment parameter files. For example, main.bicep calls modules for app hosting, data, identity, and monitoring, while main.dev.bicepparam,...",
+        "id": "bicep-fundamentals-modules-and-reusable-environment-definitions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you structure Bicep for dev, test, and production environments?"
+      }
+    ],
     "subtopic": "Bicep fundamentals, modules, and reusable environment definitions",
     "title": "Bicep fundamentals, modules, and reusable environment definitions",
     "topic": "Delivery, infrastructure as code, scaling, and cost control",
@@ -391,6 +499,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The binding's Connection property refers to a setting prefix. Grouped application settings provide the service endpoint and, when necessary, user-assigned identity selection. In Azure, the extension obtains a token...",
+        "id": "bindings-connection-configuration-dependency-injection-logging-and-local-development-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does an identity-based binding connection work?"
       }
     ],
     "subtopic": "Bindings, connection configuration, dependency injection, logging, and local development",
@@ -424,6 +541,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Measure object size, data volume, read and write frequency, retrieval volume, required latency, retention duration, overwrite behavior, egress, redundancy, and restore frequency. Add capacity, transaction, retrieval,...",
+        "id": "blob-storage-access-tiers-lifecycle-management-and-immutability-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you select an access tier using total cost rather than storage price alone?"
+      }
+    ],
     "subtopic": "Blob Storage, access tiers, lifecycle management, and immutability",
     "title": "Blob Storage, access tiers, lifecycle management, and immutability",
     "topic": "Azure data, storage, and caching services",
@@ -453,6 +579,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Split the file into deterministic blocks with stable, equal-length block IDs. Persist the upload operation ID, expected size, block size, checksum, and target blob name. Upload blocks in parallel with bounded retries....",
+        "id": "block-blobs-append-blobs-and-page-blobs-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you make a large block blob upload resumable?"
       }
     ],
     "subtopic": "Block blobs, append blobs, and page blobs",
@@ -486,6 +621,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Consumers on one queue compete for messages. If billing, fulfillment, and notifications all read the same queue, each message goes to one of them, not all of them. That means some services will miss messages they need....",
+        "id": "choosing-queues-vs-topics-vs-event-notifications-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is one queue wrong for multiple independent subscribers?"
+      }
+    ],
     "subtopic": "Choosing queues vs topics vs event notifications",
     "title": "Choosing queues vs topics vs event notifications",
     "topic": "Messaging and event-driven Azure integration",
@@ -515,6 +659,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use Flex always-ready or Premium warm capacity when the latency objective requires it. Keep Worker, Worker SDK, runtime, and extensions current; enable documented isolated placeholders where supported; reduce package...",
+        "id": "cold-starts-hosting-plan-choices-timeout-configuration-and-scaling-behavior-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you reduce cold-start latency for a .NET isolated Function app?"
       }
     ],
     "subtopic": "Cold starts, hosting plan choices, timeout configuration, and scaling behavior",
@@ -548,6 +701,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Settings that belong to an environment rather than a code version should be slot-specific. Examples include production connection strings, environment names, feature toggles with environment scope, diagnostic settings,...",
+        "id": "deployment-slots-rollout-safety-autoscaling-availability-zones-and-cost-aware-tiering-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What settings should be slot-specific?"
+      }
+    ],
     "subtopic": "Deployment slots, rollout safety, autoscaling, availability zones, and cost-aware tiering",
     "title": "Deployment slots, rollout safety, autoscaling, availability zones, and cost-aware tiering",
     "topic": "Delivery, infrastructure as code, scaling, and cost control",
@@ -577,6 +739,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Register a configured BlobServiceClient as a singleton, or use the Azure client registration extensions. Supply a service URI, DefaultAzureCredential, retry settings, and diagnostics once. Domain services can derive...",
+        "id": "dotnet-blob-clients-direct-browser-upload-and-separating-metadata-from-binary-content-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should Azure Blob SDK clients be registered in dependency injection?"
       }
     ],
     "subtopic": ".NET Blob clients, direct browser upload patterns, and storing metadata separately from binary content",
@@ -610,6 +781,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose a window that covers the realistic period in which the producer may retry the same send after an uncertain outcome. Consider retry policies, crash recovery time, network instability, and business tolerance. A...",
+        "id": "duplicate-detection-retries-and-poison-message-handling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you choose a duplicate detection window?"
+      }
+    ],
     "subtopic": "Duplicate detection, retries, and poison-message handling",
     "title": "Duplicate detection, retries, and poison-message handling",
     "topic": "Messaging and event-driven Azure integration",
@@ -639,6 +819,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The runtime re-executes orchestrator code from the beginning and supplies previously recorded results to reconstruct state. The same history must produce the same scheduling decisions. Current time, random values,...",
+        "id": "durable-functions-orchestrators-activities-timers-external-events-and-entities-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why must orchestrator code be deterministic?"
       }
     ],
     "subtopic": "Durable Functions orchestrators, activity functions, durable timers, external events, and durable entities",
@@ -672,6 +861,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Event payloads should be small, stable, versioned notifications that contain enough information for a subscriber to identify what happened and retrieve authoritative state if needed. Include event ID, type, source,...",
+        "id": "event-grid-for-event-publication-and-fan-out-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should you design Event Grid event payloads?"
+      }
+    ],
     "subtopic": "Event Grid for event publication and fan-out",
     "title": "Event Grid for event publication and fan-out",
     "topic": "Messaging and event-driven Azure integration",
@@ -701,6 +899,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Partition items into deterministic batches or sub-orchestrations and await one bounded wave at a time. Configure function concurrency and scale limits around database, API, and storage capacity. Keep each fan-in result...",
+        "id": "function-chaining-fan-out-fan-in-async-workflow-state-replay-and-compensation-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you limit a fan-out that processes thousands of items?"
       }
     ],
     "subtopic": "Function chaining, fan-out/fan-in, async workflow state, replay-safe orchestrator code, and compensation",
@@ -734,6 +941,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Infrastructure should be deployed from source-controlled IaC such as Bicep. The pipeline should build and lint Bicep, run what-if for review, deploy infrastructure before dependent application code, and use...",
+        "id": "github-actions-or-azure-devops-for-build-test-deploy-and-infrastructure-steps-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should infrastructure deployment fit into a CI/CD pipeline?"
+      }
+    ],
     "subtopic": "GitHub Actions or Azure DevOps for build, test, deploy, and infrastructure steps",
     "title": "GitHub Actions or Azure DevOps for build, test, deploy, and infrastructure steps",
     "topic": "Delivery, infrastructure as code, scaling, and cost control",
@@ -763,6 +979,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Derive a stable idempotency key from the message or business command, then persist processing state with a unique constraint or use conditional business writes. If the same message arrives again, return the previous...",
+        "id": "http-timer-queue-service-bus-event-grid-and-blob-triggers-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should a queue-triggered function handle duplicate messages?"
       }
     ],
     "subtopic": "HTTP, timer, queue, Service Bus, Event Grid, and Blob triggers",
@@ -796,6 +1021,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Replace Microsoft.NET.Sdk.Functions and WebJobs extension packages with Microsoft.Azure.Functions.Worker, Worker SDK, and isolated-worker extension packages. Replace [FunctionName] with [Function], update namespaces,...",
+        "id": "in-process-vs-isolated-worker-model-for-dotnet-functions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What package and attribute changes are required during migration?"
+      }
+    ],
     "subtopic": "In-process vs isolated worker model for .NET Functions",
     "title": "In-process vs isolated worker model for .NET Functions",
     "topic": "Azure Functions and Durable Functions",
@@ -825,6 +1059,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Measure file size, network bandwidth and reliability, client memory, transaction cost, device limits, account throughput, and retry tolerance. Larger blocks reduce request count but cost more to retry and buffer. More...",
+        "id": "large-file-uploads-block-upload-retries-checksums-and-resumable-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you select block size and concurrency?"
       }
     ],
     "subtopic": "Large file uploads, block upload, retry behavior, checksums, and resumable upload patterns",
@@ -858,6 +1101,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start from the required recovery window, then apply lifecycle rules separately to current blobs, previous versions, and snapshots. Frequently accessed current data may remain hot, older current data may move to cool or...",
+        "id": "lifecycle-management-soft-delete-versioning-immutability-encryption-and-retention-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you control the cost of Blob Storage versioning and snapshots?"
+      }
+    ],
     "subtopic": "Lifecycle management, soft delete, versioning, immutability, encryption, and retention",
     "title": "Lifecycle management, soft delete, versioning, immutability, encryption, and retention",
     "topic": "Azure Blob Storage and file handling",
@@ -887,6 +1139,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Query the request table, filter to a recent time range, filter failed requests, group by operation name and result code, then sort by failure count. This gives a useful summary instead of raw log noise.",
+        "id": "log-analytics-queries-dashboards-and-availability-tests-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you write a KQL query to find failing API routes?"
       }
     ],
     "subtopic": "Log Analytics queries, dashboards, and availability tests",
@@ -920,6 +1181,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Store the binary file in Blob Storage and store business metadata in Azure SQL Database. The SQL record can include document ID, tenant, owner, storage object name, checksum, size, content type, status, retention...",
+        "id": "matching-storage-choices-to-relational-object-and-cache-workloads-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you store uploaded documents and their metadata?"
+      }
+    ],
     "subtopic": "Matching storage choices to relational, object, and cache workloads",
     "title": "Matching storage choices to relational, object, and cache workloads",
     "topic": "Azure data, storage, and caching services",
@@ -949,6 +1219,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Metric dimensions are bounded labels used to split and filter numeric time series. Log fields are structured properties stored with individual records and can be much more detailed. Metric dimensions must be kept...",
+        "id": "metrics-vs-logs-vs-traces-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do metric dimensions differ from log fields?"
       }
     ],
     "subtopic": "Metrics vs logs vs traces",
@@ -982,6 +1261,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "PKCE binds authorization-code redemption to the client instance that initiated the flow. state correlates the callback with the browser transaction and helps prevent login CSRF and response mix-up. nonce binds an ID...",
+        "id": "microsoft-entra-app-registrations-scopes-and-auth-code-flow-basics-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do PKCE, state, and nonce differ?"
+      }
+    ],
     "subtopic": "Microsoft Entra app registrations, scopes, and auth-code flow basics",
     "title": "Microsoft Entra app registrations, scopes, and auth-code flow basics",
     "topic": "Identity, secrets, and access control",
@@ -1011,6 +1299,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The pipeline requests an OIDC token from its CI/CD provider. The Azure login step or service connection sends that token to Microsoft Entra ID. Microsoft Entra ID validates the token issuer, subject, and audience...",
+        "id": "oidc-based-azure-authentication-in-pipelines-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does the OIDC token exchange flow work?"
       }
     ],
     "subtopic": "OIDC-based Azure authentication in pipelines",
@@ -1044,6 +1341,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose a stable key matching the intended isolation boundary, such as validated user ID, client application ID, tenant, subscription, or a combination with the operation. Derive identity keys only from validated tokens...",
+        "id": "rate-limiting-quotas-auth-offload-and-request-transformation-at-the-edge-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should you choose a rate-limit counter key?"
+      }
+    ],
     "subtopic": "Rate limiting, quotas, auth offload, and request transformation at the edge",
     "title": "Rate limiting, quotas, auth offload, and request transformation at the edge",
     "topic": "Networking, API edge, and secure connectivity",
@@ -1073,6 +1379,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "PIM reduces standing privilege by making a human eligible to activate a role only when needed. Activation can require MFA, approval, justification, and a limited duration. It provides notifications and audit history....",
+        "id": "rbac-least-privilege-and-separating-human-vs-workload-identities-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should privileged human roles use PIM?"
       }
     ],
     "subtopic": "RBAC, least privilege, and separating human vs workload identities",
@@ -1106,6 +1421,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In peek-lock mode, Service Bus locks a message for one receiver without removing it. The receiver processes the message and then settles it. Complete removes it, Abandon releases it for redelivery, DeadLetter moves it...",
+        "id": "service-bus-queues-topics-subscriptions-and-dead-letter-queues-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does peek-lock processing work?"
+      }
+    ],
     "subtopic": "Service Bus queues, topics, subscriptions, and dead-letter queues",
     "title": "Service Bus queues, topics, subscriptions, and dead-letter queues",
     "topic": "Messaging and event-driven Azure integration",
@@ -1135,6 +1459,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A private endpoint places a private IP in the virtual network and maps it to a specific service resource. It normally requires private DNS and can be reached from connected networks when routing and DNS are configured....",
+        "id": "service-tags-private-networking-and-reducing-public-attack-surface-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Compare private endpoints and virtual network service endpoints."
       }
     ],
     "subtopic": "Service tags, private networking, and reducing public attack surface",
@@ -1168,6 +1501,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A user delegation SAS is signed with a key obtained through Microsoft Entra ID and is preferred for Blob Storage. A service SAS is signed with an account key and delegates access within one storage service. An account...",
+        "id": "shared-access-signatures-managed-identity-rbac-stored-access-policies-and-public-access-risks-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Compare user delegation, service, and account SAS."
+      }
+    ],
     "subtopic": "Shared access signatures, managed identity, RBAC, stored access policies, and public access risks",
     "title": "Shared access signatures, managed identity, RBAC, stored access policies, and public access risks",
     "topic": "Azure Blob Storage and file handling",
@@ -1197,6 +1539,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use server-generated stable identifiers and include the authenticated tenant boundary, such as documents/{tenant-id}/{document-id}/{version-id}. Normalize casing and avoid user-provided path segments unless they are...",
+        "id": "storage-accounts-containers-blobs-virtual-folders-metadata-and-access-tiers-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you design blob names for a multi-tenant document system?"
       }
     ],
     "subtopic": "Storage accounts, containers, blobs, virtual folders, metadata, and access tiers",
@@ -1230,6 +1581,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose a user-assigned identity when the identity must exist before compute deployment, survive replacement, or be shared by replicas of the same workload. It also helps when identity administration is separate,...",
+        "id": "system-assigned-and-user-assigned-managed-identities-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you choose a user-assigned identity over a system-assigned identity?"
+      }
+    ],
     "subtopic": "System-assigned and user-assigned managed identities",
     "title": "System-assigned and user-assigned managed identities",
     "topic": "Identity, secrets, and access control",
@@ -1259,6 +1619,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start with Container Apps when the workload needs containerized APIs, workers, jobs, managed ingress, revisions, and event scaling but not direct Kubernetes APIs. Choose AKS when requirements depend on custom...",
+        "id": "trade-offs-among-simplicity-portability-autoscaling-and-operational-control-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you choose between Azure Container Apps and AKS?"
       }
     ],
     "subtopic": "Trade-offs among simplicity, portability, autoscaling, and operational control",
@@ -1292,6 +1661,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Create a new ADR that explains the changed context and supersedes or deprecates the previous decision. Preserve the original record so the historical reasoning remains visible. Link both records and define the...",
+        "id": "adrs-coding-conventions-and-team-level-design-communication-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What should happen when an accepted ADR is no longer appropriate?"
+      }
+    ],
     "subtopic": "ADRs, coding conventions, and team-level design communication",
     "title": "ADRs, coding conventions, and team-level design communication",
     "topic": "Testing strategy, maintainability, and technical leadership",
@@ -1321,6 +1699,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Core business rules, aggregate invariants, authoritative workflow state, database ownership, and resource-level authorization should remain in domain services. The gateway can validate credentials and enforce shared...",
+        "id": "api-gateway-and-bff-decisions-for-web-clients-and-microservices-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Which responsibilities should remain out of an API gateway?"
       }
     ],
     "subtopic": "API gateway and BFF decisions for web clients and microservices",
@@ -1354,6 +1741,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would start from the most important user flows and business outcomes. Then I would identify dependencies, data stores, integrations, security boundaries, operational processes, and scaling assumptions. For each...",
+        "id": "assumptions-constraints-risks-failure-modes-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you identify risks in a proposed architecture?"
+      }
+    ],
     "subtopic": "Assumptions, constraints, risks, and failure modes",
     "title": "Assumptions, constraints, risks, and failure modes",
     "topic": "Requirements decomposition and system trade-offs",
@@ -1383,6 +1779,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose TTL from allowed staleness, update frequency, read volume, retrieval cost, memory budget, and invalidation reliability. Use shorter TTLs for volatile or sensitive data and longer TTLs for stable expensive data....",
+        "id": "cache-aside-read-caching-and-invalidation-trade-offs-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you choose a cache TTL?"
       }
     ],
     "subtopic": "Cache-aside, read caching, and invalidation trade-offs",
@@ -1416,6 +1821,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "First, define the peak target throughput and latency requirement. Then measure or estimate how much throughput one API instance can handle while meeting the latency target. Divide target throughput by per-instance...",
+        "id": "capacity-planning-and-identifying-likely-bottlenecks-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How would you estimate how many API instances are needed?"
+      }
+    ],
     "subtopic": "Capacity Planning and Identifying Likely Bottlenecks",
     "title": "Capacity Planning and Identifying Likely Bottlenecks",
     "topic": "Requirements decomposition and system trade-offs",
@@ -1445,6 +1859,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Authenticate and authorize first, enforce request and file-size limits while streaming, save to quarantine under a generated name, validate an explicit type allowlist with multiple signals, scan or reconstruct content,...",
+        "id": "command-injection-file-upload-risks-path-traversal-secrets-exposure-and-dos-ddos-basics-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you design a secure file-upload service?"
       }
     ],
     "subtopic": "Command injection, file upload risks, path traversal, secrets exposure, and DoS/DDoS basics",
@@ -1478,6 +1901,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Propagate standard trace context, include trace and span IDs plus business correlation IDs in structured logs, and use consistent service, route, region, and version attributes. Metrics detect impact; exemplars or...",
+        "id": "correlation-ids-traces-health-checks-and-alertable-telemetry-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you correlate logs, metrics, and traces?"
+      }
+    ],
     "subtopic": "Correlation IDs, traces, health checks, and alertable telemetry",
     "title": "Correlation IDs, traces, health checks, and alertable telemetry",
     "topic": "Scalability, resilience, caching, and observability design",
@@ -1507,6 +1939,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The write model commits authoritative state and publishes changes that projection workers apply to the read store. Reads and writes can scale and use storage independently, but the system becomes eventually consistent....",
+        "id": "cqrs-and-when-separate-read-and-write-models-make-sense-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What changes when CQRS uses separate read and write databases?"
       }
     ],
     "subtopic": "CQRS and when separate read and write models make sense",
@@ -1540,6 +1981,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "SameSite blocks many cross-site cookie deliveries, but behavior differs among Strict, Lax, and None, and legitimate federation, payment, or embedded flows may require cross-site cookies. Same-site is broader than...",
+        "id": "cross-site-request-forgery-and-cookie-based-authentication-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are the limitations of SameSite cookies as a CSRF defense?"
+      }
+    ],
     "subtopic": "Cross-Site Request Forgery and how cookie-based authentication changes the risk model",
     "title": "Cross-Site Request Forgery and how cookie-based authentication changes the risk model",
     "topic": "Web application security threat modeling and attack patterns",
@@ -1569,6 +2019,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "HTML text, attributes, JavaScript strings, CSS, and URLs have different parsers and metacharacters. HTML encoding a value that is inserted into JavaScript or used as a URL does not necessarily make it safe. Prefer APIs...",
+        "id": "cross-site-scripting-output-encoding-dangerous-html-rendering-and-content-security-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why must output encoding match the browser context?"
       }
     ],
     "subtopic": "Cross-Site Scripting, output encoding, dangerous HTML rendering, and content security controls",
@@ -1602,6 +2061,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The consumer or high-level policy should usually own the interface. The contract should describe what the application needs, not expose the full API of the implementation technology. For example, IOrderRepository...",
+        "id": "dependency-inversion-and-inward-facing-dependencies-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Who should own an interface used to invert a dependency?"
+      }
+    ],
     "subtopic": "Dependency inversion and inward-facing dependencies",
     "title": "Dependency inversion and inward-facing dependencies",
     "topic": "Clean Architecture and modular boundaries",
@@ -1631,6 +2099,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Keep behavior on an entity or aggregate root when that object owns the state and invariant being changed. For example, an account should enforce its own withdrawal limit. Use a domain service only when a meaningful...",
+        "id": "domain-services-and-domain-events-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should behavior remain on an entity instead of moving to a domain service?"
       }
     ],
     "subtopic": "Domain services and domain events",
@@ -1664,6 +2141,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Identify the business invariants and state that must be inspected and changed atomically. Place that state under one root and keep unrelated lifecycle or consistency concerns in separate aggregates. Consider load size,...",
+        "id": "entities-value-objects-aggregates-and-invariants-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you choose an aggregate boundary?"
+      }
+    ],
     "subtopic": "Entities, value objects, aggregates, and invariants",
     "title": "Entities, value objects, aggregates, and invariants",
     "topic": "Domain modeling and Domain-Driven Design",
@@ -1693,6 +2179,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Validate and authorize the request, persist or enqueue the operation, then return 202 Accepted with a Location status URL and a reasonable Retry-After. The status resource should expose documented pending and terminal...",
+        "id": "event-driven-communication-and-asynchronous-request-reply-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should an HTTP API represent a long-running operation?"
       }
     ],
     "subtopic": "Event-driven communication and asynchronous request-reply",
@@ -1726,6 +2221,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Strategy defines interchangeable behavior behind a common interface. Factory can be used to select or create the correct strategy based on runtime input. For example, IShippingCostStrategy may have...",
+        "id": "factory-builder-strategy-adapter-decorator-facade-proxy-and-chain-of-responsibility-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do Factory and Strategy work together?"
+      }
+    ],
     "subtopic": "Factory, Builder, Strategy, Adapter, Decorator, Facade, Proxy, and Chain of Responsibility",
     "title": "Factory, Builder, Strategy, Adapter, Decorator, Facade, Proxy, and Chain of Responsibility",
     "topic": "Software design principles and common .NET patterns",
@@ -1755,6 +2259,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Nonfunctional requirements influence architecture by defining the qualities and constraints the system must satisfy. Requirements such as low latency, high availability, scalability, security, compliance,...",
+        "id": "functional-requirements-vs-nonfunctional-requirements-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do nonfunctional requirements influence architecture?"
       }
     ],
     "subtopic": "Functional Requirements vs Nonfunctional Requirements",
@@ -1788,6 +2301,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose signals tied to constrained capacity and user outcomes, such as request concurrency, latency, queue age, throughput, and dependency saturation. CPU can supplement them but may miss I/O bottlenecks. Include...",
+        "id": "horizontal-scaling-stateless-services-and-backpressure-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you choose autoscaling signals?"
+      }
+    ],
     "subtopic": "Horizontal scaling, stateless services, and backpressure",
     "title": "Horizontal scaling, stateless services, and backpressure",
     "topic": "Scalability, resilience, caching, and observability design",
@@ -1817,6 +2339,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The handler inserts a processed-message key and applies the business update in the same local database transaction. A unique constraint on consumer and message ID prevents concurrent deliveries from both committing. On...",
+        "id": "idempotent-consumers-and-duplicate-message-handling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does an inbox table prevent duplicate processing?"
       }
     ],
     "subtopic": "Idempotent consumers and duplicate-message handling",
@@ -1850,6 +2381,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Derive the caller and tenant from trusted authentication context, then query for the order using both its ID and the caller's authorized scope. If authorization is relationship- or state-dependent, load the constrained...",
+        "id": "insecure-direct-object-reference-broken-access-control-and-object-level-authorization-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you fix an endpoint that retrieves an order by ID?"
+      }
+    ],
     "subtopic": "Insecure Direct Object Reference, broken access control, and object-level authorization",
     "title": "Insecure Direct Object Reference, broken access control, and object-level authorization",
     "topic": "Web application security threat modeling and attack patterns",
@@ -1879,6 +2419,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "DRY can be harmful when developers merge code that only looks similar but represents different business concepts. This creates a wrong abstraction. Later, when the concepts evolve differently, the shared abstraction...",
+        "id": "kiss-dry-yagni-separation-of-concerns-cohesion-and-coupling-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How can DRY be harmful when applied incorrectly?"
       }
     ],
     "subtopic": "KISS, DRY, YAGNI, Separation of Concerns, Cohesion, and Coupling",
@@ -1912,6 +2461,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The main difference is compile-time dependency direction. In traditional layering, presentation depends on business logic, which often depends on data access. In Clean Architecture, presentation and infrastructure both...",
+        "id": "layered-architecture-vs-clean-architecture-vs-ports-and-adapters-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the main difference between traditional layering and Clean Architecture?"
+      }
+    ],
     "subtopic": "Layered architecture vs Clean Architecture vs ports-and-adapters",
     "title": "Layered architecture vs Clean Architecture vs ports-and-adapters",
     "topic": "Clean Architecture and modular boundaries",
@@ -1941,6 +2499,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a separate persistence model when the schema is legacy or externally owned, the domain and storage shapes differ substantially, several stores must be coordinated, or ORM requirements are distorting domain...",
+        "id": "mapping-domain-models-to-persistence-without-corrupting-the-model-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you use a separate persistence model instead of directly mapping domain entities?"
       }
     ],
     "subtopic": "Mapping domain models to persistence without corrupting the model",
@@ -1974,6 +2541,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Set goals and regular checkpoints, then use questions, examples, pairing, and written guidance rather than requiring approval for every action. Delegate bounded decisions with clear constraints and escalation criteria....",
+        "id": "mentoring-ownership-and-incremental-modernization-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you mentor an engineer without becoming a bottleneck?"
+      }
+    ],
     "subtopic": "Mentoring, ownership, and incremental modernization",
     "title": "Mentoring, ownership, and incremental modernization",
     "topic": "Testing strategy, maintainability, and technical leadership",
@@ -2003,6 +2579,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a direct in-process call through a module-owned contract when the caller needs an immediate result. Use an event when a module is announcing a completed fact and independent subscribers can react without an...",
+        "id": "modular-monolith-structure-and-feature-based-organization-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should modules communicate inside a modular monolith?"
       }
     ],
     "subtopic": "Modular monolith structure and feature-based organization",
@@ -2036,6 +2621,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Contract-first enables consumer review, mocks, parallel development, and governance before implementation, but requires specification discipline and synchronization. Code-first keeps metadata close to implementation...",
+        "id": "openapi-contracts-and-consumer-facing-documentation-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are the trade-offs between contract-first and code-first OpenAPI workflows?"
+      }
+    ],
     "subtopic": "OpenAPI contracts and consumer-facing documentation",
     "title": "OpenAPI contracts and consumer-facing documentation",
     "topic": "API design and integration contracts",
@@ -2065,6 +2659,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 6,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A switch should usually remain when the branches are short, stable, easy to read, and change together. Strategy becomes useful when the branches represent meaningful policies that grow or change independently. Strong...",
+        "id": "recognizing-when-a-pattern-improves-maintainability-vs-when-it-adds-unnecessary-complexity-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you replace a switch statement with the Strategy pattern?"
       }
     ],
     "subtopic": "Recognizing when a pattern improves maintainability vs when it adds unnecessary complexity",
@@ -2098,6 +2701,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Identify a narrow behavior and boundary, then add characterization tests for representative cases. Introduce seams around external or nondeterministic dependencies, make small structural changes, and verify after each...",
+        "id": "refactoring-strategy-code-review-standards-and-technical-debt-management-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you safely refactor legacy code with few tests?"
+      }
+    ],
     "subtopic": "Refactoring strategy, code review standards, and technical debt management",
     "title": "Refactoring strategy, code review standards, and technical debt management",
     "topic": "Testing strategy, maintainability, and technical leadership",
@@ -2127,6 +2739,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Repository is not always needed with EF Core because DbContext and DbSet<TEntity already provide repository-like and unit-of-work behavior. For simple CRUD applications, using DbContext directly can be simpler and...",
+        "id": "repository-unit-of-work-mediator-specification-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Is Repository still needed when using EF Core?"
       }
     ],
     "subtopic": "Repository, Unit of Work, Mediator, and Specification Patterns in .NET",
@@ -2160,6 +2781,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "An action endpoint is acceptable for a meaningful business command that does not map honestly to create, retrieve, replace, patch, or delete semantics. Examples include capturing a payment or approving an application....",
+        "id": "resource-modeling-rest-semantics-and-rpc-style-endpoints-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When is an RPC-style action endpoint acceptable?"
+      }
+    ],
     "subtopic": "Resource modeling, REST semantics, and when RPC-style endpoints are acceptable",
     "title": "Resource modeling, REST semantics, and when RPC-style endpoints are acceptable",
     "topic": "API design and integration contracts",
@@ -2189,6 +2819,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Define retryable exceptions and responses, use a small bounded count, exponential backoff with jitter, and honor Retry-After. Add per-attempt and total timeouts, propagate cancellation, and disable retries for unsafe...",
+        "id": "retry-circuit-breaker-bulkhead-and-queue-based-load-leveling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you configure retries for an HTTP dependency?"
       }
     ],
     "subtopic": "Retry, circuit breaker, bulkhead, and queue-based load leveling",
@@ -2222,6 +2861,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Classify steps as compensable, pivot, retryable, or best effort. Place validations and reversible reservations first, put irreversible or externally committed work as late as possible, and ensure post-pivot steps are...",
+        "id": "saga-and-compensating-transaction-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should saga steps be classified and ordered?"
+      }
+    ],
     "subtopic": "Saga and compensating transaction patterns",
     "title": "Saga and compensating transaction patterns",
     "topic": "Distributed systems patterns",
@@ -2251,6 +2899,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use distributed limits across normalized account, source IP or network, device signals, tenant, and global capacity. Apply progressive delays or temporary challenges before hard blocks, and use a shared data store or...",
+        "id": "session-hijacking-credential-stuffing-brute-force-protection-lockout-and-multi-factor-authentication-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you design rate limiting for a public login endpoint?"
       }
     ],
     "subtopic": "Session hijacking, credential stuffing, brute-force protection, lockout, and multi-factor authentication",
@@ -2284,6 +2941,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Dependency inversion is a design principle. It says high-level modules and low-level modules should both depend on abstractions, and details should depend on abstractions. Dependency injection is a technique for...",
+        "id": "solid-principles-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How are dependency inversion and dependency injection different?"
+      }
+    ],
     "subtopic": "SOLID Principles in .NET Design",
     "title": "SOLID Principles in .NET Design",
     "topic": "Software design principles and common .NET patterns",
@@ -2313,6 +2979,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "SQL parameters cannot represent column names or sort direction. Map each supported external value to a predefined LINQ expression or trusted SQL fragment and reject everything else. Add a stable tie-breaker and ensure...",
+        "id": "sql-injection-parameterized-queries-orm-safety-and-unsafe-dynamic-sql-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you safely implement a user-selected sort column?"
       }
     ],
     "subtopic": "SQL Injection, parameterized queries, ORM safety, and unsafe dynamic SQL",
@@ -2346,6 +3021,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Unit-test domain and application policies, use WebApplicationFactory integration tests for routing, middleware, authentication, serialization, and persistence, contract-test external interfaces, and retain a small set...",
+        "id": "test-pyramid-contract-tests-and-architecture-fitness-checks-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you test an ASP.NET Core API effectively?"
+      }
+    ],
     "subtopic": "Test pyramid, contract tests, and architecture fitness checks",
     "title": "Test pyramid, contract tests, and architecture fitness checks",
     "topic": "Testing strategy, maintainability, and technical leadership",
@@ -2375,6 +3059,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Map registration, login, MFA, external-provider callbacks, session creation, renewal, logout, password reset, recovery, account linking, and factor replacement. For every transition, identify actors, tokens, redirect...",
+        "id": "threat-modeling-user-input-trust-boundaries-authentication-flows-and-admin-only-operations-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you threat-model an authentication flow?"
       }
     ],
     "subtopic": "Threat modeling user input, trust boundaries, authentication flows, and admin-only operations",
@@ -2408,6 +3101,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would first clarify what \"one million users\" means. It could mean registered users, monthly active users, daily active users, peak active users, or concurrent users. These values lead to very different architecture...",
+        "id": "throughput-latency-targets-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you decompose a vague requirement like \"the system must handle one million users\"?"
+      }
+    ],
     "subtopic": "Throughput, latency, concurrency, availability, consistency, and cost targets",
     "title": "Throughput, latency, concurrency, availability, consistency, and cost targets",
     "topic": "Requirements decomposition and system trade-offs",
@@ -2437,6 +3139,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Work through real scenarios, decisions, exceptions, policies, and state transitions using techniques such as event storming, example mapping, and process walkthroughs. Listen for synonyms, overloaded terms, vague...",
+        "id": "ubiquitous-language-and-bounded-contexts-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you discover a Ubiquitous Language with domain experts?"
       }
     ],
     "subtopic": "Ubiquitous language and bounded contexts",
@@ -2470,6 +3181,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Path versioning is visible and easy to route but changes resource URIs. Query versioning is explicit and easy for clients but can be omitted and must be included in cache keys. Header versioning keeps URIs stable but...",
+        "id": "versioning-idempotency-pagination-filtering-and-sorting-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are the trade-offs among path, query, header, and media-type versioning?"
+      }
+    ],
     "subtopic": "Versioning, idempotency, pagination, filtering, and sorting",
     "title": "Versioning, idempotency, pagination, filtering, and sorting",
     "topic": "API design and integration contracts",
@@ -2499,6 +3219,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Identify the concrete variation, volatility, or ownership boundary the abstraction protects. Compare its ongoing cost with the cost of direct coupling. An abstraction is justified when it represents a stable concept...",
+        "id": "when-not-to-over-architect-a-simple-application-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you decide whether an abstraction is justified?"
       }
     ],
     "subtopic": "When not to over-architect a simple application",
@@ -2532,6 +3261,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Binding-source inference means ASP.NET Core can infer where an action parameter should come from without requiring explicit attributes. For API controllers, route-matching parameter names are inferred from route...",
+        "id": "api-controller-behavior-automatic-model-validation-binding-source-inference-and-validation-responses-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "Explain binding-source inference with [ApiController]."
+      }
+    ],
     "subtopic": "[ApiController] Behavior",
     "title": "[ApiController] Behavior",
     "topic": "API design and implementation",
@@ -2561,6 +3299,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 6,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a resource filter when the behavior must run before model binding or when it should wrap most of the MVC pipeline. Resource filters run after authorization but before model binding, so they are useful for caching,...",
+        "id": "aspnet-core-filters-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you use a resource filter instead of an action filter?"
       }
     ],
     "subtopic": "ASP.NET Core filters and middleware boundaries",
@@ -2594,6 +3341,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": ".Result and .Wait() block the current thread until the task completes. await asynchronously waits for the task without blocking the current thread. Blocking can cause deadlocks in environments with a synchronization...",
+        "id": "async-and-await-semantics-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between .Result, .Wait(), and await?"
+      }
+    ],
     "subtopic": "Async and Await Semantics",
     "title": "Async and Await Semantics",
     "topic": "Async programming, tasks, cancellation, and concurrency",
@@ -2623,6 +3379,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "An authentication scheme is a named authentication configuration that tells ASP.NET Core which authentication handler to use. A scheme can represent cookies, JWT bearer tokens, OpenID Connect, or a custom...",
+        "id": "authentication-vs-authorization-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is an authentication scheme?"
       }
     ],
     "subtopic": "Authentication vs Authorization in C#",
@@ -2656,6 +3421,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In ASP.NET Core, an action or Minimal API endpoint can accept a CancellationToken parameter. This token represents the request cancellation signal, usually linked to HttpContext.RequestAborted. The token should be...",
+        "id": "cancellationtoken-propagation-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you use CancellationToken in an ASP.NET Core API?"
+      }
+    ],
     "subtopic": "CancellationToken Propagation",
     "title": "CancellationToken Propagation",
     "topic": "Async programming, tasks, cancellation, and concurrency",
@@ -2685,6 +3459,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Mutable structs are dangerous because structs are copied by value. A developer might think they are modifying the original value, but they may actually be modifying a copy. This can happen when structs are stored in...",
+        "id": "classes-structs-records-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "Why are mutable structs considered dangerous?"
       }
     ],
     "subtopic": "Classes, structs, records",
@@ -2718,6 +3501,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Line coverage measures whether executable lines were run during tests. Branch coverage measures whether each decision path was exercised. For example, an if statement has at least two branches: true and false. A test...",
+        "id": "code-coverage-useful-assertions-flaky-test-prevention-and-ci-test-execution-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between line coverage and branch coverage?"
+      }
+    ],
     "subtopic": "Code Coverage, Useful Assertions, Flaky Test Prevention, and CI Test Execution",
     "title": "Code Coverage, Useful Assertions, Flaky Test Prevention, and CI Test Execution",
     "topic": "Testing strategy and integration testing",
@@ -2747,6 +3539,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose List<T when order and index access matter. Choose HashSet<T when uniqueness and fast membership checks matter. List<T .Contains scans the list, while HashSet<T .Contains is usually O(1). Example:",
+        "id": "collection-choices-in-csharp-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you choose between List and HashSet?"
       }
     ],
     "subtopic": "Collection Choices in C#",
@@ -2780,6 +3581,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use decimal for money and financial calculations because it provides base-10 decimal precision. Use double for approximate scientific, measurement, and engineering calculations where binary floating-point behavior is...",
+        "id": "common-bcl-types-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When should you use decimal instead of double?"
+      }
+    ],
     "subtopic": "Common BCL Types in C#",
     "title": "Common BCL Types in C#",
     "topic": "C# Language Foundations",
@@ -2809,6 +3619,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Configuration providers are applied in order. When more than one provider contains the same key, the value from the later provider usually overrides the earlier value. For example, if appsettings.json contains...",
+        "id": "configuration-sources-and-the-options-pattern-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How does configuration provider ordering work?"
       }
     ],
     "subtopic": "Configuration Sources and the Options Pattern",
@@ -2842,6 +3661,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "APIs should avoid returning EF Core entities directly because entities represent the internal persistence model, not necessarily the public API contract. Returning entities can expose sensitive fields, create...",
+        "id": "avoid-returning-entities-intermediate-q06",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should APIs avoid returning EF Core entities directly?"
+      }
+    ],
     "subtopic": "Content negotiation, status codes and request/response contracts",
     "title": "Content negotiation, status codes and request/response contracts",
     "topic": "API design and implementation",
@@ -2871,6 +3699,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose Minimal APIs when the API is simple, endpoint-focused, and does not need advanced MVC-specific features. Minimal APIs are a good default for small services, microservices, internal APIs, webhooks, health/status...",
+        "id": "controllers-vs-minimal-apis-when-to-choose-each-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When would you choose Minimal APIs over controllers?"
       }
     ],
     "subtopic": "Controllers vs Minimal APIs",
@@ -2904,6 +3741,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use Fluent API when the mapping is complex, ambiguous, or important enough that it should be explicit. Fluent API is preferred for relationships, delete behavior, indexes, owned types, complex types, value conversions,...",
+        "id": "conventions-fluent-api-owned-complex-data-and-relationship-mapping-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When should you use Fluent API instead of conventions or data annotations?"
+      }
+    ],
     "subtopic": "Conventions, Fluent API, Owned/Complex Data, and Relationship Mapping",
     "title": "Conventions, Fluent API, Owned/Complex Data, and Relationship Mapping",
     "topic": "Entity Framework",
@@ -2933,6 +3779,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 5,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Anti-forgery tokens prevent CSRF by requiring unsafe requests to include a secret value that an attacker from another site cannot know. In a typical server-rendered application, the server generates a token and...",
+        "id": "cookie-security-csrf-browser-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do anti-forgery tokens prevent CSRF?"
       }
     ],
     "subtopic": "Cookie behavior, CSRF, and browser-based security concerns",
@@ -2966,6 +3821,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "If any supplied task fails, the task returned by Task.WhenAll becomes faulted. When awaited, an exception is thrown. If multiple tasks fail, the returned task stores multiple exceptions in its Exception property. A...",
+        "id": "coordinating-multiple-tasks-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do exceptions behave with Task.WhenAll?"
+      }
+    ],
     "subtopic": "Coordinating Multiple Tasks in C#",
     "title": "Coordinating Multiple Tasks in C#",
     "topic": "Async programming, tasks, cancellation, and concurrency",
@@ -2995,6 +3859,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 5,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "AllowAnyOrigin allows browser JavaScript from any website to read responses from the API if the CORS request is otherwise allowed. For public, anonymous, read-only APIs this may be acceptable, but for authenticated...",
+        "id": "cors-secure-headers-secrets-least-privilege-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is AllowAnyOrigin dangerous for authenticated APIs?"
       }
     ],
     "subtopic": "CORS, secure headers, secret handling, and least privilege",
@@ -3028,6 +3901,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "You should not usually wrap I/O-bound work in Task.Run because true async I/O APIs already provide non-blocking behavior. Wrapping them in Task.Run adds unnecessary ThreadPool scheduling and can make performance worse....",
+        "id": "cpu-bound-vs-io-bound-work-and-task-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "Why should you not usually wrap I/O-bound work in Task.Run?"
+      }
+    ],
     "subtopic": "CPU-bound vs I/O-bound Work and Task",
     "title": "CPU-bound vs I/O-bound Work and Task",
     "topic": "Async programming, tasks, cancellation, and concurrency",
@@ -3057,6 +3939,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "HasData is model-managed data. It is configured in the EF Core model, stored in the model snapshot, and applied through migrations. It requires primary key values and is best for fixed reference data. Runtime seed...",
+        "id": "data-seeding-choices-including-hasdata-vs-runtime-seed-logic-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between HasData and runtime seed logic?"
       }
     ],
     "subtopic": "Data Seeding Choices, Including HasData vs Runtime Seed Logic",
@@ -3090,6 +3981,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Add, Attach, and Update all start tracking entities, but they assign different states. Add marks an entity as Added, meaning it will be inserted. Attach marks an existing entity as Unchanged, meaning EF Core starts...",
+        "id": "dbcontext-change-tracking-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between Add, Attach, and Update?"
+      }
+    ],
     "subtopic": "DbContext change tracking and entity state management in EF Core",
     "title": "DbContext change tracking and entity state management in EF Core",
     "topic": "Entity Framework",
@@ -3119,6 +4019,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use IDbContextFactory<TContext when the dependency injection scope does not match the desired context lifetime or when you need to create contexts manually. Common cases include background services, Blazor Server,...",
+        "id": "dbcontext-lifetime-thread-safety-connection-usage-and-when-to-avoid-sharing-a-context-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When should you use IDbContextFactory?"
       }
     ],
     "subtopic": "DbContext Lifetime, Thread Safety, Connection Usage, and When to Avoid Sharing a Context",
@@ -3152,6 +4061,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Multiple enumeration means iterating over the same deferred query more than once. Each enumeration may re-execute the query. Example: The filter may run twice. If activeUsers is an EF Core query, this may send two...",
+        "id": "deferred-execution-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can multiple enumeration be a problem?"
+      }
+    ],
     "subtopic": "Deferred Execution in C#",
     "title": "Deferred Execution in C#",
     "topic": "Modern C# patterns",
@@ -3181,6 +4099,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A multicast delegate is a delegate that has more than one method in its invocation list. When invoked, it calls each method in order. The delegate calls SendEmail, then SendSms, then WriteAuditLog. Multicast delegates...",
+        "id": "delegates-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is a multicast delegate?"
       }
     ],
     "subtopic": "Delegates",
@@ -3214,6 +4141,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Transient services are created every time they are requested. They are suitable for lightweight stateless services. Scoped services are created once per scope. In ASP.NET Core, one HTTP request usually has one scope....",
+        "id": "di-di-container-basics-lifetimes-and-constructor-selection-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between transient, scoped, and singleton services?"
+      }
+    ],
     "subtopic": "DI, DI Container Basics",
     "title": "DI, DI Container Basics",
     "topic": "Dependency injection, configuration, middleware, and logging",
@@ -3243,6 +4179,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use eager loading when you know up front that related data is needed. For example, if an API endpoint always returns orders with their order lines, eager loading or projection should be used instead of waiting for each...",
+        "id": "eager-explicit-and-lazy-loading-including-the-n-plus-one-query-problem-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When would you use eager loading instead of explicit or lazy loading?"
       }
     ],
     "subtopic": "Eager, Explicit, and Lazy Loading, Including the N+1 Query Problem",
@@ -3276,6 +4221,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "InMemory can fail to catch many relational database behaviors, including foreign key violations, unique constraint violations, transaction rollbacks, raw SQL execution errors, provider-specific query translation...",
+        "id": "ef-core-inmemory-provider-caveats-and-when-sqlite-docker-databases-or-testcontainers-are-safer-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What database behaviors can InMemory fail to catch?"
+      }
+    ],
     "subtopic": "EF Core InMemory Provider Caveats and When SQLite, Docker Databases, or Testcontainers Are Safer",
     "title": "EF Core InMemory Provider Caveats and When SQLite, Docker Databases, or Testcontainers Are Safer",
     "topic": "Testing strategy and integration testing",
@@ -3305,6 +4259,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Production migrations should usually use reviewed SQL scripts because database schema changes can cause data loss, locking, performance issues, or deployment failure. A SQL script shows the exact commands that will run...",
+        "id": "ef-core-migrations-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should production migrations usually use reviewed SQL scripts?"
       }
     ],
     "subtopic": "EF Core migrations and production migration safety",
@@ -3338,6 +4301,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "ASP.NET Core uses endpoint selection and route precedence to choose the best match. In general, the most specific route wins. Rules of thumb: Literal segments are more specific than parameter segments. Constrained...",
+        "id": "endpoint-routing-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does ASP.NET Core choose between multiple matching routes?"
+      }
+    ],
     "subtopic": "Endpoint routing and route matching",
     "title": "Endpoint routing and route matching",
     "topic": "API design and implementation",
@@ -3367,6 +4339,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 5,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In async methods, exceptions are captured by the returned Task and rethrown when the task is awaited. This means callers should usually use await inside a try/catch block. If a task is started but never awaited, its...",
+        "id": "exception-handling-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How should exceptions be handled in async methods?"
       }
     ],
     "subtopic": "Exception Handling in C#",
@@ -3400,6 +4381,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Choose the most specific exception type that accurately describes why the method cannot complete its intended operation. For invalid arguments, use argument-related exceptions: For invalid object state, use...",
+        "id": "exceptions-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do you choose which exception type to throw?"
+      }
+    ],
     "subtopic": "Exceptions",
     "title": "Exceptions",
     "topic": "C# Language Foundations",
@@ -3429,6 +4419,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 10,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In nullable-aware C code, these constraints express different nullability rules. T must be a non-nullable reference type. T can be a nullable or non-nullable reference type. T must be non-nullable, but it can be either...",
+        "id": "class-classnullable-notnull-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between class, class?, and notnull constraints?"
       }
     ],
     "subtopic": "Generic Type Constraints and Reusable Components",
@@ -3462,6 +4461,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Using IEnumerable<T too early can cause LINQ operators to run in memory instead of being translated to SQL. If the query is materialized before filtering, sorting, paging, or projection, the application may load far...",
+        "id": "why-can-using-ienumerable-with-ef-core-cause-performance-problems",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can using IEnumerable with EF Core cause performance problems?"
+      }
+    ],
     "subtopic": "IEnumerable vs IQueryable in C#",
     "title": "IEnumerable vs IQueryable in C#",
     "topic": "Modern C# patterns",
@@ -3491,6 +4499,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "IHttpClientFactory creates new HttpClient instances but reuses the underlying HttpMessageHandler instances for a configured handler lifetime. Reusing handlers helps avoid creating too many connection pools, which...",
+        "id": "ihttpclientfactory-and-resilient-outbound-http-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How does IHttpClientFactory help with socket exhaustion and DNS changes?"
       }
     ],
     "subtopic": "IHttpClientFactory and Resilient Outbound HTTP",
@@ -3524,6 +4541,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The choice depends on what is being cached and how the application is deployed. For small application data in a single-instance app, IMemoryCache is usually enough. For multi-instance applications where cached data...",
+        "id": "choose-cache-type-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you choose between in-memory, distributed, hybrid, and output caching?"
+      }
+    ],
     "subtopic": "In-memory, distributed, hybrid, and output caching",
     "title": "In-memory, distributed, hybrid, and output caching",
     "topic": "Performance, scalability, and caching",
@@ -3553,6 +4579,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Scopes usually represent delegated permissions granted to a client application acting on behalf of a signed-in user. Roles usually represent broad user roles, app roles, or application permissions. For example, a...",
+        "id": "jwt-bearer-auth-claims-scopes-and-policy-based-authorization-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between scopes and roles?"
       }
     ],
     "subtopic": "JWT Bearer Auth, Claims, Scopes, and Policy-Based Authorization",
@@ -3586,6 +4621,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "IEnumerable<T represents an in-memory sequence that can be enumerated. LINQ operators over IEnumerable<T usually use delegates and execute in the application process. IQueryable<T represents a query that can be...",
+        "id": "linq-querying-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the difference between IEnumerable and IQueryable?"
+      }
+    ],
     "subtopic": "LINQ Querying",
     "title": "LINQ Querying",
     "topic": "Modern C# patterns",
@@ -3615,6 +4659,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Authentication should run before authorization: Authentication populates HttpContext.User with the caller's identity and claims. Authorization then uses that identity and endpoint metadata to decide whether the request...",
+        "id": "middleware-ordering-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the correct order for authentication and authorization middleware?"
       }
     ],
     "subtopic": "Middleware Ordering and Cross-Cutting Behavior",
@@ -3648,6 +4701,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Null-state analysis is the compiler's flow analysis that tracks whether a reference variable is not-null or maybe-null. For example: At the start, value is maybe-null. After the if (value is null) check returns, the...",
+        "id": "required-vs-constructor-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does C# null-state analysis work?"
+      }
+    ],
     "subtopic": "Nullable reference  C#",
     "title": "Nullable reference  C#",
     "topic": "C# Language Foundations",
@@ -3677,6 +4739,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The observer pattern solves the problem of notifying multiple dependent objects about a change without tightly coupling the publisher to each subscriber. Without the pattern, the publisher may need direct dependencies...",
+        "id": "observer-style-communication-in-csharp-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What problem does the observer pattern solve?"
       }
     ],
     "subtopic": "Observer-Style Communication in C#",
@@ -3710,6 +4781,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Abstraction means exposing what an object can do while hiding how it does it. In C , abstraction is commonly implemented with interfaces, abstract classes, and carefully designed public APIs. Example: A service can...",
+        "id": "oop-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is abstraction in C#?"
+      }
+    ],
     "subtopic": "Object-Oriented Programming",
     "title": "Object-Oriented Programming",
     "topic": "C# Language Foundations",
@@ -3739,6 +4819,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 6,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Minimal APIs provide metadata through route handler signatures, return types, attributes, and endpoint builder extension methods. For example, route parameters and request body types can be inferred from the handler...",
+        "id": "openapi-generation-endpoint-metadata-api-discoverability-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do Minimal APIs provide metadata for OpenAPI generation?"
       }
     ],
     "subtopic": "OpenAPI generation and API discoverability",
@@ -3772,6 +4861,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "When an entity with a rowversion column is loaded, EF Core stores the original row version value. When the entity is updated, EF Core generates an UPDATE statement that includes both the primary key and the original...",
+        "id": "optimistic-concurrency-transactions-savepoints-conflict-handling-intermediate-q05",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does EF Core use a rowversion column to detect concurrency conflicts?"
+      }
+    ],
     "subtopic": "Optimistic concurrency, transactions, savepoints, and conflict handling",
     "title": "Optimistic concurrency, transactions, savepoints, and conflict handling",
     "topic": "Entity Framework",
@@ -3801,6 +4899,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "ConfigureServices is a general host configuration hook that can add or modify services during application startup. ConfigureTestServices is designed for tests and is usually applied after the application has registered...",
+        "id": "overriding-services-and-configuration-for-tests-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between ConfigureServices and ConfigureTestServices?"
       }
     ],
     "subtopic": "Overriding services and configuration in .NET tests",
@@ -3834,6 +4941,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "[ApiController] adds API-specific conventions to controller behavior. One important feature is binding source inference. For example, route parameters can be inferred from route templates, and complex action parameters...",
+        "id": "parameter-binding-from-route-query-string-body-form-header-and-services-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How does [ApiController] affect parameter binding in controller APIs?"
+      }
+    ],
     "subtopic": "Parameter Binding",
     "title": "Parameter Binding",
     "topic": "API design and implementation",
@@ -3863,6 +4979,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 6,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Property patterns match an object based on the values of its properties or fields. They are useful when decision logic depends on the state or shape of an object. This checks that the order is paid, has a positive...",
+        "id": "pattern-matching-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What are property patterns and when would you use them?"
       }
     ],
     "subtopic": "Pattern Matching in C#",
@@ -3896,6 +5021,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In ASP.NET Core, rate limiting is configured by registering rate limiter services and enabling rate limiting middleware. Policies can then be applied globally or to specific endpoints. Example: In a real application, I...",
+        "id": "rate-limiting-memory-gc-awareness-runtime-diagnostics-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you configure rate limiting in ASP.NET Core?"
+      }
+    ],
     "subtopic": "Rate limiting, memory/GC awareness, and runtime diagnostics",
     "title": "Rate limiting, memory/GC awareness, and runtime diagnostics",
     "topic": "Performance, scalability, and caching",
@@ -3925,6 +5059,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a record when the type is primarily used to store data and equality should be based on the values of that data. Records are a good fit for DTOs, request/response models, commands, queries, integration events,...",
+        "id": "records-in-csharp-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "When should you use a record instead of a class?"
       }
     ],
     "subtopic": "Records in C#",
@@ -3958,6 +5101,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "BeginScope creates a logical logging scope. Properties added to the scope can be attached to all log events created inside that scope. Example: This is useful for request-wide or operation-wide values such as...",
+        "id": "structured-logging-and-correlation-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is ILogger.BeginScope and when would you use it?"
+      }
+    ],
     "subtopic": "Structured Logging and Correlation",
     "title": "Structured Logging and Correlation",
     "topic": "Dependency injection, configuration, middleware, and logging",
@@ -3987,6 +5139,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Switch expression arms are evaluated from top to bottom. The first matching arm is selected. This means specific cases should usually come before general cases. Example: This is correct because the most specific...",
+        "id": "switch-expressions-intermediate-q06",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does arm ordering affect a switch expression?"
       }
     ],
     "subtopic": "Switch Expressions in C#",
@@ -4020,6 +5181,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a mock when the important behavior is an interaction with another component. For example, after an order is completed, the system should send an email, publish an event, write an audit record, or call a payment...",
+        "id": "test-doubles-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you use a mock instead of a fake?"
+      }
+    ],
     "subtopic": "Test doubles, mocking boundaries, and integration risks in .NET",
     "title": "Test doubles, mocking boundaries, and integration risks in .NET",
     "topic": "Testing strategy and integration testing",
@@ -4049,6 +5219,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A common approach is to register a test authentication scheme in the test host. The scheme uses a custom AuthenticationHandler<AuthenticationSchemeOptions that returns a successful AuthenticateResult with a...",
+        "id": "test-protected-endpoint-without-real-identity-provider-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How can you test a protected endpoint without calling a real identity provider?"
       }
     ],
     "subtopic": "Testing ASP.NET Core security, pipeline behavior, validation, and error responses",
@@ -4082,6 +5261,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Task.WaitAsync(TimeSpan) limits how long the caller waits for a task. If the timeout expires, it throws TimeoutException. However, it does not automatically cancel the underlying operation....",
+        "id": "timeouts-in-csharp-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between Task.WaitAsync and CancellationTokenSource.CancelAfter?"
+      }
+    ],
     "subtopic": "Timeouts in C#",
     "title": "Timeouts in C#",
     "topic": "Async programming, tasks, cancellation, and concurrency",
@@ -4111,6 +5299,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 8,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Identity resolution means EF Core ensures that a single entity key is represented by a single object instance within a tracking context. If the same row appears multiple times in a tracking query result, EF Core reuses...",
+        "id": "tracking-no-tracking-intermediate-q02",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is identity resolution in EF Core?"
       }
     ],
     "subtopic": "Tracking vs no-tracking queries and identity resolution",
@@ -4144,6 +5341,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The best approach is to avoid putting business logic directly in the infinite loop. Extract one unit of work into a separate service with a method like RunOnceAsync or ProcessBatchAsync. Unit test that service...",
+        "id": "unit-tests-integration-tests-and-hosted-services-for-background-jobs-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do you test a BackgroundService without testing an infinite loop?"
+      }
+    ],
     "subtopic": "Unit Tests, Integration Tests, and Hosted Services for Background Jobs",
     "title": "Unit Tests, Integration Tests, and Hosted Services for Background Jobs",
     "topic": "Performance, scalability, and caching",
@@ -4173,6 +5379,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 10,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The testing pyramid is a testing strategy model that suggests having many fast lower-level tests, fewer integration tests, and even fewer end-to-end tests. The idea is not that every project must have exact...",
+        "id": "unit-tests-vs-integration-tests-vs-end-to-end-tests-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is the testing pyramid?"
       }
     ],
     "subtopic": "Unit Tests vs Integration Tests vs End-to-End Tests",
@@ -4206,6 +5421,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Boxing is the process of converting a value type to object or to an interface type it implements. The runtime wraps the value inside an object. Unboxing extracts the value type back from the boxed object. Boxing...",
+        "id": "value-types-vs-reference-types-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is boxing and unboxing?"
+      }
+    ],
     "subtopic": "Value Types vs Reference Types",
     "title": "Value Types vs Reference Types",
     "topic": "C# Language Foundations",
@@ -4235,6 +5459,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Create a custom class that inherits from WebApplicationFactory<Program and override ConfigureWebHost. Example: This allows tests to set the environment, replace services, configure test databases, seed data, override...",
+        "id": "webapplicationfactory-testserver-httpclient-and-full-aspnet-core-pipeline-testing-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do you customize WebApplicationFactory for integration tests?"
       }
     ],
     "subtopic": "WebApplicationFactory, TestServer, HttpClient, and Full ASP.NET Core Pipeline Testing",
@@ -4268,6 +5501,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The frameworks support similar lifecycle needs but use different conventions. In xUnit, per-test setup is usually done in the test class constructor, and cleanup is done with IDisposable or IAsyncLifetime. xUnit does...",
+        "id": "setup-teardown-frameworks-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do setup and teardown differ between xUnit, NUnit, and MSTest?"
+      }
+    ],
     "subtopic": "Unit testing frameworks, naming, AAA, and test data setup in .NET",
     "title": "Unit testing frameworks, naming, AAA, and test data setup in .NET",
     "topic": "Testing strategy and integration testing",
@@ -4297,6 +5539,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The client stores the original request config when it receives a 401. It marks the request as already retried, calls the refresh endpoint, stores the new access token, updates the original request's authorization...",
+        "id": "access-tokens-refresh-tokens-expiration-handling-retrying-original-requests-and-refresh-token-queue-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you retry the original request after refreshing a token?"
       }
     ],
     "subtopic": "Access tokens, refresh tokens, expiration handling, retrying original requests, and refresh-token queue patterns",
@@ -4330,6 +5581,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would create a scoped Axios instance for the trusted API and attach a request interceptor that reads the current access token close to request time. If a token exists, the interceptor sets the Authorization header...",
+        "id": "axios-request-and-response-interceptors-for-auth-headers-global-errors-logging-and-retry-behavior-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you add an auth header with an Axios request interceptor?"
+      }
+    ],
     "subtopic": "Axios request and response interceptors for auth headers, global errors, logging, and retry behavior",
     "title": "Axios request and response interceptors for auth headers, global errors, logging, and retry behavior",
     "topic": "Production data access, API clients, and frontend auth",
@@ -4359,6 +5619,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Tokens in localStorage are accessible to any JavaScript running on the origin. If the app has an XSS vulnerability, an attacker can read the token and send it elsewhere. If the token is long-lived, the attacker may...",
+        "id": "browser-storage-trade-offs-localstorage-sessionstorage-memory-storage-and-cookies-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is storing tokens in localStorage risky?"
       }
     ],
     "subtopic": "Browser storage trade-offs: localStorage, sessionStorage, memory storage, and cookies",
@@ -4392,6 +5661,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would use built-in rules for small forms with simple field-level constraints. For example, a login form may only need required email and password fields. Built-in rules avoid extra dependencies and keep the...",
+        "id": "built-in-validation-async-validation-and-schema-resolvers-with-yup-or-zod-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you use built-in rules instead of a schema resolver?"
+      }
+    ],
     "subtopic": "Built-in validation, async validation, and schema resolvers with Yup or Zod",
     "title": "Built-in validation, async validation, and schema resolvers with Yup or Zod",
     "topic": "Forms, validation, and frontend performance in production",
@@ -4421,6 +5699,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A simple fetch wrapper is reasonable when the application has limited server communication, minimal cache needs, and no complex cross-screen server-state coordination. It can handle base URLs, headers, response...",
+        "id": "centralized-api-clients-with-fetch-axios-rtk-query-or-tanstack-query-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you choose a simple fetch wrapper instead of TanStack Query or RTK Query?"
       }
     ],
     "subtopic": "Centralized API clients with `fetch`, Axios, RTK Query, or TanStack Query",
@@ -4454,6 +5741,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A stale closure happens when a function closes over a value from an earlier time, but later code expects it to use a newer value. Example: message was created when count was 0, so log uses the old message. In React,...",
+        "id": "closures-and-lexical-scope-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "What is a stale closure?"
+      }
+    ],
     "subtopic": "Closures and lexical scope",
     "title": "Closures and lexical scope",
     "topic": "JavaScript fundamentals",
@@ -4483,6 +5779,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Suspense boundaries should preserve useful context. For route loading, the app shell and navigation should usually stay visible while the outlet or route content shows a skeleton or pending state. A full-page spinner...",
+        "id": "code-splitting-lazy-loading-bundle-analysis-and-route-level-loading-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should Suspense boundaries be placed for route loading?"
       }
     ],
     "subtopic": "Code splitting, lazy loading, bundle analysis, and route-level loading",
@@ -4516,6 +5821,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would use context plus reducer when a feature or screen has moderately complex state transitions and several nested components need to read or update that state. Examples include a checkout flow, multi-step wizard,...",
+        "id": "context-plus-reducer-vs-external-stores-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you use context plus reducer?"
+      }
+    ],
     "subtopic": "Context plus reducer vs external stores",
     "title": "Context plus reducer vs external stores",
     "topic": "State management, performance, and rendering optimization",
@@ -4545,6 +5859,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "onSubmit belongs on the <form and handles all normal submission paths, including clicking a submit button and pressing Enter in a field. It preserves browser form semantics and accessibility better than only handling...",
+        "id": "controlled-inputs-and-event-handling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should form submission usually be handled with onSubmit?"
       }
     ],
     "subtopic": "Controlled inputs and event handling",
@@ -4578,6 +5901,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Debounce reduces how often requests start, but old requests can still finish after newer ones. To avoid stale results, cancel old requests with AbortController, track the latest query and ignore mismatched responses,...",
+        "id": "debounce-and-throttle-for-search-filtering-autosave-and-expensive-ui-updates-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you avoid stale search results with debounced requests?"
+      }
+    ],
     "subtopic": "Debounce and throttle for search, filtering, autosave, and expensive UI updates",
     "title": "Debounce and throttle for search, filtering, autosave, and expensive UI updates",
     "topic": "Forms, validation, and frontend performance in production",
@@ -4607,6 +5939,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would first inspect the keys used for list items. If the list uses array indexes as keys, sorting changes which data is associated with each position, so React may preserve state for the position rather than the...",
+        "id": "debugging-rendering-hydration-and-interaction-issues-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you debug a component that loses input state after sorting a list?"
       }
     ],
     "subtopic": "Debugging rendering, hydration, and interaction issues",
@@ -4640,6 +5981,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Route error boundaries should handle failures that prevent a route from rendering correctly, such as a loader failing, a resource not being found, an authorization failure, or an unexpected exception in a route...",
+        "id": "error-states-and-retry-ux-for-failed-requests-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should route error boundaries be used for failed requests?"
+      }
+    ],
     "subtopic": "Error states and retry UX for failed requests",
     "title": "Error states and retry UX for failed requests",
     "topic": "Routing, forms, and server communication",
@@ -4669,6 +6019,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Expected validation errors should usually be returned as action data, fetcher data, or mutation result data. They should be displayed near the relevant fields with accessible markup. Route error boundaries are better...",
+        "id": "forms-validation-optimistic-updates-and-mutation-states-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should expected validation errors be returned and displayed?"
       }
     ],
     "subtopic": "Forms, validation, optimistic updates, and mutation states",
@@ -4702,6 +6061,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Important JSX rules include returning a single parent element, closing all tags, using className instead of class, using htmlFor instead of for, using camelCase DOM attributes and event handlers, and using curly braces...",
+        "id": "functional-components-and-jsx-composition-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are the most important JSX rules to remember?"
+      }
+    ],
     "subtopic": "Functional components and JSX composition",
     "title": "Functional components and JSX composition",
     "topic": "Components, props, state, and rendering behavior",
@@ -4731,6 +6099,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "If the app already has usable data and a background refetch fails, it should usually keep the stale data visible and show a subtle warning, toast, or refresh indicator. Replacing the whole screen with an error is...",
+        "id": "global-loading-error-unauthorized-and-network-failure-ux-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should background refetch failures be displayed?"
       }
     ],
     "subtopic": "Global loading, error, unauthorized, and network-failure UX patterns",
@@ -4764,6 +6141,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use ARIA when native HTML cannot express the semantics, state, or relationship needed by the component. For example, aria-expanded can communicate whether a disclosure is open, aria-controls can connect a button to a...",
+        "id": "keyboard-accessibility-semantic-html-aria-and-labels-ids-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you use ARIA in React?"
+      }
+    ],
     "subtopic": "Keyboard accessibility, semantic HTML, ARIA, and labels/IDs",
     "title": "Keyboard accessibility, semantic HTML, ARIA, and labels/IDs",
     "topic": "Testing, accessibility, and frontend debugging",
@@ -4793,6 +6179,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "memo compares props by identity for objects, arrays, and functions. If a parent creates a new object literal, array literal, or inline function during every render, the prop is different each time even if it contains...",
+        "id": "memoization-and-avoiding-needless-rerenders-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can memo fail when props include objects, arrays, or functions?"
       }
     ],
     "subtopic": "Memoization and avoiding needless rerenders",
@@ -4826,6 +6221,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Objects created during render have a new reference every render. Since React compares dependencies by identity, a new object dependency looks changed even if its contents are the same. Bad: Better: Now the dependency...",
+        "id": "memoization-with-usememo-and-dependency-correctness-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can object dependencies defeat memoization?"
+      }
+    ],
     "subtopic": "Memoization with useMemo and dependency correctness",
     "title": "Memoization with useMemo and dependency correctness",
     "topic": "Hooks, effects, and custom hooks",
@@ -4855,6 +6259,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Live bindings mean an imported binding reflects the current value from the exporting module. If the exporting module changes an exported variable, importers observe the updated value. However, the importing module...",
+        "id": "modules-and-import-export-behavior-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What does it mean that ES module imports are live bindings?"
       }
     ],
     "subtopic": "Modules and import/export behavior",
@@ -4888,6 +6301,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Discriminated unions model mutually exclusive states using a shared literal property, often called status, kind, or type. TypeScript uses that property to narrow to the correct variant. In a component, switching on...",
+        "id": "narrowing-and-control-flow-analysis-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do discriminated unions help React UI state?"
+      }
+    ],
     "subtopic": "Narrowing and control-flow analysis",
     "title": "Narrowing and control-flow analysis",
     "topic": "TypeScript for React",
@@ -4917,6 +6339,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A layout route provides a component that wraps child routes and renders an Outlet. It may or may not add a URL segment. A prefix route groups child paths under a URL prefix without rendering a layout component. Use a...",
+        "id": "nested-routes-layouts-params-and-route-boundaries-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do layout routes differ from prefix routes?"
       }
     ],
     "subtopic": "Nested routes, layouts, params, and route boundaries",
@@ -4950,6 +6381,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The effect should start a request for the current prop, pass an AbortSignal if the request supports cancellation, and abort it in cleanup. If the async work cannot be canceled, use an ignore flag or request id so stale...",
+        "id": "preventing-duplicate-requests-canceling-stale-requests-and-avoiding-race-conditions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should a React effect fetch data safely when a prop changes?"
+      }
+    ],
     "subtopic": "Preventing duplicate requests, canceling stale requests, and avoiding race conditions",
     "title": "Preventing duplicate requests, canceling stale requests, and avoiding race conditions",
     "topic": "Forms, validation, and frontend performance in production",
@@ -4979,6 +6419,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Promise.all waits for all input Promises to fulfill, but it rejects as soon as any input Promise rejects. It is useful when all operations are required. Promise.allSettled waits for all input Promises to settle,...",
+        "id": "promises-asynchronous-javascript-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between Promise.all and Promise.allSettled?"
       }
     ],
     "subtopic": "Promises and asynchronous JavaScript",
@@ -5012,6 +6461,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Strict Mode may run an extra setup-cleanup-setup cycle in development to reveal effects that are not resilient to being mounted, cleaned up, and mounted again. This helps find missing cleanup bugs. If connecting to a...",
+        "id": "proper-use-effect-usage-and-cleanup-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why does Strict Mode run effects twice in development?"
+      }
+    ],
     "subtopic": "Proper useEffect usage and cleanup",
     "title": "Proper useEffect usage and cleanup",
     "topic": "Hooks, effects, and custom hooks",
@@ -5041,6 +6499,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start by asking who needs the data. If only one component needs it, keep it local. If siblings need to stay synchronized, lift it to their closest common parent. If a parent needs to control the value, keep it in the...",
+        "id": "props-flow-local-state-and-lifting-state-up-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you decide whether state should be local or lifted?"
       }
     ],
     "subtopic": "Props flow, local state, and lifting state up",
@@ -5074,6 +6541,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "getByRole(\"button\", { name: /save/i }) verifies both semantics and accessible name. It proves the element is exposed as a button, not merely that some text exists somewhere. getByText(/save/i) could match a paragraph,...",
+        "id": "query-strategy-and-avoiding-implementation-detail-assertions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is getByRole(\"button\", { name: /save/i }) better than getByText(/save/i) for a button?"
+      }
+    ],
     "subtopic": "Query strategy and avoiding implementation-detail assertions",
     "title": "Query strategy and avoiding implementation-detail assertions",
     "topic": "Testing, accessibility, and frontend debugging",
@@ -5103,6 +6579,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use Controller when the field is a controlled component or a third-party UI component that does not behave like a normal native input. Examples include date pickers, custom selects, autocomplete components, masked...",
+        "id": "react-hook-form-fundamentals-uncontrolled-inputs-controller-and-form-state-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you use Controller?"
       }
     ],
     "subtopic": "React Hook Form fundamentals, uncontrolled inputs, `Controller`, and form state",
@@ -5136,6 +6621,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Server state is the saved data from the backend and should be owned by a loader, TanStack Query, RTK Query, or another data layer. Form draft state is the user's unsaved edits and should be owned by the form. When...",
+        "id": "reducing-state-complexity-and-avoiding-unnecessary-rerenders-in-form-heavy-pages-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How should server state and form draft state be separated?"
+      }
+    ],
     "subtopic": "Reducing state complexity and avoiding unnecessary rerenders in form-heavy pages",
     "title": "Reducing state complexity and avoiding unnecessary rerenders in form-heavy pages",
     "topic": "Forms, validation, and frontend performance in production",
@@ -5165,6 +6659,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Mirroring props in state usually creates stale data. The initial state uses the prop only on the first render. If the parent later passes a different prop value, the local state does not automatically update. If the...",
+        "id": "rerender-triggers-derived-state-and-avoiding-duplicated-state-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should you avoid mirroring props in state?"
       }
     ],
     "subtopic": "Rerender triggers, derived state, and avoiding duplicated state",
@@ -5198,6 +6701,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Fetching in useEffect starts after the component renders. That can cause loading flashes, fetch waterfalls, repeated loading/error boilerplate, and manual race-condition handling. Route loaders attach data requirements...",
+        "id": "route-loaders-actions-or-equivalent-data-loading-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why are route loaders often better than fetching in useEffect?"
+      }
+    ],
     "subtopic": "Route loaders/actions or equivalent data-loading patterns",
     "title": "Route loaders/actions or equivalent data-loading patterns",
     "topic": "Routing, forms, and server communication",
@@ -5227,6 +6739,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would write a custom base query when the default fetchBaseQuery no longer matches the transport needs. Examples include using Axios, GraphQL, a third-party SDK, dynamic base URLs, custom error normalization,...",
+        "id": "rtk-query-custom-base-queries-including-axios-based-basequery-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you write a custom base query instead of using fetchBaseQuery?"
       }
     ],
     "subtopic": "RTK Query custom base queries, including Axios-based baseQuery patterns",
@@ -5260,6 +6781,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "If Domain is omitted, the cookie is host-only and is sent only to the exact host that set it. If Domain=example.com is set, the cookie can be sent to subdomains. That can be risky if any subdomain is less trusted or...",
+        "id": "secure-cookie-flags-httponly-secure-samesite-path-domain-and-expiration-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is omitting Domain often safer for auth cookies?"
+      }
+    ],
     "subtopic": "Secure cookie flags: `HttpOnly`, `Secure`, `SameSite`, path, domain, and expiration",
     "title": "Secure cookie flags: `HttpOnly`, `Secure`, `SameSite`, path, domain, and expiration",
     "topic": "Production data access, API clients, and frontend auth",
@@ -5289,6 +6819,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "React uses Object.is semantics for several change comparisons, including comparing state values and dependency array entries. For most practical cases, this means primitives are compared by value and objects, arrays,...",
+        "id": "strict-equality-reference-identity-and-immutability-implications-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does React decide whether state or Hook dependencies changed?"
       }
     ],
     "subtopic": "Strict equality, reference identity, and immutability implications",
@@ -5322,6 +6861,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Mark the navigation update as a transition. When a transitioned update suspends, React can keep already revealed content visible while preparing the next screen, rather than immediately hiding it behind a fallback....",
+        "id": "suspense-transitions-and-rendering-priority-concepts-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How can you prevent already visible content from being replaced by a Suspense fallback during navigation?"
+      }
+    ],
     "subtopic": "Suspense, transitions, and rendering priority concepts",
     "title": "Suspense, transitions, and rendering priority concepts",
     "topic": "State management, performance, and rendering optimization",
@@ -5351,6 +6899,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "module controls the module system TypeScript assumes or emits, such as ESNext, CommonJS, or NodeNext. moduleResolution controls how TypeScript finds imported files and packages, such as using bundler-style resolution...",
+        "id": "tsconfig-basics-strict-mode-module-settings-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between module and moduleResolution?"
       }
     ],
     "subtopic": "tsconfig basics, strict mode, and module settings",
@@ -5384,6 +6941,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Discriminated unions prevent invalid UI states by modeling each valid state as a separate object shape. Instead of using many optional properties that can be combined incorrectly, each state has only the properties...",
+        "id": "types-unions-intersections-and-discriminated-unions-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do discriminated unions prevent invalid UI states?"
+      }
+    ],
     "subtopic": "Types, unions, intersections, and discriminated unions",
     "title": "Types, unions, intersections, and discriminated unions",
     "topic": "TypeScript for React",
@@ -5413,6 +6979,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use useReducer when state transitions are complex, several fields change together, many handlers update the same state, or action names make the logic easier to understand. useState is fine for simple local state, but...",
+        "id": "use-state-use-reducer-use-context-and-custom-hooks-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you choose useReducer instead of useState?"
       }
     ],
     "subtopic": "useState, useReducer, useContext, and custom hooks",
@@ -5446,6 +7021,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "React compares snapshots to decide whether the subscribed component needs to update. If getSnapshot returns a new object on every call, React may think the store changed even when it did not. This can cause unnecessary...",
+        "id": "use-sync-external-store-and-subscribing-to-external-state-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should getSnapshot not return a new object every time?"
+      }
+    ],
     "subtopic": "useSyncExternalStore and subscribing to external state",
     "title": "useSyncExternalStore and subscribing to external state",
     "topic": "State management, performance, and rendering optimization",
@@ -5475,6 +7059,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would render the form, interact with it the way a user would, and assert the visible validation result. For example, I would click submit with an empty required field, expect a validation message to be visible, and...",
+        "id": "user-centric-testing-with-react-testing-library-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you test a form validation flow with React Testing Library?"
       }
     ],
     "subtopic": "User-centric testing with React Testing Library",
@@ -5508,6 +7101,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Conditional types choose one type or another based on whether one type is assignable to another. They look like a ternary expression at the type level. They are most useful with generics because they can describe...",
+        "id": "utility-types-and-conditional-types-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are conditional types?"
+      }
+    ],
     "subtopic": "Utility types and conditional types",
     "title": "Utility types and conditional types",
     "topic": "TypeScript for React",
@@ -5537,6 +7139,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would choose watch for small forms or when the form owner genuinely needs the value for rendering. For example, a small login or signup form can use watch(\"hasCompany\") to show one extra field without creating a...",
+        "id": "watch-vs-usewatch-form-render-isolation-and-large-form-performance-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When would you choose watch instead of useWatch?"
       }
     ],
     "subtopic": "`watch` vs `useWatch`, form render isolation, and large-form performance",
@@ -5570,6 +7181,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Remove the state and effect, then calculate the filtered list during render from the source list and filter value. Bad: Good: If filtering is expensive and todos or filter often stay the same, wrap the calculation in...",
+        "id": "you-might-not-need-an-effect-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you replace an effect that filters a list into state?"
+      }
+    ],
     "subtopic": "“You might not need an effect” patterns",
     "title": "“You might not need an effect” patterns",
     "topic": "Hooks, effects, and custom hooks",
@@ -5599,6 +7219,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In SQL Server, nested BEGIN TRANSACTION statements increase @@TRANCOUNT, but inner COMMIT statements only decrement the count. The changes are not made permanent until the outermost transaction commits. A full rollback...",
+        "id": "acid-basics-and-transaction-scope-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why are nested transactions in SQL Server not independently committed?"
       }
     ],
     "subtopic": "ACID basics and transaction scope",
@@ -5632,6 +7261,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The recovery model controls transaction log maintenance and restore options. In simple recovery, SQL Server does not maintain a log backup chain for point-in-time recovery, so the system generally restores only to full...",
+        "id": "backup-types-restore-strategy-and-recovery-objectives-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do recovery models affect backup strategy?"
+      }
+    ],
     "subtopic": "Backup types, restore strategy, and recovery objectives",
     "title": "Backup types, restore strategy, and recovery objectives",
     "topic": "Backup, recovery, HA/DR, security, and temporal data",
@@ -5661,6 +7299,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would choose a representative window before the deployment and a comparable window after the deployment. In Query Store, I would compare duration, CPU, logical reads, execution count, waits, and plan IDs for the most...",
+        "id": "baselines-workload-comparisons-and-targeted-tuning-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you use Query Store to compare performance before and after a deployment?"
       }
     ],
     "subtopic": "Baselines, workload comparisons, and targeted tuning",
@@ -5694,6 +7341,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "No. In SQL Server, the n in CHAR(n) and VARCHAR(n) defines length in bytes, not guaranteed characters. With single-byte encodings, this often matches the number of characters. With UTF-8 or other multibyte encodings,...",
+        "id": "char-vs-varchar-vs-nvarchar-and-unicode-storage-choices-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Does VARCHAR(50) always mean 50 characters?"
+      }
+    ],
     "subtopic": "CHAR vs VARCHAR vs NVARCHAR and Unicode storage choices",
     "title": "CHAR vs VARCHAR vs NVARCHAR and Unicode storage choices",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -5723,6 +7379,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "On a clustered table, the clustered key is stored in nonclustered indexes as the row locator. If the clustered key is wide, nonclustered indexes become wider, increasing storage, memory, and I/O. If the clustered key...",
+        "id": "clustered-vs-nonclustered-indexes-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should clustered index keys usually be narrow and stable?"
       }
     ],
     "subtopic": "Clustered vs nonclustered indexes",
@@ -5756,6 +7421,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "SQL Server requires indexed computed columns to satisfy rules around ownership, determinism, precision, data type, and session SET options. The expression must be deterministic, meaning it returns the same result for...",
+        "id": "computed-columns-persisted-computed-columns-and-indexed-views-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What requirements matter when indexing a computed column?"
+      }
+    ],
     "subtopic": "Computed columns, persisted computed columns, and indexed views",
     "title": "Computed columns, persisted computed columns, and indexed views",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -5785,6 +7459,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Money should usually use an exact numeric type such as DECIMAL(p, s) because financial values need predictable precision and rounding. FLOAT and REAL are approximate numeric types, so they can represent values with...",
+        "id": "data-types-nullability-and-business-rule-enforcement-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should money usually use DECIMAL instead of FLOAT?"
       }
     ],
     "subtopic": "Data types, nullability, and business-rule enforcement",
@@ -5818,6 +7501,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "TRUNCATE TABLE removes all rows, but it does so by deallocating data pages and changing allocation metadata rather than deleting rows one by one. It has schema-level characteristics: stronger permissions, no WHERE...",
+        "id": "ddl-vs-dml-vs-dcl-and-how-schema-data-and-permissions-changes-differ-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is TRUNCATE TABLE often classified with DDL even though it removes data?"
+      }
+    ],
     "subtopic": "DDL vs DML vs DCL and how schema, data, and permissions changes differ",
     "title": "DDL vs DML vs DCL and how schema, data, and permissions changes differ",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -5847,6 +7539,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "SQL Server considers deadlock priority and rollback cost. A session with lower deadlock priority is more likely to be chosen. If priorities are the same, SQL Server generally chooses the transaction that is cheaper to...",
+        "id": "deadlocks-detection-and-mitigation-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does SQL Server choose a deadlock victim?"
       }
     ],
     "subtopic": "Deadlocks, detection, and mitigation",
@@ -5880,6 +7581,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "TRUNCATE TABLE is usually faster because it deallocates the data pages used by the table and indexes instead of deleting rows one by one. SQL Server logs the page deallocations rather than logging each individual row...",
+        "id": "delete-vs-truncate-including-logging-identity-reset-rollback-behavior-and-foreign-key-limitations-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is TRUNCATE TABLE usually faster than DELETE for clearing a table?"
+      }
+    ],
     "subtopic": "DELETE vs TRUNCATE, including logging, identity reset, rollback behavior, and foreign key limitations",
     "title": "DELETE vs TRUNCATE, including logging, identity reset, rollback behavior, and foreign key limitations",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -5909,6 +7619,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "No. Scans can be appropriate when a query needs many rows, the table is small, or a narrow covering index can be scanned efficiently. A scan is not automatically a problem. The real question is whether the scan reads...",
+        "id": "estimated-vs-actual-execution-plans-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Are scans always bad in an execution plan?"
       }
     ],
     "subtopic": "Estimated vs actual execution plans",
@@ -5942,6 +7661,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "After grouping, each group may contain many detail rows. If a selected column is not part of the grouping key and is not aggregated, SQL cannot know which value from the group should be returned. For example, grouping...",
+        "id": "group-by-and-aggregate-functions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why does SQL require selected columns to be grouped or aggregated?"
+      }
+    ],
     "subtopic": "GROUP BY and aggregate functions",
     "title": "GROUP BY and aggregate functions",
     "topic": "Core querying and data retrieval",
@@ -5971,6 +7699,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In synchronous commit, the primary waits for a synchronous secondary to harden the log before the transaction commit completes. This reduces data-loss risk but adds latency. In asynchronous commit, the primary commits...",
+        "id": "high-availability-and-disaster-recovery-basics-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between synchronous and asynchronous commit?"
       }
     ],
     "subtopic": "High availability and disaster recovery basics",
@@ -6004,6 +7741,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A LEFT JOIN can accidentally behave like an INNER JOIN when a filter on the right-side table is placed in the WHERE clause. Example: This removes rows where o.Status is NULL, which removes customers without paid...",
+        "id": "sql-join-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can a LEFT JOIN accidentally behave like an INNER JOIN?"
+      }
+    ],
     "subtopic": "INNER, LEFT, and other join patterns",
     "title": "INNER, LEFT, and other join patterns",
     "topic": "Relational modeling and normalization",
@@ -6033,6 +7779,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "With READ COMMITTED SNAPSHOT off, READ COMMITTED uses shared locks for reads and waits rather than reading uncommitted changes. With READ COMMITTED SNAPSHOT on, READ COMMITTED uses row versions and gives each statement...",
+        "id": "isolation-levels-and-row-versioning-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does READ COMMITTED differ with READCOMMITTEDSNAPSHOT ON?"
       }
     ],
     "subtopic": "Isolation levels and row versioning",
@@ -6066,6 +7821,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "I would inspect the actual execution plan, Query Store history, row estimates, waits, indexes, and query text. If the predicate is non-SARGable or the query does unnecessary work, I would rewrite SQL. If the query is...",
+        "id": "knowing-when-to-change-sql-indexes-or-schema-instead-of-forcing-hints-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you decide whether a slow query needs SQL rewrite, index change, statistics update, or a hint?"
+      }
+    ],
     "subtopic": "Knowing when to change SQL, indexes, or schema instead of forcing hints",
     "title": "Knowing when to change SQL, indexes, or schema instead of forcing hints",
     "topic": "Query tuning, Query Store, and plan stability",
@@ -6095,6 +7859,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "db owner gives broad control over a database. If an application account has db owner, a SQL injection flaw, leaked credential, or application bug can potentially read, change, drop, or alter far more than the...",
+        "id": "least-privilege-roles-row-level-security-and-masking-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why should applications avoid using dbowner?"
       }
     ],
     "subtopic": "Least privilege, roles, row-level security, and masking",
@@ -6128,6 +7901,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Temp tables can have statistics, and SQL Server can use those statistics to estimate row counts and choose join strategies. Table variables have more limited optimizer information and do not maintain distribution...",
+        "id": "local-vs-global-temporary-tables-and-table-variables-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do temp tables and table variables differ for query optimization?"
+      }
+    ],
     "subtopic": "Local vs global temporary tables and table variables",
     "title": "Local vs global temporary tables and table variables",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -6157,6 +7939,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start with sys.dm exec requests and the blocking session id column to find blocked sessions. Walk the blocking chain until you find a session that blocks others but is not itself blocked. Then inspect that session's...",
+        "id": "locking-behavior-and-blocking-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you find the head blocker?"
       }
     ],
     "subtopic": "Locking behavior and blocking",
@@ -6190,6 +7981,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "If multiple source rows match the same target row, a MERGE that updates or deletes the target can become ambiguous because the same target row would be affected more than once. SQL Server can fail the statement in that...",
+        "id": "merge-and-upsert-patterns-including-concurrency-cautions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can MERGE be risky with duplicate source rows?"
+      }
+    ],
     "subtopic": "MERGE and upsert patterns, including concurrency cautions",
     "title": "MERGE and upsert patterns, including concurrency cautions",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -6219,6 +8019,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Second normal form is mainly about composite keys. Every non-key column should depend on the whole composite key, not just part of it. For example, in an enrollment table keyed by (StudentId, CourseId), CourseName...",
+        "id": "normalization-and-when-denormalization-is-justified-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do second and third normal form differ?"
       }
     ],
     "subtopic": "Normalization and when denormalization is justified",
@@ -6252,6 +8061,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "NOT IN compares a value against every value returned by the list or subquery. If the list contains NULL, some comparisons become UNKNOWN. The overall predicate may not become TRUE for any row, so the query can return...",
+        "id": "null-handling-and-common-filtering-mistakes-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can NOT IN return no rows when the subquery contains NULL?"
+      }
+    ],
     "subtopic": "NULL handling and common filtering mistakes",
     "title": "NULL handling and common filtering mistakes",
     "topic": "Core querying and data retrieval",
@@ -6281,6 +8099,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A 1-to-1 relationship can be implemented in two common ways. First, use a foreign key with a unique constraint: Second, use a shared primary key: The important idea is that the child table must not allow multiple rows...",
+        "id": "one-to-one-one-to-many-and-many-to-many-relationships-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "How do you implement a 1-to-1 relationship in SQL?"
       }
     ],
     "subtopic": "One-to-one, one-to-many, and many-to-many relationships",
@@ -6314,6 +8141,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use an aggregate function with OVER, an ordering clause, and an explicit row frame. For example, SUM(Amount) OVER (PARTITION BY AccountId ORDER BY TransactionDate, TransactionId ROWS BETWEEN UNBOUNDED PRECEDING AND...",
+        "id": "over-partition-by-row-number-rank-and-running-aggregates-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do you calculate a running total in SQL Server?"
+      }
+    ],
     "subtopic": "OVER, PARTITION BY, ROW_NUMBER, RANK, and running aggregates",
     "title": "OVER, PARTITION BY, ROW_NUMBER, RANK, and running aggregates",
     "topic": "Advanced querying with window functions and CTEs",
@@ -6343,6 +8179,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "When a parameterized query or stored procedure is compiled, SQL Server may use the current parameter value to estimate cardinality and choose a plan. That plan can then be cached and reused for later executions with...",
+        "id": "parameter-sensitive-plans-and-skewed-data-distributions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does parameter sniffing interact with plan reuse?"
       }
     ],
     "subtopic": "Parameter-sensitive plans and skewed data distributions",
@@ -6376,6 +8221,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "A surrogate primary key gives the database a stable, narrow row identifier that is convenient for joins, foreign keys, APIs, and ORM mapping. A unique business key enforces real-world uniqueness, such as email or SKU....",
+        "id": "primary-key-vs-unique-constraint-candidate-keys-foreign-keys-and-constraint-design-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why use a surrogate primary key plus a unique business key?"
+      }
+    ],
     "subtopic": "Primary key vs unique constraint, candidate keys, foreign keys, and constraint design",
     "title": "Primary key vs unique constraint, candidate keys, foreign keys, and constraint design",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -6405,6 +8259,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 7,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "In SQL Server, creating a foreign key does not automatically create an index on the foreign key column. The foreign key enforces referential integrity, but indexing is a separate design decision. Foreign key columns...",
+        "id": "primary-keys-foreign-keys-constraints-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Does a foreign key automatically create an index?"
       }
     ],
     "subtopic": "Primary keys, foreign keys, and constraints",
@@ -6438,6 +8301,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Start by choosing a relevant recent time window, such as the last hour when users reported slowness, and compare it to a representative historical baseline. Use the Regressed Queries report or Query Store catalog views...",
+        "id": "query-store-for-regression-detection-and-plan-history-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How would you use Query Store to find a regressed query?"
+      }
+    ],
     "subtopic": "Query Store for regression detection and plan history",
     "title": "Query Store for regression detection and plan history",
     "topic": "Query tuning, Query Store, and plan stability",
@@ -6467,6 +8339,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "NOT IN can produce surprising results when the subquery returns NULL. Because SQL uses three-valued logic, comparison against NULL can make the predicate evaluate to unknown, and the query may return no rows. NOT...",
+        "id": "replacing-brittle-subqueries-with-clearer-query-structure-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can NOT IN be dangerous with subqueries?"
       }
     ],
     "subtopic": "Replacing brittle subqueries with clearer query structure",
@@ -6500,6 +8381,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Migration-based deployment stores ordered changes, such as migration files or numbered SQL scripts. Each migration describes a step from one version to the next, and a history table or process tracks what has already...",
+        "id": "schema-migrations-source-control-reviewable-sql-scripts-and-release-safety-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is the difference between migration-based and state-based database deployment?"
+      }
+    ],
     "subtopic": "Schema migrations, source control, reviewable SQL scripts, and release safety",
     "title": "Schema migrations, source control, reviewable SQL scripts, and release safety",
     "topic": "Database programmability and schema evolution",
@@ -6529,6 +8419,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 9,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "TOP limits rows, but without ORDER BY, SQL Server does not know which rows are considered first in a meaningful way. The query can return any matching rows depending on the execution plan. If the requirement is top 10...",
+        "id": "select-where-order-by-top-offset-fetch-intermediate-q01",
+        "label": "Q01",
+        "level": "Intermediate",
+        "question": "Why should TOP usually be used with ORDER BY?"
       }
     ],
     "subtopic": "SELECT, WHERE, ORDER BY, TOP/OFFSET-FETCH",
@@ -6562,6 +8461,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Key columns are part of the sorted index key and can support seeking, range scans, joins, grouping, and ordering. Included columns are stored only at the leaf level and are mainly used to cover the query output. A good...",
+        "id": "selectivity-covering-indexes-and-index-maintenance-trade-offs-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do key columns differ from included columns?"
+      }
+    ],
     "subtopic": "Selectivity, covering indexes, and index maintenance trade-offs",
     "title": "Selectivity, covering indexes, and index maintenance trade-offs",
     "topic": "Indexes, statistics, and execution plans",
@@ -6591,6 +8499,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Usually no. A CTE is generally an inline query expression, not a stored intermediate result. The optimizer can expand it into the outer query, and if the CTE is referenced multiple times, the underlying query may be...",
+        "id": "standard-and-recursive-ctes-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Are CTEs materialized in SQL Server?"
       }
     ],
     "subtopic": "Standard and recursive CTEs",
@@ -6624,6 +8541,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "The optimizer uses statistics to estimate cardinality for predicates, joins, grouping, and other operators. Those estimates feed the cost model. Based on estimated costs, the optimizer chooses access methods, join...",
+        "id": "statistics-and-how-the-optimizer-uses-them-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How does the optimizer use statistics to choose a plan?"
+      }
+    ],
     "subtopic": "Statistics and how the optimizer uses them",
     "title": "Statistics and how the optimizer uses them",
     "topic": "Indexes, statistics, and execution plans",
@@ -6653,6 +8579,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "XACT STATE() tells whether the current session has an active transaction and whether it can be committed. A value of 1 means there is an active committable transaction, 0 means no active transaction, and -1 means there...",
+        "id": "stored-procedure-transaction-patterns-with-try-catch-output-parameters-and-error-handling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is XACTSTATE used for?"
       }
     ],
     "subtopic": "Stored procedure transaction patterns with `TRY...CATCH`, output parameters, and error handling",
@@ -6686,6 +8621,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Benefits include reuse, reduced duplication, stable contracts, permission boundaries, fewer network round trips, and logic close to the data. Procedures can centralize multi-table operations and protect base tables...",
+        "id": "stored-procedures-output-parameters-and-encapsulated-database-logic-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What are the benefits and drawbacks of encapsulating logic in stored procedures?"
+      }
+    ],
     "subtopic": "Stored procedures, output parameters, and encapsulated database logic",
     "title": "Stored procedures, output parameters, and encapsulated database logic",
     "topic": "Database programmability and schema evolution",
@@ -6715,6 +8659,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "System-versioned temporal tables store row versions and let SQL Server maintain history of changes to table rows. Event tables store business events that happened at specific times, such as OrderCreated, StatusChanged,...",
+        "id": "temporal-or-reporting-style-query-patterns-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do system-versioned temporal tables differ from event tables?"
       }
     ],
     "subtopic": "Temporal or reporting-style query patterns",
@@ -6748,6 +8701,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Temporal tables automatically store previous row versions and validity periods. They are good for reconstructing what a row looked like at a point in time. Audit tables usually record extra context such as who made the...",
+        "id": "temporal-tables-historical-retention-and-lifecycle-management-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "How do temporal tables differ from audit tables?"
+      }
+    ],
     "subtopic": "Temporal tables, historical retention, and lifecycle management",
     "title": "Temporal tables, historical retention, and lifecycle management",
     "topic": "Backup, recovery, HA/DR, security, and temporal data",
@@ -6777,6 +8739,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Use a constraint when the rule can be expressed declaratively with primary keys, unique constraints, foreign keys, check constraints, not-null constraints, or defaults. Constraints are easier to understand, optimize,...",
+        "id": "triggers-and-their-trade-offs-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "When should you use a trigger instead of a constraint?"
       }
     ],
     "subtopic": "Triggers and their trade-offs",
@@ -6810,6 +8781,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "UNION removes duplicate rows. In transaction data, two rows can be identical but still represent two real events. If UNION is used before aggregation, it can remove legitimate transactions and undercount totals. For...",
+        "id": "union-vs-union-all-except-intersect-and-duplicate-handling-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why can UNION produce incorrect reports for transaction data?"
+      }
+    ],
     "subtopic": "UNION vs UNION ALL, EXCEPT, INTERSECT, and duplicate handling",
     "title": "UNION vs UNION ALL, EXCEPT, INTERSECT, and duplicate handling",
     "topic": "SQL practical interview comparisons and SQL Server-specific features",
@@ -6841,6 +8821,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
         "level": "Advanced"
       }
     ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "SCHEMABINDING binds a view or function to the schema of the underlying objects it references. This prevents incompatible schema changes, such as dropping a referenced column, until the dependent view or function is...",
+        "id": "views-and-user-defined-functions-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "What is SCHEMABINDING and why would you use it?"
+      }
+    ],
     "subtopic": "Views and user-defined functions",
     "title": "Views and user-defined functions",
     "topic": "Database programmability and schema evolution",
@@ -6870,6 +8859,15 @@ export const curriculumManifest: CurriculumManifestEntry[] = [
       {
         "count": 4,
         "level": "Advanced"
+      }
+    ],
+    "sampleQuestions": [
+      {
+        "answerExcerpt": "Status = 'Completed' is a row-level condition. Putting it in WHERE removes non-completed rows before grouping, making the query clearer and usually reducing the amount of work. Putting it in HAVING means the query...",
+        "id": "where-vs-having-and-filtering-before-vs-after-aggregation-intermediate-q01",
+        "label": "",
+        "level": "Intermediate",
+        "question": "Why is using HAVING Status = 'Completed' usually worse than using WHERE Status = 'Completed'?"
       }
     ],
     "subtopic": "WHERE vs HAVING and filtering before vs after aggregation",

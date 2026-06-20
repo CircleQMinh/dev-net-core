@@ -1,22 +1,37 @@
-import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
-import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
-import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
-import { Box, IconButton, Link, Stack, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { useAppThemeMode } from "../theme/themeMode";
 
-const FOOTER_LINKS = [
-  "Github",
-  "Changelog",
-  "Bug report",
-  "Terms",
-  "Privacy",
+type FooterLink =
+  | {
+      label: string;
+      href: string;
+      external: true;
+    }
+  | {
+      label: string;
+      to: string;
+      external: false;
+    };
+
+const FOOTER_LINKS: FooterLink[] = [
+  {
+    label: "Github",
+    href: "https://github.com/CircleQMinh/dev-net-core",
+    external: true,
+  },
+  { label: "Changelog", to: "/changelog", external: false },
+  { label: "Bug report", to: "/bug-report", external: false },
+  { label: "Terms", to: "/terms", external: false },
+  { label: "Privacy", to: "/privacy", external: false },
 ];
 
-const FOOTER_ICONS = [
-  { label: "Terminal", icon: <TerminalOutlinedIcon /> },
-  { label: "Code", icon: <CodeOutlinedIcon /> },
-  { label: "Bug report", icon: <BugReportOutlinedIcon /> },
-];
+function scrollToPageTop() {
+  requestAnimationFrame(() => {
+    window.scrollTo({ left: 0, top: 0 });
+    requestAnimationFrame(() => window.scrollTo({ left: 0, top: 0 }));
+  });
+}
 
 export function AppFooter() {
   const { tokens } = useAppThemeMode();
@@ -51,7 +66,7 @@ export function AppFooter() {
             textTransform: "uppercase",
           }}
         >
-          DEV_CORE ARCHITECTURE
+          DEV_NET_CORE 
         </Typography>
         <Typography
           sx={{
@@ -64,7 +79,7 @@ export function AppFooter() {
             textTransform: "uppercase",
           }}
         >
-          © 2024 DEV_NET_CORE & MINH VU. ALL RIGHTS RESERVED.
+          © 2026 DEV_NET_CORE & MINH VU. ALL RIGHTS RESERVED.
         </Typography>
       </Box>
 
@@ -75,53 +90,53 @@ export function AppFooter() {
         gap={{ xs: 2, md: 4 }}
         justifyContent="center"
       >
-        {FOOTER_LINKS.map((link) => (
-          <Link
-            href="#"
-            key={link}
-            underline="none"
-            sx={{
-              color: tokens.outline,
-              fontFamily: '"Space Grotesk", "Inter", sans-serif',
-              fontSize: 10,
-              fontWeight: 300,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              transition: "color 180ms ease",
-              "&:hover": {
-                color: tokens.primaryContainer,
-              },
-            }}
-          >
-            {link}
-          </Link>
-        ))}
-      </Stack>
-
-      <Stack direction="row" gap={1.5}>
-        {FOOTER_ICONS.map(({ label, icon }) => (
-          <IconButton
-            aria-label={label}
-            key={label}
-            sx={{
-              color: tokens.outline,
-              height: 28,
-              p: 0,
-              transition: "color 180ms ease, transform 120ms ease",
-              width: 28,
-              "& .MuiSvgIcon-root": {
-                fontSize: 18,
-              },
-              "&:hover": {
-                backgroundColor: "transparent",
-                color: tokens.primaryContainer,
-                transform: "translateY(-1px)",
-              },
-            }}
-          >
-            {icon}
-          </IconButton>
-        ))}
+        {FOOTER_LINKS.map((link) =>
+          link.external ? (
+            <Link
+              href={link.href}
+              key={link.label}
+              rel="noreferrer"
+              target="_blank"
+              underline="none"
+              sx={{
+                color: tokens.outline,
+                fontFamily: '"Space Grotesk", "Inter", sans-serif',
+                fontSize: 10,
+                fontWeight: 300,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                transition: "color 180ms ease",
+                "&:hover": {
+                  color: tokens.primaryContainer,
+                },
+              }}
+            >
+              {link.label}
+            </Link>
+          ) : (
+            <Link
+              component={RouterLink}
+              key={link.label}
+              onClick={scrollToPageTop}
+              to={link.to}
+              underline="none"
+              sx={{
+                color: tokens.outline,
+                fontFamily: '"Space Grotesk", "Inter", sans-serif',
+                fontSize: 10,
+                fontWeight: 300,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                transition: "color 180ms ease",
+                "&:hover": {
+                  color: tokens.primaryContainer,
+                },
+              }}
+            >
+              {link.label}
+            </Link>
+          )
+        )}
       </Stack>
     </Box>
   );

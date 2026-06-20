@@ -18,6 +18,7 @@ import {
   curriculumManifest,
   type CurriculumManifestEntry,
   type CurriculumManifestQuestionLevelCount,
+  type CurriculumManifestSampleQuestion,
 } from "../../contents/curriculumManifest.generated";
 import { categoryOrder, topicOrder } from "./curriculumOrder";
 
@@ -35,6 +36,7 @@ export type CurriculumSubTopicNode = {
   loadContent: MarkdownLoader;
   questionCount: number;
   questionLevelCounts: CurriculumManifestQuestionLevelCount[];
+  sampleQuestions: CurriculumManifestSampleQuestion[];
   progress: number;
   completed: boolean;
 };
@@ -122,6 +124,7 @@ function buildCurriculumTree(
         loadContent: () => loadMarkdownContent(entry.contentPath),
         questionCount: entry.questionCount,
         questionLevelCounts: entry.questionLevelCounts,
+        sampleQuestions: entry.sampleQuestions,
         progress: 0,
         completed: false,
       });

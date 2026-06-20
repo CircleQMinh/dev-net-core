@@ -1,3 +1,5 @@
+import { PagePlaceholder } from "../components/PagePlaceholder";
+
 export default function Roadmap() {
-  return <p>Roadmap</p>;
+  return <PagePlaceholder moduleName="Roadmap" />;
 }

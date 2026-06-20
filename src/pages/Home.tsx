@@ -11,15 +11,24 @@ import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
 import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
 import { Box, Button, Container, Stack } from "@mui/material";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  collectSubTopicNodes,
+  generatedCurriculumTree,
+  type CurriculumTopicNode,
+  type CurriculumTreeNode,
+} from "../components/content/CurriculumTreeView";
 
 type LearningPath = {
   title: string;
   description: string;
   icon: ReactNode;
-  tags?: string[];
+  tags: string[];
   level?: string;
   className: string;
+  to: string;
 };
 
 type Feature = {
@@ -41,45 +50,65 @@ type RoadmapStep = {
   description: string;
 };
 
-const learningPaths: LearningPath[] = [
-  {
-    title: "System Design & Architecture",
-    description:
-      "Scalability, Load Balancing, Microservices, and High-Availability patterns for modern cloud infrastructure.",
-    icon: <AccountTreeOutlinedIcon fontSize="large" />,
-    tags: ["CAP THEOREM", "SHARDING", "CACHING"],
-    level: "ADVANCED",
-    className: "md:col-span-2 lg:col-span-8 lg:min-h-[240px]",
-  },
-  {
-    title: "Azure Cloud",
-    description:
-      "Master App Services, Functions, CosmosDB, and Azure Active Directory integrations.",
-    icon: <CloudQueueOutlinedIcon fontSize="medium" />,
-    className: "lg:col-span-4 lg:min-h-[240px]",
-  },
-  {
-    title: ".NET Core",
-    description:
-      "Deep dive into Middleware, Dependency Injection, Entity Framework, and WebAPI performance tuning.",
-    icon: <TerminalOutlinedIcon fontSize="medium" />,
-    className: "lg:col-span-4 lg:min-h-[217px]",
-  },
-  {
-    title: "React & Frontend",
-    description:
-      "Advanced hooks, state management patterns, virtual DOM optimization, and component lifecycles.",
-    icon: <IntegrationInstructionsOutlinedIcon fontSize="medium" />,
-    className: "lg:col-span-4 lg:min-h-[217px]",
-  },
-  {
-    title: "SQL & Database",
-    description:
-      "Query optimization, indexing strategies, ACID properties, and relational database normalization.",
-    icon: <StorageOutlinedIcon fontSize="medium" />,
-    className: "lg:col-span-4 lg:min-h-[217px]",
-  },
-];
+const learningPathIcons: Record<string, ReactNode> = {
+  Azure: <CloudQueueOutlinedIcon fontSize="medium" />,
+  "Design & Architecture": <AccountTreeOutlinedIcon fontSize="large" />,
+  NET: <TerminalOutlinedIcon fontSize="medium" />,
+  React: <IntegrationInstructionsOutlinedIcon fontSize="medium" />,
+  SQL: <StorageOutlinedIcon fontSize="medium" />,
+};
+
+const learningPathClassNames: Record<string, string> = {
+  Azure: "lg:col-span-4 lg:min-h-[240px]",
+  "Design & Architecture": "md:col-span-2 lg:col-span-8 lg:min-h-[240px]",
+  NET: "lg:col-span-4 lg:min-h-[217px]",
+  React: "lg:col-span-4 lg:min-h-[217px]",
+  SQL: "lg:col-span-4 lg:min-h-[217px]",
+};
+
+function isTopicNode(node: CurriculumTreeNode): node is CurriculumTopicNode {
+  return node.type === "topic";
+}
+
+function formatLearningPathSummary(tags: string[]) {
+  if (tags.length === 0) {
+    return "the available curriculum sections";
+  }
+
+  if (tags.length === 1) {
+    return tags[0];
+  }
+
+  return `${tags.slice(0, -1).join(", ")} and ${tags[tags.length - 1]}`;
+}
+
+function buildLearningPaths(): LearningPath[] {
+  return generatedCurriculumTree.filter(isTopicNode).map((categoryNode) => {
+    const subTopics = collectSubTopicNodes([categoryNode]);
+    const tags = categoryNode.children
+      .filter(isTopicNode)
+      .map((child) => child.title)
+      .slice(0, 3);
+
+    return {
+      title: categoryNode.title,
+      description: `Explore ${subTopics.length} lessons across ${formatLearningPathSummary(
+        tags
+      )}.`,
+      icon: learningPathIcons[categoryNode.title] ?? (
+        <MenuBookOutlinedIcon fontSize="medium" />
+      ),
+      tags,
+      level: `${subTopics.length} modules`,
+      className:
+        learningPathClassNames[categoryNode.title] ??
+        "lg:col-span-4 lg:min-h-[217px]",
+      to: subTopics[0] ? `/content/${subTopics[0].id}/` : "/content",
+    };
+  });
+}
+
+const learningPaths = buildLearningPaths();
 
 const platformFeatures: Feature[] = [
   {
@@ -120,7 +149,7 @@ const platformFeatures: Feature[] = [
   },
 ];
 
-const drills: Drill[] = [
+const fallbackDrills: Drill[] = [
   {
     eyebrow: "#0042 / DESIGN PATTERNS",
     title: "Explain Dependency Injection.",
@@ -142,26 +171,79 @@ const drills: Drill[] = [
   },
 ];
 
+function buildLiveDrillCandidates(): Drill[] {
+  return collectSubTopicNodes(generatedCurriculumTree)
+    .flatMap((topic) =>
+      topic.sampleQuestions.map((question) => ({
+        answer: question.answerExcerpt,
+        category: topic.category,
+        code: topic.subtopic,
+        level: question.level,
+        title: question.question,
+      }))
+    )
+    .map((drill, index) => ({
+      answer: drill.answer,
+      code: drill.code,
+      eyebrow: `#${String(index + 1).padStart(4, "0")} / ${drill.level.toUpperCase()} / ${drill.category.toUpperCase()}`,
+      title: drill.title,
+    }));
+}
+
+const liveDrillCandidates = buildLiveDrillCandidates();
+
+function scrollToPageTop() {
+  requestAnimationFrame(() => {
+    window.scrollTo({ left: 0, top: 0 });
+    requestAnimationFrame(() => window.scrollTo({ left: 0, top: 0 }));
+  });
+}
+
+function getRandomDrills() {
+  const candidates =
+    liveDrillCandidates.length >= 3 ? liveDrillCandidates : fallbackDrills;
+
+  return shuffleDrills(candidates).slice(0, 3);
+}
+
+function shuffleDrills(drills: Drill[]) {
+  const shuffledDrills = [...drills];
+
+  for (let index = shuffledDrills.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    const currentDrill = shuffledDrills[index];
+
+    shuffledDrills[index] = shuffledDrills[randomIndex];
+    shuffledDrills[randomIndex] = currentDrill;
+  }
+
+  return shuffledDrills;
+}
+
 const roadmapSteps: RoadmapStep[] = [
   {
     id: "01",
-    title: "Select Path",
-    description: "Pick from 5 specialized tracks based on your career goals.",
+    title: "Choose Your Focus",
+    description:
+      "Select the category, topic, or skill area you want to prepare for, such as .NET, React, SQL, Azure, or System Design.",
   },
   {
     id: "02",
-    title: "Study Concepts",
-    description: "Consume granular modules with zero fluff and maximum depth.",
+    title: "Learn the Concepts",
+    description:
+      "Study structured explanations, examples, trade-offs, common mistakes, and interview-focused notes.",
   },
   {
     id: "03",
-    title: "Practice Scenarios",
-    description: "Test yourself with simulation labs and complex edge cases.",
+    title: "Practice Questions",
+    description:
+      "Review beginner, intermediate, and advanced interview questions with expected answers and key points.",
   },
   {
     id: "04",
-    title: "Expert Review",
-    description: "Receive detailed feedback based on industry best practices.",
+    title: "Simulate & Improve",
+    description:
+      "Take mock simulations, evaluate your answers, and focus on weak topics until you are interview-ready.",
   },
 ];
 
@@ -187,9 +269,11 @@ function PageSection({
 function CyberButton({
   children,
   intent = "primary",
+  onClick,
 }: {
   children: ReactNode;
   intent?: "primary" | "secondary";
+  onClick?: () => void;
 }) {
   const isPrimary = intent === "primary";
 
@@ -198,6 +282,7 @@ function CyberButton({
       disableElevation
       disableRipple
       className="gleeple-heading h-[54px] px-8 text-center"
+      onClick={onClick}
       sx={{
         borderRadius: 0,
         border: isPrimary
@@ -226,6 +311,7 @@ function CyberButton({
           filter: isPrimary ? "brightness(1.08)" : "none",
         },
       }}
+      type="button"
     >
       {children}
     </Button>
@@ -319,12 +405,30 @@ function CodePreview() {
   );
 }
 
-function LearningPathCard({ path }: { path: LearningPath }) {
-  const isFeatured = Boolean(path.tags?.length);
+function LearningPathCard({
+  path,
+  onSelect,
+}: {
+  path: LearningPath;
+  onSelect: (to: string) => void;
+}) {
+  const isFeatured = path.tags.length > 0;
 
   return (
     <Box
+      aria-label={`Open ${path.title} learning path`}
       className={`theme-glass-card group flex flex-col justify-between p-[25px] ${path.className}`}
+      component="button"
+      onClick={() => onSelect(path.to)}
+      sx={{
+        appearance: "none",
+        color: "inherit",
+        cursor: "pointer",
+        font: "inherit",
+        textAlign: "left",
+        width: "100%",
+      }}
+      type="button"
     >
       <Stack spacing={2} className="relative z-10">
         <div className="flex items-start justify-between gap-4">
@@ -352,7 +456,7 @@ function LearningPathCard({ path }: { path: LearningPath }) {
         </div>
       </Stack>
 
-      {path.tags ? (
+      {path.tags.length > 0 ? (
         <div className="mt-6 flex flex-wrap gap-2">
           {path.tags.map((tag) => (
             <span
@@ -426,6 +530,14 @@ function RoadmapStepCard({ step }: { step: RoadmapStep }) {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
+  const drills = useMemo(() => getRandomDrills(), []);
+
+  const navigateFromHome = (path: string) => {
+    navigate(path);
+    scrollToPageTop();
+  };
+
   return (
     <Box className="theme-page min-h-screen overflow-hidden">
       <Box className="flex flex-col items-center gap-20 pb-20 pt-24 md:pt-32">
@@ -437,9 +549,8 @@ export default function Home() {
           <Box className="relative flex w-full flex-col items-center justify-center gap-12 py-8 md:py-12 lg:flex-row">
             <Stack className="flex-1 lg:min-w-0" spacing={2}>
               <div className="gleeple-heading theme-badge w-fit px-[13px] py-[5px] text-[10px] leading-[15px]">
-                VERSION 4.0 STABLE BUILD
+                #1 Learning Platform
               </div>
-
               <div className="max-w-[672px] pt-2">
                 <h1 className="gleeple-heading theme-text text-[36px] font-bold leading-[1.1] md:text-[48px]">
                   Master the Technical
@@ -460,8 +571,15 @@ export default function Home() {
                 spacing={2}
                 className="pt-2"
               >
-                <CyberButton>Start Learning Now</CyberButton>
-                <CyberButton intent="secondary">Explore Categories</CyberButton>
+                <CyberButton onClick={() => navigateFromHome("/content")}>
+                  Start Learning Now
+                </CyberButton>
+                <CyberButton
+                  intent="secondary"
+                  onClick={() => navigateFromHome("/practice")}
+                >
+                  Explore Question Bank
+                </CyberButton>
               </Stack>
             </Stack>
 
@@ -476,7 +594,11 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12">
             {learningPaths.map((path) => (
-              <LearningPathCard key={path.title} path={path} />
+              <LearningPathCard
+                key={path.title}
+                onSelect={navigateFromHome}
+                path={path}
+              />
             ))}
           </div>
         </PageSection>
@@ -502,6 +624,7 @@ export default function Home() {
             <Button
               endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
               className="gleeple-heading"
+              onClick={() => navigateFromHome("/practice")}
               sx={{
                 borderRadius: 0,
                 color: "var(--color-primary-container)",
@@ -550,11 +673,13 @@ export default function Home() {
               Ready to Level Up Your Career?
             </h2>
             <p className="theme-muted relative mt-6 max-w-[672px] text-[16px] leading-6">
-              Join 15,000+ senior engineers who have optimized their technical
+              Join 100+ senior engineers who have optimized their technical
               interview performance with our platform.
             </p>
             <div className="relative mt-6">
-              <CyberButton>Get Started</CyberButton>
+              <CyberButton onClick={() => navigateFromHome("/content")}>
+                Get Started
+              </CyberButton>
             </div>
           </Box>
         </PageSection>

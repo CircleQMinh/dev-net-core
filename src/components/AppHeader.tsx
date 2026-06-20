@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import type { MouseEvent } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppThemeMode } from "../theme/themeMode";
 
 const NAV_ITEMS = {
@@ -28,8 +28,21 @@ export function AppHeader() {
     setMenuAnchor(null);
   };
 
+  const scrollToPageTop = () => {
+    requestAnimationFrame(() => {
+      window.scrollTo({ left: 0, top: 0 });
+      requestAnimationFrame(() => window.scrollTo({ left: 0, top: 0 }));
+    });
+  };
+
+  const navigateFromHeader = (path: string) => {
+    closeMenu();
+    navigate(path);
+    scrollToPageTop();
+  };
+
   const goHome = () => {
-    navigate("/");
+    navigateFromHeader("/");
   };
 
   return (
@@ -91,10 +104,9 @@ export function AppHeader() {
       >
         {Object.entries(NAV_ITEMS).map(([label, path]) => (
           <Button
-            component={RouterLink}
             disableRipple
             key={label}
-            to={path}
+            onClick={() => navigateFromHeader(path)}
             sx={{
               color: tokens.onSurfaceVariant,
               fontFamily: '"Space Grotesk", "Inter", sans-serif',
@@ -111,6 +123,7 @@ export function AppHeader() {
                 transform: "translateY(-1px)",
               },
             }}
+            type="button"
           >
             {label}
           </Button>
@@ -146,6 +159,7 @@ export function AppHeader() {
 
         <Button
           disableElevation
+          onClick={() => navigateFromHeader("/content")}
           sx={{
             backgroundColor: tokens.primaryContainer,
             borderRadius: "2px",
@@ -168,6 +182,7 @@ export function AppHeader() {
               transform: "scale(0.95)",
             },
           }}
+          type="button"
         >
           GET_STARTED
         </Button>
@@ -204,10 +219,8 @@ export function AppHeader() {
         >
           {Object.entries(NAV_ITEMS).map(([label, path]) => (
             <MenuItem
-              component={RouterLink}
               key={label}
-              onClick={closeMenu}
-              to={path}
+              onClick={() => navigateFromHeader(path)}
               sx={{
                 color: tokens.onSurfaceVariant,
                 fontFamily: '"Space Grotesk", "Inter", sans-serif',
@@ -224,7 +237,7 @@ export function AppHeader() {
             </MenuItem>
           ))}
           <MenuItem
-            onClick={closeMenu}
+            onClick={() => navigateFromHeader("/content")}
             sx={{
               color: tokens.primaryContainer,
               display: { xs: "flex", sm: "none" },

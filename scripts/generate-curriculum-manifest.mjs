@@ -93,7 +93,8 @@ const entries = markdownFiles.map(({ absolutePath, relativePath }) => {
   const topicFolderPath = [physicalFolderPath, slugify(topicTitle)]
     .filter(Boolean)
     .join("/");
-  const questionLevelCounts = getQuestionLevelCounts(markdown);
+  const questions = extractCommonInterviewQuestions(markdown);
+  const questionLevelCounts = getQuestionLevelCounts(questions);
 
   return {
     category,
@@ -106,6 +107,7 @@ const entries = markdownFiles.map(({ absolutePath, relativePath }) => {
       0
     ),
     questionLevelCounts,
+    sampleQuestions: getSampleQuestions(questions),
     subtopic: subtopicTitle,
     title: subtopicTitle,
     topic: topicTitle,
@@ -126,6 +128,14 @@ export type CurriculumManifestQuestionLevelCount = {
   level: string;
 };
 
+export type CurriculumManifestSampleQuestion = {
+  answerExcerpt: string;
+  id: string;
+  label: string;
+  level: string;
+  question: string;
+};
+
 export type CurriculumManifestEntry = {
   category: string;
   contentPath: string;
@@ -134,6 +144,7 @@ export type CurriculumManifestEntry = {
   path: string;
   questionCount: number;
   questionLevelCounts: CurriculumManifestQuestionLevelCount[];
+  sampleQuestions: CurriculumManifestSampleQuestion[];
   subtopic: string;
   title: string;
   topic: string;
@@ -200,8 +211,7 @@ function parseMarkdownFrontmatter(markdown) {
   }, {});
 }
 
-function getQuestionLevelCounts(markdown) {
-  const questions = extractCommonInterviewQuestions(markdown);
+function getQuestionLevelCounts(questions) {
   const countsByLevel = new Map();
 
   questions.forEach((question) => {
@@ -214,6 +224,66 @@ function getQuestionLevelCounts(markdown) {
   }));
 }
 
+function getSampleQuestions(questions) {
+  const question =
+    questions.find((item) => item.level === "Intermediate") ??
+    questions.find((item) => item.level === "Advanced") ??
+    questions.find((item) => item.level === "Beginner") ??
+    questions[0];
+
+  if (!question) {
+    return [];
+  }
+
+  return [
+    {
+      answerExcerpt: createAnswerExcerpt(question),
+      id: question.id,
+      label: question.label,
+      level: question.level,
+      question: question.question,
+    },
+  ];
+}
+
+function createAnswerExcerpt(question) {
+  const excerptSource =
+    question.expectedAnswerMarkdown ||
+    question.keyPointsMarkdown ||
+    question.question;
+  const excerpt = truncateText(markdownToPlainText(excerptSource), 220);
+
+  return (
+    excerpt ||
+    "Practice this question and compare your answer with the expected response."
+  );
+}
+
+function markdownToPlainText(markdown) {
+  return removeCommentFromMD(markdown)
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^[-*+]\s+/gm, "")
+    .replace(/^\d+\.\s+/gm, "")
+    .replace(/[*_~>#|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  const truncatedText = text.slice(0, maxLength).trimEnd();
+  const lastSpaceIndex = truncatedText.lastIndexOf(" ");
+
+  return `${truncatedText.slice(0, Math.max(0, lastSpaceIndex)).trimEnd()}...`;
+}
+
 function extractCommonInterviewQuestions(markdown) {
   const section = extractCommonInterviewQuestionsSection(markdown);
 
@@ -221,7 +291,7 @@ function extractCommonInterviewQuestions(markdown) {
     return [];
   }
 
-  const lines = splitMarkdownLines(section).lines;
+  const { eol, lines } = splitMarkdownLines(section);
   const questions = [];
   let currentLevel = "";
   let isInCodeBlock = false;
@@ -251,20 +321,54 @@ function extractCommonInterviewQuestions(markdown) {
       return;
     }
 
+    const nextQuestionIndex = findNextQuestionBoundary(lines, index + 1);
+    const questionMarkdown = lines.slice(index, nextQuestionIndex).join(eol).trim();
     const parsedHeading = parseQuestionHeading(heading.title, currentLevel);
+    const questionId =
+      questionMarkdown.match(/<!--\s*question-id:([\w./:-]+)\s*-->/i)?.[1] ??
+      slugify(heading.title);
     const questionLevel =
-      lines
-        .slice(index, findNextQuestionBoundary(lines, index + 1))
-        .join("\n")
-        .match(/<!--\s*question-level:([\w -]+)\s*-->/i)?.[1] ??
+      questionMarkdown.match(/<!--\s*question-level:([\w -]+)\s*-->/i)?.[1] ??
       parsedHeading.level;
 
     questions.push({
+      expectedAnswerMarkdown: extractMarkdownSectionBody(
+        questionMarkdown,
+        "Expected Answer"
+      ),
+      id: questionId.trim(),
+      keyPointsMarkdown: extractMarkdownSectionBody(
+        questionMarkdown,
+        "Key Points to Mention"
+      ),
+      label: parsedHeading.label,
       level: formatQuestionLevel(questionLevel),
+      question: parsedHeading.question,
     });
   });
 
   return questions;
+}
+
+function extractMarkdownSectionBody(markdown, headingTitle) {
+  const sectionRange = findMarkdownSectionRange(markdown, headingTitle);
+
+  if (!sectionRange) {
+    return "";
+  }
+
+  const { eol, lines } = splitMarkdownLines(markdown);
+
+  return removeCommentFromMD(
+    lines
+      .slice(sectionRange.startLine + 1, sectionRange.endLine)
+      .join(eol)
+      .trim()
+  );
+}
+
+function removeCommentFromMD(markdown) {
+  return markdown.replace(/<!--[\s\S]*?-->/g, "");
 }
 
 function extractCommonInterviewQuestionsSection(markdown) {
@@ -388,8 +492,18 @@ function parseQuestionHeading(title, fallbackLevel) {
     /^(?:(beginner|intermediate|advanced)\s+)?(q\d+)\s*:\s*(.+)$/i
   );
 
+  if (!headingMatch) {
+    return {
+      label: "",
+      level: fallbackLevel,
+      question: title,
+    };
+  }
+
   return {
-    level: headingMatch?.[1] ?? fallbackLevel,
+    label: headingMatch[2].toUpperCase(),
+    level: headingMatch[1] ?? fallbackLevel,
+    question: headingMatch[3].trim(),
   };
 }
 
