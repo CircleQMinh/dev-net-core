@@ -276,37 +276,37 @@
    - ✅ Stored procedure transaction patterns with `TRY...CATCH`, output parameters, and error handling
 
 4. **Advanced querying with window functions and CTEs**
-   - OVER, PARTITION BY, ROW_NUMBER, RANK, and running aggregates
-   - Standard and recursive CTEs
-   - Replacing brittle subqueries with clearer query structure
-   - Temporal or reporting-style query patterns
+   - ✅ OVER, PARTITION BY, ROW_NUMBER, RANK, and running aggregates
+   - ✅ Standard and recursive CTEs
+   - ✅ Replacing brittle subqueries with clearer query structure
+   - ✅ Temporal or reporting-style query patterns
 
 5. **Indexes, statistics, and execution plans**
-   - Clustered vs nonclustered indexes
-   - Selectivity, covering indexes, and index maintenance trade-offs
-   - Statistics and how the optimizer uses them
-   - Estimated vs actual execution plans
+   - ✅ Clustered vs nonclustered indexes
+   - ✅ Selectivity, covering indexes, and index maintenance trade-offs
+   - ✅ Statistics and how the optimizer uses them
+   - ✅ Estimated vs actual execution plans
 
 6. **Transactions, isolation, locking, and deadlocks**
-   - ACID basics and transaction scope
-   - Isolation levels and row versioning
-   - Locking behavior and blocking
-   - Deadlocks, detection, and mitigation
+   - ✅ ACID basics and transaction scope
+   - ✅ Isolation levels and row versioning
+   - ✅ Locking behavior and blocking
+   - ✅ Deadlocks, detection, and mitigation
 
 7. **Query tuning, Query Store, and plan stability**
-   - Query Store for regression detection and plan history
-   - Parameter-sensitive plans and skewed data distributions
-   - Baselines, workload comparisons, and targeted tuning
-   - Knowing when to change SQL, indexes, or schema instead of forcing hints
+   - ✅ Query Store for regression detection and plan history
+   - ✅ Parameter-sensitive plans and skewed data distributions
+   - ✅ Baselines, workload comparisons, and targeted tuning
+   - ✅ Knowing when to change SQL, indexes, or schema instead of forcing hints
 
 8. **Database programmability and schema evolution**
-   - Stored procedures, output parameters, and encapsulated database logic
-   - Views and user-defined functions
-   - Triggers and their trade-offs
-   - Schema migrations, source control, reviewable SQL scripts, and release safety
+   - ✅ Stored procedures, output parameters, and encapsulated database logic
+   - ✅ Views and user-defined functions
+   - ✅ Triggers and their trade-offs
+   - ✅ Schema migrations, source control, reviewable SQL scripts, and release safety
 
 9. **Backup, recovery, HA/DR, security, and temporal data**
-   - Backup types, restore strategy, and recovery objectives
-   - High availability and disaster recovery basics
-   - Least privilege, roles, row-level security, and masking
-   - Temporal tables, historical retention, and lifecycle management
+   - ✅ Backup types, restore strategy, and recovery objectives
+   - ✅ High availability and disaster recovery basics
+   - ✅ Least privilege, roles, row-level security, and masking
+   - ✅ Temporal tables, historical retention, and lifecycle management
