@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 const rawMarkdownHashPathPrefix = '\0raw-markdown-hash-path:'
 
 function rawMarkdownHashPathPlugin() {
@@ -40,6 +42,6 @@ function rawMarkdownHashPathPlugin() {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [rawMarkdownHashPathPlugin(), react(), tailwindcss()],
+  plugins: [rawMarkdownHashPathPlugin(), react(), tailwindcss(), cloudflare()],
   base: '/',
 })
