@@ -94,6 +94,8 @@ The application includes these important routes:
 
 Do not break existing route behavior unless explicitly requested.
 
+Canonical public SEO URLs should use trailing slashes, for example `/content/`, `/content/:topicId/`, `/roadmap/`, `/about-us/`, `/privacy/`, and `/terms/`. Non-trailing variants may continue to work for user convenience, but they should not be used in sitemap URLs, canonical tags, Open Graph URLs, structured data URLs, or internal generated SEO links.
+
 ### Content System
 
 The curriculum is Markdown-driven.
@@ -309,7 +311,7 @@ Important behavior:
   * The progress section should be hidden.
   * The "On This Page" section should not show "Interview Practice".
 * `/content/:topicId` displays the selected curriculum topic.
-* Invalid topic IDs should redirect to the first available topic.
+* Invalid topic IDs should render a clear Not Found state with `noindex`, not redirect to the first available topic.
 * The left panel contains the curriculum navigation.
 * The main area renders Markdown content.
 * The right panel contains "On This Page", topic progress, and interview practice navigation when applicable.
@@ -561,6 +563,35 @@ When a task affects routing, check:
 * Invalid route fallback
 * Navigation links
 * GitHub Pages or production base path compatibility
+
+## SEO and Pre-rendering Rules
+
+Follow the SEO plan in `docs/plans/dev-net-core-seo-improvement-plan.md` when working on metadata, routing, sitemap output, pre-rendering, or production deployment behavior.
+
+Important SEO route rules:
+
+* `/content/:topicId/` is the primary searchable landing page for each curriculum topic.
+* `/practice/:topicId/`, `/simulation/*`, `/bug-report/`, and utility/user-flow routes are `noindex` and excluded from the sitemap by default.
+* `/practice/:topicId/` should stay out of the sitemap unless it is later redesigned as a standalone searchable page with unique visible content.
+* `/simulation/` and `/changelog/` are optional sitemap routes only if they have enough unique visible source HTML content and are intended to rank.
+* Invalid content or practice topic IDs should render Not Found + `noindex`; do not redirect them to another valid topic.
+* Do not block `noindex` pages in `robots.txt`; crawlers must be able to read the `noindex` directive.
+
+Sitemap and static output rules:
+
+* Every sitemap URL must be absolute, canonical, trailing-slash, indexable, direct-loadable, and production validated.
+* A sitemap URL must return `200 OK` on direct production load and must not redirect.
+* A sitemap URL must have route-specific source HTML metadata and visible source HTML content.
+* A sitemap URL must have matching static/pre-rendered output and must not depend on the GitHub Pages `404.html` SPA fallback.
+* Do not include routes in `sitemap.xml` until their production static/pre-rendered output is validated.
+* Submit the sitemap to Google Search Console only after the production validation gate passes.
+* If `dist/404.html` is generated, it should be a dedicated Not Found + `noindex` document, not a blind copy of `dist/index.html`.
+
+Build and metadata ownership rules:
+
+* Markdown frontmatter and the generated curriculum/SEO manifests are the source of truth for content metadata.
+* Shared SEO metadata should drive sitemap generation, pre-rendered HTML, React route metadata, Open Graph tags, Twitter/X tags, and JSON-LD.
+* SEO postbuild output should preserve Vite-generated hashed assets and deploy only public `dist` output; do not deploy private server/static build outputs such as `dist-server`.
 
 ## GitHub Pages and Domain Notes
 
