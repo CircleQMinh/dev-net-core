@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# DEV_NET_CORE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DEV_NET_CORE is a developer-focused interview preparation website built for software engineers who want structured, realistic, and practical technical interview preparation.
 
-Currently, two official plugins are available:
+Website: https://www.dev-net-core.com/
+Repository: https://github.com/CircleQMinh/dev-net-core
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project focuses on helping developers prepare for modern engineering interviews through organized learning content, topic-based practice questions, and simulation-style interview sessions. Instead of relying on random trivia or gamified distractions, DEV_NET_CORE is designed around clear explanations, realistic interview questions, and practical concepts that appear in real-world software engineering work.
 
-## React Compiler
+## What DEV_NET_CORE Provides
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+DEV_NET_CORE includes a structured curriculum covering key software engineering areas such as .NET, C#, ASP.NET Core, Entity Framework, API design, authentication and security, SQL, React, TypeScript, Azure, system design, architecture, testing, performance, and production-readiness topics.
 
-## Expanding the ESLint configuration
+The website is organized around three main learning flows:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Content
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The Content section provides topic-based learning material written in Markdown. Each topic is structured to explain the core concepts, practical usage, common mistakes, trade-offs, and interview expectations.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The goal is to help users understand not only what a concept is, but also why it matters in real applications and how to explain it clearly during an interview.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Practice
+
+The Practice section turns the curriculum content into focused interview question sessions. Questions are grouped by difficulty level, such as Beginner, Intermediate, and Advanced, allowing users to review a topic progressively.
+
+Users can move through questions, reveal expected answers, track completion, and revisit weak areas across the curriculum.
+
+### Simulation
+
+The Simulation section provides a mock interview-style experience. Users can select focus areas, choose a difficulty level, configure the number of questions, answer questions in a session, and review their performance afterward.
+
+This feature is designed to help users practice under a more realistic interview flow, improve answer structure, and identify areas that need more review.
+
+## Project Goals
+
+The main goals of DEV_NET_CORE are:
+
+* Provide a structured roadmap for software engineering interview preparation.
+* Help developers prepare for both fundamental and advanced technical questions.
+* Focus on practical knowledge used in real engineering teams.
+* Support self-paced study through content, practice, and simulation flows.
+* Make interview preparation clearer, more organized, and less overwhelming.
+
+## Tech Stack
+
+DEV_NET_CORE is built with:
+
+* React
+* TypeScript
+* Vite
+* React Router
+* Redux Toolkit
+* Material UI
+* Tailwind CSS
+* Markdown-based content
+* Generated curriculum manifest for organizing topics and questions
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+The project generates its curriculum manifest before development and production builds, allowing Markdown content to be used as the source for learning topics, practice questions, and simulation questions.
