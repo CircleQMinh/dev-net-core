@@ -41,5 +41,5 @@ function rawMarkdownHashPathPlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [rawMarkdownHashPathPlugin(), react(), tailwindcss()],
-  base: '/dev-net-core/',
+  base: '/',
 })
