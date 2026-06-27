@@ -3,10 +3,12 @@ import {
   createInitialContentState,
   loadContentProgressFromLocalStorage,
   saveContentProgressToLocalStorage,
+  setContentProgress,
 } from "./slices/contentSlice";
 import {
   clearSimulationSessionState,
   createInitialSimulationState,
+  loadSimulationSession,
   loadSimulationSessionState,
   saveSimulationSessionState,
 } from "./slices/simulationSlice";
@@ -50,4 +52,20 @@ export function startBrowserStorePersistence(store: AppStore) {
       }
     }
   });
+}
+
+export function hydrateBrowserStoreFromPersistence(store: AppStore) {
+  if (typeof window === "undefined") {
+    return () => undefined;
+  }
+
+  store.dispatch(setContentProgress(loadContentProgressFromLocalStorage()));
+
+  const savedSession = loadSimulationSessionState();
+
+  if (savedSession) {
+    store.dispatch(loadSimulationSession(savedSession));
+  }
+
+  return startBrowserStorePersistence(store);
 }

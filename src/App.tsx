@@ -20,19 +20,7 @@ import SimulationResult from "./pages/SimulationResult";
 import SimulationSession from "./pages/SimulationSession";
 import Terms from "./pages/Terms";
 import { MainLayout } from "./layouts/MainLayout";
-
-const trailingSlashRouteAliases = new Set([
-  "/about-us",
-  "/bug-report",
-  "/changelog",
-  "/content",
-  "/practice",
-  "/privacy",
-  "/roadmap",
-  "/simulation",
-  "/simulation/setup",
-  "/terms",
-]);
+import { getCanonicalPathname } from "./routing/canonicalPath";
 
 function App() {
   return (
@@ -89,25 +77,6 @@ function AppRoutes() {
       </Route>
     </Routes>
   );
-}
-
-function getCanonicalPathname(pathname: string) {
-  if (pathname === "/home" || pathname === "/home/") {
-    return "/";
-  }
-
-  if (pathname.endsWith("/")) {
-    return undefined;
-  }
-
-  if (
-    trailingSlashRouteAliases.has(pathname) ||
-    /^\/(?:content|practice)\/[^/]+$/.test(pathname)
-  ) {
-    return `${pathname}/`;
-  }
-
-  return undefined;
 }
 
 export default App;

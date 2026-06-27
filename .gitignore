@@ -12,6 +12,7 @@ dist
 dist-ssr
 /.react-router/
 /spikes/react-router-7-ssg/build/
+/build-framework/
 *.local
 /.playwright-cli/
 

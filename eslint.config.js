@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['.react-router', 'dist']),
+  globalIgnores(['.react-router', 'build-framework', 'dist']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -21,7 +21,10 @@ export default defineConfig([
     },
   },
   {
-    files: ['spikes/react-router-7-ssg/app/routes/**/*.tsx'],
+    files: [
+      'app/**/*.tsx',
+      'spikes/react-router-7-ssg/app/routes/**/*.tsx',
+    ],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

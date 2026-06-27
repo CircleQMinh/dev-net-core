@@ -67,7 +67,21 @@ npm run lint
 npm run preview
 ```
 
+Framework migration candidate commands:
+
+```bash
+npm run build:framework
+npm run validate:framework
+npm run preview:framework
+```
+
 Important: `npm run dev` and `npm run build` both generate the curriculum manifest first through the configured pre-scripts. If curriculum content or question markers are changed, make sure the generated manifest still works.
+
+The project currently uses a dual-build cutover. `npm run build` writes the
+deployable SPA to `dist/`. `npm run build:framework` writes the React Router
+static/pre-render candidate to `build-framework/client/`. Do not switch the
+GitHub Pages deployment artifact until the framework route matrix, fallback
+handling, and production URLs pass their dedicated cutover validation.
 
 ## Important Project Areas
 

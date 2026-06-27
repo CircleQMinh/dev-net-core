@@ -9,10 +9,14 @@
     "dev": "vite",
     "prebuild": "npm run generate:curriculum",
     "build": "tsc -b && vite build",
+    "prebuild:framework": "npm run generate:curriculum",
+    "build:framework": "react-router build --config vite.framework.config.ts && tsc -p tsconfig.framework.json",
     "lint": "eslint .",
-    "spike:ssg:build": "react-router build . --config spikes/react-router-7-ssg/vite.config.ts",
+    "test:content-route-data": "node --test shared/content/loadContentRouteData.test.mjs",
     "test:seo": "node --test shared/seo/*.test.mjs",
-    "preview": "vite preview"
+    "validate:framework": "node scripts/validate-framework-build.mjs",
+    "preview": "vite preview",
+    "preview:framework": "node scripts/preview-framework.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
