@@ -3,6 +3,8 @@ export type StaticSeoRoute = Readonly<{
   index: boolean;
   path: string;
   prerender: boolean;
+  seoDescription: string;
+  seoTitle: string;
   sitemap: boolean;
 }>;
 
