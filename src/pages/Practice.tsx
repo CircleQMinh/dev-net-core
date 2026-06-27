@@ -787,7 +787,7 @@ function PracticeIndexCta({ firstTopic }: { firstTopic?: CurriculumSubTopicNode 
             component={RouterLink}
             endIcon={<RocketLaunchOutlinedIcon />}
             sx={{ px: 5, py: 1.5 }}
-            to={`/simulation`}
+            to="/simulation/"
             variant="contained"
           >
             Start simulation

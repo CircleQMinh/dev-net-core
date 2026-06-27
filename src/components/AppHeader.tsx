@@ -4,19 +4,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Button, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
 import type { MouseEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useAppThemeMode } from "../theme/themeMode";
 
 const NAV_ITEMS = {
-  "Learning": "/content#dotnet",
-  "Practice": "/practice",
-  "Simulation": "/simulation",
-  "Roadmap": "/roadmap",
-  "About Us": "/about-us",
+  "Learning": "/content/#dotnet",
+  "Practice": "/practice/",
+  "Simulation": "/simulation/",
+  "Roadmap": "/roadmap/",
+  "About Us": "/about-us/",
 };
 
 export function AppHeader() {
-  const navigate = useNavigate();
   const { mode, tokens, toggleMode } = useAppThemeMode();
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
@@ -35,14 +34,9 @@ export function AppHeader() {
     });
   };
 
-  const navigateFromHeader = (path: string) => {
+  const handleMenuNavigation = () => {
     closeMenu();
-    navigate(path);
     scrollToPageTop();
-  };
-
-  const goHome = () => {
-    navigateFromHeader("/");
   };
 
   return (
@@ -72,8 +66,9 @@ export function AppHeader() {
       }}
     >
       <Button
+        component={RouterLink}
         disableRipple
-        onClick={goHome}
+        onClick={scrollToPageTop}
         sx={{
           color: tokens.onSurface,
           fontFamily: '"Space Grotesk", "Inter", sans-serif',
@@ -90,6 +85,7 @@ export function AppHeader() {
             color: tokens.primaryContainer,
           },
         }}
+        to="/"
       >
         DEV_NET_CORE
       </Button>
@@ -104,9 +100,10 @@ export function AppHeader() {
       >
         {Object.entries(NAV_ITEMS).map(([label, path]) => (
           <Button
+            component={RouterLink}
             disableRipple
             key={label}
-            onClick={() => navigateFromHeader(path)}
+            onClick={scrollToPageTop}
             sx={{
               color: tokens.onSurfaceVariant,
               fontFamily: '"Space Grotesk", "Inter", sans-serif',
@@ -123,7 +120,7 @@ export function AppHeader() {
                 transform: "translateY(-1px)",
               },
             }}
-            type="button"
+            to={path}
           >
             {label}
           </Button>
@@ -158,8 +155,9 @@ export function AppHeader() {
         </Tooltip>
 
         <Button
+          component={RouterLink}
           disableElevation
-          onClick={() => navigateFromHeader("/content")}
+          onClick={scrollToPageTop}
           sx={{
             backgroundColor: tokens.primaryContainer,
             borderRadius: "2px",
@@ -182,7 +180,7 @@ export function AppHeader() {
               transform: "scale(0.95)",
             },
           }}
-          type="button"
+          to="/content/"
         >
           GET_STARTED
         </Button>
@@ -219,8 +217,9 @@ export function AppHeader() {
         >
           {Object.entries(NAV_ITEMS).map(([label, path]) => (
             <MenuItem
+              component={RouterLink}
               key={label}
-              onClick={() => navigateFromHeader(path)}
+              onClick={handleMenuNavigation}
               sx={{
                 color: tokens.onSurfaceVariant,
                 fontFamily: '"Space Grotesk", "Inter", sans-serif',
@@ -232,12 +231,14 @@ export function AppHeader() {
                   color: tokens.onSurface,
                 },
               }}
+              to={path}
             >
               {label}
             </MenuItem>
           ))}
           <MenuItem
-            onClick={() => navigateFromHeader("/content")}
+            component={RouterLink}
+            onClick={handleMenuNavigation}
             sx={{
               color: tokens.primaryContainer,
               display: { xs: "flex", sm: "none" },
@@ -247,6 +248,7 @@ export function AppHeader() {
               letterSpacing: "0.05em",
               textTransform: "uppercase",
             }}
+            to="/content/"
           >
             GET_STARTED
           </MenuItem>

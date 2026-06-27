@@ -20,10 +20,10 @@ const FOOTER_LINKS: FooterLink[] = [
     href: "https://github.com/CircleQMinh/dev-net-core",
     external: true,
   },
-  { label: "Changelog", to: "/changelog", external: false },
-  { label: "Bug report", to: "/bug-report", external: false },
-  { label: "Terms", to: "/terms", external: false },
-  { label: "Privacy", to: "/privacy", external: false },
+  { label: "Changelog", to: "/changelog/", external: false },
+  { label: "Bug report", to: "/bug-report/", external: false },
+  { label: "Terms", to: "/terms/", external: false },
+  { label: "Privacy", to: "/privacy/", external: false },
 ];
 
 function scrollToPageTop() {

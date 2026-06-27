@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   findCurriculumSubTopicById,
   getMarkdownBody,
@@ -25,7 +25,6 @@ type LoadedContentState = {
 
 export default function Content() {
   const { topicId } = useParams<{ topicId?: string }>();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
   const isWelcomeContent = !topicId;
@@ -96,8 +95,6 @@ export default function Content() {
     if (selectedTopicId !== topic.id) {
       dispatch(setSelectedTopicId(topic.id));
     }
-
-    navigate(`/content/${topic.id}/`);
   };
 
   if (isWelcomeContent) {
