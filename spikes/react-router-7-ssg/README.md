@@ -20,6 +20,7 @@ The spike intentionally proves only the architecture boundaries:
 - Markdown and metadata loaded before rendering
 - trailing-slash static output
 - hydration data emitted alongside HTML
+- production providers and content rendered from initial route data
 
 React Router requires `react-router.config.ts` at the framework project root.
 The repository-level config points back to this isolated app directory; the

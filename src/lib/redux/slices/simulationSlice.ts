@@ -520,9 +520,9 @@ function applySessionToState(
   state.simulationStep = session.step;
 }
 
-function createInitialSimulationState(): SimulationState {
-  const savedSession = loadSimulationSessionState();
-
+export function createInitialSimulationState(
+  savedSession?: SimulationSessionState
+): SimulationState {
   if (savedSession) {
     return {
       currentSession: savedSession,

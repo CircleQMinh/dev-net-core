@@ -136,6 +136,10 @@ export const ThemeModeContext = createContext<
 >(undefined);
 
 export function applyThemeVariables(tokens: AppThemeTokens) {
+  if (typeof document === "undefined") {
+    return;
+  }
+
   const root = document.documentElement;
 
   root.dataset.theme = tokens.mode;

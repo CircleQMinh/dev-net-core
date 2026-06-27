@@ -114,3 +114,29 @@ metadata coordination, and asset handling already provided by React Router.
 Retain custom Node scripts only for responsibilities React Router does not own:
 sitemap generation, static-output validation, GitHub Pages fallback generation,
 and deployment checks.
+
+## Task 11A Staged Readiness Follow-Up
+
+The first readiness stage was completed without changing production route
+ownership:
+
+- `createAppStore(preloadedState?)` now creates isolated Redux stores.
+- Reducer defaults are deterministic and no longer read localStorage during
+  module evaluation.
+- Browser persistence loading and subscriptions are isolated from static
+  rendering.
+- `AppProviders` can use an injected store or create a fresh store from explicit
+  preloaded state.
+- Theme rendering uses an explicit initial mode and does not require `document`
+  during static rendering.
+- `Content` accepts serializable initial Markdown and curriculum metadata while
+  preserving its current SPA Markdown loader as a fallback.
+
+The spike now pre-renders the production providers and content page through a
+dedicated readiness route. The generated source HTML contains the real topic
+content instead of the loading placeholder, and Playwright hydration completed
+without console warnings.
+
+Production routing remains on `BrowserRouter` and component routes. Framework
+route modules, loaders, metadata exports, and client hydration ownership belong
+to the following migration task.

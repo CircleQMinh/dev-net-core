@@ -9,8 +9,16 @@ import {
   type AppThemeMode,
 } from "./themeMode";
 
-export function AppThemeModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<AppThemeMode>("dark");
+type AppThemeModeProviderProps = {
+  children: ReactNode;
+  initialMode?: AppThemeMode;
+};
+
+export function AppThemeModeProvider({
+  children,
+  initialMode = "dark",
+}: AppThemeModeProviderProps) {
+  const [mode, setMode] = useState<AppThemeMode>(initialMode);
   const tokens = appThemeTokens[mode];
 
   useEffect(() => {

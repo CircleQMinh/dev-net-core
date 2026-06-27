@@ -5,6 +5,7 @@ import type { Config } from "@react-router/dev/config";
 type SeoManifest = {
   entries: Array<{
     canonicalPath: string;
+    id: string;
   }>;
 };
 
@@ -13,8 +14,9 @@ const manifestPath = fileURLToPath(
 );
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as SeoManifest;
 const topicPath = manifest.entries[0]?.canonicalPath;
+const topicId = manifest.entries[0]?.id;
 
-if (!topicPath) {
+if (!topicPath || !topicId) {
   throw new Error("The curriculum SEO manifest must contain at least one topic.");
 }
 
@@ -24,7 +26,12 @@ export default {
   future: {
     v8_trailingSlashAwareDataRequests: true,
   },
-  prerender: ["/", "/content/", topicPath],
+  prerender: [
+    "/",
+    "/content/",
+    topicPath,
+    `/readiness/content/${topicId}/`,
+  ],
   routeDiscovery: { mode: "initial" },
   ssr: false,
 } satisfies Config;

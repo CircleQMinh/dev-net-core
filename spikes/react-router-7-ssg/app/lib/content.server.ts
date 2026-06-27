@@ -5,11 +5,14 @@ import { buildSeoMetadata } from "../../../../shared/seo/buildSeoMetadata.mjs";
 
 type SeoEntry = {
   canonicalPath: string;
+  category: string;
   contentPath: string;
   id: string;
   seoDescription: string;
   seoTitle: string;
   subtopic: string;
+  title: string;
+  topic: string;
 };
 
 type SeoManifest = {

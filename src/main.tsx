@@ -2,10 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
+import { AppProviders } from "./AppProviders.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import { store } from "./lib/redux/store.ts";
-import { AppThemeModeProvider } from "./theme/ThemeModeProvider.tsx";
+import { browserStore } from "./lib/redux/store.ts";
 
 const routerBasename =
   import.meta.env.BASE_URL === "/"
@@ -14,12 +13,10 @@ const routerBasename =
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider store={store}>
+    <AppProviders store={browserStore}>
       <BrowserRouter basename={routerBasename}>
-        <AppThemeModeProvider>
-          <App />
-        </AppThemeModeProvider>
+        <App />
       </BrowserRouter>
-    </Provider>
+    </AppProviders>
   </StrictMode>
 );

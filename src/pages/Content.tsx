@@ -8,6 +8,10 @@ import {
 import { LeftContentPanel } from "../components/content/LeftContentPanel";
 import { MainContent } from "../components/content/MainContent";
 import { RightContentPanel } from "../components/content/RightContentPanel";
+import {
+  getMatchingContentRouteData,
+  type ContentRouteData,
+} from "../components/content/contentRouteData";
 import { removeCommonInterviewQuestionsSection } from "../components/content/markdown";
 import welcomeMarkdown from "../contents/resources/welcome.md?raw";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
@@ -23,13 +27,22 @@ type LoadedContentState = {
   topicId?: string;
 };
 
-export default function Content() {
+type ContentProps = {
+  initialRouteData?: ContentRouteData;
+};
+
+export default function Content({ initialRouteData }: ContentProps) {
   const { topicId } = useParams<{ topicId?: string }>();
   const dispatch = useAppDispatch();
   const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
   const isWelcomeContent = !topicId;
+  const routeData = getMatchingContentRouteData(initialRouteData, topicId);
   const selectedTopic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
   const routeSelectedTopicId = selectedTopic?.id;
+  const initialTopicMarkdown =
+    routeData?.kind === "topic"
+      ? getMarkdownBody(routeData.markdown)
+      : undefined;
   const [loadedContent, setLoadedContent] = useState<LoadedContentState>({
     error: "",
     markdown: "",
@@ -61,7 +74,7 @@ export default function Content() {
   useEffect(() => {
     let isCancelled = false;
 
-    if (!selectedTopic) {
+    if (!selectedTopic || initialTopicMarkdown !== undefined) {
       return;
     }
 
@@ -89,7 +102,7 @@ export default function Content() {
     return () => {
       isCancelled = true;
     };
-  }, [selectedTopic]);
+  }, [initialTopicMarkdown, selectedTopic]);
 
   const selectTopic = (topic: CurriculumSubTopicNode) => {
     if (selectedTopicId !== topic.id) {
@@ -101,14 +114,18 @@ export default function Content() {
     return (
       <ContentLayout
         isWelcomeContent
-        markdown={welcomeContent}
+        markdown={
+          routeData?.kind === "welcome"
+            ? getMarkdownBody(routeData.markdown)
+            : welcomeContent
+        }
         onTopicSelect={selectTopic}
         selectedTopic={undefined}
       />
     );
   }
 
-  if (!selectedTopic) {
+  if (routeData?.kind === "not-found" || !selectedTopic) {
     return <NotFound />;
   }
 
@@ -116,10 +133,11 @@ export default function Content() {
     <ContentLayout
       isWelcomeContent={false}
       markdown={
-        selectedContent?.error ||
-        (selectedContent?.markdown
-          ? getMarkdownBody(selectedContent.markdown)
-          : "Loading content...")
+        initialTopicMarkdown ??
+        (selectedContent?.error ||
+          (selectedContent?.markdown
+            ? getMarkdownBody(selectedContent.markdown)
+            : "Loading content..."))
       }
       onTopicSelect={selectTopic}
       selectedTopic={selectedTopic}
