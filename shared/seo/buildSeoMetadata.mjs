@@ -31,6 +31,7 @@ export function buildSeoMetadata(input = {}) {
       canonicalPath: staticRoute.canonicalPath,
       description: staticRoute.seoDescription,
       index: staticRoute.index,
+      structuredDataType: normalizedPath === "/" ? "website" : null,
       title: staticRoute.seoTitle,
     });
   }
@@ -97,6 +98,7 @@ function buildContentMetadata(normalizedPath, topicId, contentEntry) {
     canonicalPath: contentEntry.canonicalPath,
     description: contentEntry.seoDescription,
     index: true,
+    structuredDataType: "article",
     title: contentEntry.seoTitle,
   });
 }
@@ -130,7 +132,13 @@ function buildNotFoundMetadata() {
   });
 }
 
-function createMetadata({ canonicalPath, description, index, title }) {
+function createMetadata({
+  canonicalPath,
+  description,
+  index,
+  structuredDataType,
+  title,
+}) {
   const canonicalUrl = canonicalPath
     ? `${SEO_SITE_ORIGIN}${canonicalPath}`
     : null;
@@ -158,9 +166,50 @@ function createMetadata({ canonicalPath, description, index, title }) {
     index,
     openGraph,
     robots: index ? "index,follow" : "noindex,follow",
+    structuredData: createStructuredData({
+      canonicalUrl,
+      description,
+      index,
+      title,
+      type: structuredDataType,
+    }),
     title,
     twitter,
   });
+}
+
+function createStructuredData({
+  canonicalUrl,
+  description,
+  index,
+  title,
+  type,
+}) {
+  if (!index || !canonicalUrl) {
+    return null;
+  }
+
+  if (type === "website") {
+    return Object.freeze({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      description,
+      name: SEO_SITE_NAME,
+      url: canonicalUrl,
+    });
+  }
+
+  if (type === "article") {
+    return Object.freeze({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      description,
+      headline: title,
+      url: canonicalUrl,
+    });
+  }
+
+  return null;
 }
 
 function isValidContentEntry(contentEntry) {

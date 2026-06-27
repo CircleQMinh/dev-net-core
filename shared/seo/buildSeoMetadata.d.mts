@@ -25,6 +25,26 @@ export type TwitterMetadata = Readonly<{
   title: string;
 }>;
 
+export type WebSiteStructuredData = Readonly<{
+  "@context": "https://schema.org";
+  "@type": "WebSite";
+  description: string;
+  name: string;
+  url: string;
+}>;
+
+export type ArticleStructuredData = Readonly<{
+  "@context": "https://schema.org";
+  "@type": "Article";
+  description: string;
+  headline: string;
+  url: string;
+}>;
+
+export type SeoStructuredData =
+  | ArticleStructuredData
+  | WebSiteStructuredData;
+
 export type SeoMetadata = Readonly<{
   canonicalPath: string | null;
   canonicalUrl: string | null;
@@ -32,6 +52,7 @@ export type SeoMetadata = Readonly<{
   index: boolean;
   openGraph: OpenGraphMetadata;
   robots: "index,follow" | "noindex,follow";
+  structuredData: SeoStructuredData | null;
   title: string;
   twitter: TwitterMetadata;
 }>;

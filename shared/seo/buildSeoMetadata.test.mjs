@@ -33,6 +33,19 @@ test("builds self-canonical metadata for an indexable static route", () => {
   assert.equal(metadata.openGraph.url, metadata.canonicalUrl);
   assert.equal(metadata.openGraph.image, DEFAULT_OG_IMAGE_URL);
   assert.equal(metadata.twitter.image, DEFAULT_OG_IMAGE_URL);
+  assert.equal(metadata.structuredData, null);
+});
+
+test("builds WebSite structured data for the canonical homepage", () => {
+  const metadata = buildSeoMetadata({ pathname: "/" });
+
+  assert.deepEqual(metadata.structuredData, {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    description: metadata.description,
+    name: "DEV_NET_CORE",
+    url: "https://www.dev-net-core.com/",
+  });
 });
 
 test("canonicalizes the home alias while keeping it out of the index", () => {
@@ -45,6 +58,7 @@ test("canonicalizes the home alias while keeping it out of the index", () => {
     metadata.title,
     "DEV_NET_CORE | Developer Interview Preparation"
   );
+  assert.equal(metadata.structuredData, null);
 });
 
 test("uses curriculum metadata for a valid content route", () => {
@@ -62,6 +76,15 @@ test("uses curriculum metadata for a valid content route", () => {
     metadata.canonicalPath,
     "/content/async-and-await-semantics-in-csharp/"
   );
+  assert.deepEqual(metadata.structuredData, {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    description: asyncAwaitEntry.seoDescription,
+    headline: asyncAwaitEntry.seoTitle,
+    url:
+      "https://www.dev-net-core.com/content/" +
+      "async-and-await-semantics-in-csharp/",
+  });
 });
 
 test("keeps a valid practice topic noindex and self-canonical", () => {
@@ -79,6 +102,7 @@ test("keeps a valid practice topic noindex and self-canonical", () => {
     "https://www.dev-net-core.com/practice/async-and-await-semantics-in-csharp/"
   );
   assert.match(metadata.title, /^Practice Async and Await Semantics/);
+  assert.equal(metadata.structuredData, null);
 });
 
 test("keeps session-specific simulation routes noindex without canonicals", () => {
@@ -102,6 +126,7 @@ test("treats an invalid content topic as not found", () => {
   assert.equal(metadata.canonicalPath, null);
   assert.equal(metadata.canonicalUrl, null);
   assert.equal(metadata.title, "Page Not Found | DEV_NET_CORE");
+  assert.equal(metadata.structuredData, null);
 });
 
 test("treats an invalid practice topic as not found", () => {
