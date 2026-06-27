@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   findCurriculumSubTopicById,
-  getFirstCurriculumSubTopic,
   getMarkdownBody,
   type CurriculumSubTopicNode,
 } from "../components/content/CurriculumTreeView";
@@ -14,6 +13,7 @@ import welcomeMarkdown from "../contents/resources/welcome.md?raw";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import { selectSelectedContentTopicId } from "../lib/redux/selectors/contentSelectors";
 import { setSelectedTopicId } from "../lib/redux/slices/contentSlice";
+import NotFound from "./NotFound";
 
 const welcomeContent = getMarkdownBody(welcomeMarkdown);
 
@@ -29,7 +29,6 @@ export default function Content() {
   const dispatch = useAppDispatch();
   const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
   const isWelcomeContent = !topicId;
-  const firstTopic = getFirstCurriculumSubTopic();
   const selectedTopic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
   const routeSelectedTopicId = selectedTopic?.id;
   const [loadedContent, setLoadedContent] = useState<LoadedContentState>({
@@ -112,19 +111,8 @@ export default function Content() {
     );
   }
 
-  if (!firstTopic) {
-    return (
-      <ContentLayout
-        isWelcomeContent={false}
-        markdown=""
-        onTopicSelect={() => undefined}
-        selectedTopic={undefined}
-      />
-    );
-  }
-
   if (!selectedTopic) {
-    return <Navigate replace to={`/content/${firstTopic.id}/`} />;
+    return <NotFound />;
   }
 
   return (

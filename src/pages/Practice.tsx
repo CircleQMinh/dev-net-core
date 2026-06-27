@@ -31,6 +31,7 @@ import {
   setSubTopicProgress,
   type ContentSubTopicProgress,
 } from "../lib/redux/slices/contentSlice";
+import NotFound from "./NotFound";
 
 const practiceLevels = ["Beginner", "Intermediate", "Advanced"];
 const emptyCompletedQuestions: number[] = [];
@@ -1070,7 +1071,7 @@ export default function Practice() {
   }
 
   if (!topic) {
-    return <EmptyPracticeState onGoBack={() => navigate(-1)} />;
+    return <NotFound />;
   }
 
   if (!topicPractice) {

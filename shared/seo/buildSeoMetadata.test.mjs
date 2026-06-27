@@ -104,6 +104,17 @@ test("treats an invalid content topic as not found", () => {
   assert.equal(metadata.title, "Page Not Found | DEV_NET_CORE");
 });
 
+test("treats an invalid practice topic as not found", () => {
+  const metadata = buildSeoMetadata({
+    pathname: "/practice/not-a-real-topic/",
+  });
+
+  assert.equal(metadata.index, false);
+  assert.equal(metadata.canonicalPath, null);
+  assert.equal(metadata.canonicalUrl, null);
+  assert.equal(metadata.title, "Page Not Found | DEV_NET_CORE");
+});
+
 test("rejects malformed static route configurations", () => {
   assert.throws(() =>
     validateStaticSeoRoutes([
