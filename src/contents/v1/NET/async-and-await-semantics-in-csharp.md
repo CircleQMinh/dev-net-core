@@ -3,6 +3,9 @@ id: async-and-await-semantics-in-csharp
 topic: Async programming, tasks, cancellation, and concurrency
 subtopic: Async and Await Semantics 
 category: .NET
+seoTitle: Async and Await in C# Interview Questions
+seoDescription: Learn async and await in C# for technical interviews, including Task, cancellation, exception handling, and common deadlock risks.
+canonicalPath: /content/async-and-await-semantics-in-csharp/
 ---
 
 ## Overview
