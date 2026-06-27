@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import { Seo } from "./components/seo/Seo";
 import AboutUs from "./pages/AboutUs";
 import BugReport from "./pages/BugReport";
 import Changelog from "./pages/Changelog";
@@ -18,6 +19,7 @@ import { MainLayout } from "./layouts/MainLayout";
 function App() {
   return (
     <>
+      <Seo />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
