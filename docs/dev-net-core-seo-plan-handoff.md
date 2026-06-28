@@ -478,7 +478,8 @@ The merged implementation completes the next readiness steps:
 - Invalid content and generic routes remain Not Found with `noindex`, no
   canonical, and no structured data.
 - The Pages workflow is now manual-only, runs the complete dual-build gate, and
-  still deploys the existing `dist/` SPA from `main`.
+  completed its first confirmed `framework` deployment from `main` at
+  `27d6f39`. The `spa-rollback` target remains available.
 - A read-only framework candidate workflow validates pull requests and pushes
   to `main` without uploading or deploying a Pages artifact.
 - Four stable candidate runs completed in 30-32 seconds. `Validate framework
@@ -492,6 +493,13 @@ The merged implementation completes the next readiness steps:
   `dist/CNAME`, and `build-framework/client/CNAME`.
 - Cloudflare configuration remains unchanged for cutover; the unrelated
   Cloudflare Workers build integration was removed.
+- Production validation passed all 227 sitemap URLs, canonical redirects,
+  sitemap discovery, dedicated Not Found behavior, and representative route
+  hydration.
+- Homepage browser validation exposed one hydration mismatch: randomized Live
+  Drills differed between SSG and the first browser render. The local follow-up
+  now uses deterministic first, middle, and last candidates and passes repeated
+  browser loads without console errors.
 
 ## Work Not Yet Completed
 
@@ -542,6 +550,10 @@ Do not deploy `build-framework/server`; React Router removes it under
 ### 3. Production Validation
 
 After cutover, test the Cloudflare-managed custom domain on GitHub Pages.
+
+The first production route matrix passed on June 28, 2026. Keep this gate open
+until the deterministic homepage drill fix is merged, redeployed, and confirmed
+against the production browser console.
 
 For every sitemap URL, verify:
 
@@ -617,12 +629,12 @@ Then:
 
 ## Git State at Handoff
 
-The latest merged readiness commit on `main` is:
+The latest merged and deployed readiness commit on `main` is:
 
 ```txt
-023d0f8 Merge pull request #3 from CircleQMinh/codex/require-framework-check
+27d6f39 Merge pull request #4 from CircleQMinh/codex/framework-pages-cutover
 ```
 
-Step 15 pre-cutover work is developed on
-`codex/framework-pages-cutover`. Commit each completed implementation step
-locally. Do not push, merge, revert, or deploy without user approval.
+The Step 15 homepage hydration follow-up is developed on
+`codex/fix-homepage-drill-hydration`. Commit each completed implementation
+step locally. Do not push, merge, revert, or deploy without user approval.

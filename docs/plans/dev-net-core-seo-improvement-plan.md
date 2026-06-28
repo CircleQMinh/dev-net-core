@@ -2982,6 +2982,23 @@ Validation:
 - Confirm non-canonical route variants redirect to or canonicalize to trailing-slash URLs.
 - Confirm valid trailing-slash routes direct-load in production.
 
+Current Step 15 status as of June 28, 2026:
+
+- The first guarded `framework` deployment completed successfully from
+  `main` at commit `27d6f39`.
+- All 227 sitemap URLs passed direct production checks for `200 OK`, canonical
+  trailing-slash URLs, indexability, source titles, and visible headings.
+- HTTPS, apex-to-`www`, non-trailing route redirects, `robots.txt`, and the
+  dedicated `404` + `noindex` response passed.
+- Initial browser validation found a homepage-only React hydration mismatch
+  because the Live Drills list used `Math.random()` independently during SSG
+  and browser hydration.
+- The homepage now selects deterministic first, middle, and last drill
+  candidates. Local framework preview validation passes repeated homepage
+  loads with identical drill content and no console errors.
+- Keep Step 15 open until this fix is merged, redeployed, and the production
+  browser hydration check passes.
+
 ### Task 16: Search Console Setup
 
 No code changes required.
