@@ -34,7 +34,7 @@ type SetQuestionCompletionPayload = {
 
 export const CONTENT_PROGRESS_STORAGE_KEY = "dev-net-core:content-progress";
 
-const initialState: ContentState = createInitialState();
+const initialState: ContentState = createInitialContentState();
 
 const contentSlice = createSlice({
   name: "content",
@@ -97,7 +97,7 @@ const contentSlice = createSlice({
         completedQuestion,
       });
     },
-    resetContentState: () => createInitialState(),
+    resetContentState: () => createInitialContentState(),
   },
 });
 
@@ -111,10 +111,12 @@ export const {
 
 export const contentReducer = contentSlice.reducer;
 
-function createInitialState(): ContentState {
+export function createInitialContentState(
+  progress: ContentProgressState = {}
+): ContentState {
   return {
     selectedTopicId: undefined,
-    progress: loadContentProgressFromLocalStorage(),
+    progress,
   };
 }
 

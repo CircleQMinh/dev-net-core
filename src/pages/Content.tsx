@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   findCurriculumSubTopicById,
-  getFirstCurriculumSubTopic,
   getMarkdownBody,
   type CurriculumSubTopicNode,
 } from "../components/content/CurriculumTreeView";
 import { LeftContentPanel } from "../components/content/LeftContentPanel";
 import { MainContent } from "../components/content/MainContent";
 import { RightContentPanel } from "../components/content/RightContentPanel";
+import {
+  getMatchingContentRouteData,
+  type ContentRouteData,
+} from "../components/content/contentRouteData";
 import { removeCommonInterviewQuestionsSection } from "../components/content/markdown";
 import welcomeMarkdown from "../contents/resources/welcome.md?raw";
 import { useAppDispatch, useAppSelector } from "../lib/redux/hooks/hooks";
 import { selectSelectedContentTopicId } from "../lib/redux/selectors/contentSelectors";
 import { setSelectedTopicId } from "../lib/redux/slices/contentSlice";
+import NotFound from "./NotFound";
 
 const welcomeContent = getMarkdownBody(welcomeMarkdown);
 
@@ -23,15 +27,22 @@ type LoadedContentState = {
   topicId?: string;
 };
 
-export default function Content() {
+type ContentProps = {
+  initialRouteData?: ContentRouteData;
+};
+
+export default function Content({ initialRouteData }: ContentProps) {
   const { topicId } = useParams<{ topicId?: string }>();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedTopicId = useAppSelector(selectSelectedContentTopicId);
   const isWelcomeContent = !topicId;
-  const firstTopic = getFirstCurriculumSubTopic();
+  const routeData = getMatchingContentRouteData(initialRouteData, topicId);
   const selectedTopic = topicId ? findCurriculumSubTopicById(topicId) : undefined;
   const routeSelectedTopicId = selectedTopic?.id;
+  const initialTopicMarkdown =
+    routeData?.kind === "topic"
+      ? getMarkdownBody(routeData.markdown)
+      : undefined;
   const [loadedContent, setLoadedContent] = useState<LoadedContentState>({
     error: "",
     markdown: "",
@@ -63,7 +74,7 @@ export default function Content() {
   useEffect(() => {
     let isCancelled = false;
 
-    if (!selectedTopic) {
+    if (!selectedTopic || initialTopicMarkdown !== undefined) {
       return;
     }
 
@@ -91,50 +102,42 @@ export default function Content() {
     return () => {
       isCancelled = true;
     };
-  }, [selectedTopic]);
+  }, [initialTopicMarkdown, selectedTopic]);
 
   const selectTopic = (topic: CurriculumSubTopicNode) => {
     if (selectedTopicId !== topic.id) {
       dispatch(setSelectedTopicId(topic.id));
     }
-
-    navigate(`/content/${topic.id}/`);
   };
 
   if (isWelcomeContent) {
     return (
       <ContentLayout
         isWelcomeContent
-        markdown={welcomeContent}
+        markdown={
+          routeData?.kind === "welcome"
+            ? getMarkdownBody(routeData.markdown)
+            : welcomeContent
+        }
         onTopicSelect={selectTopic}
         selectedTopic={undefined}
       />
     );
   }
 
-  if (!firstTopic) {
-    return (
-      <ContentLayout
-        isWelcomeContent={false}
-        markdown=""
-        onTopicSelect={() => undefined}
-        selectedTopic={undefined}
-      />
-    );
-  }
-
-  if (!selectedTopic) {
-    return <Navigate replace to={`/content/${firstTopic.id}/`} />;
+  if (routeData?.kind === "not-found" || !selectedTopic) {
+    return <NotFound />;
   }
 
   return (
     <ContentLayout
       isWelcomeContent={false}
       markdown={
-        selectedContent?.error ||
-        (selectedContent?.markdown
-          ? getMarkdownBody(selectedContent.markdown)
-          : "Loading content...")
+        initialTopicMarkdown ??
+        (selectedContent?.error ||
+          (selectedContent?.markdown
+            ? getMarkdownBody(selectedContent.markdown)
+            : "Loading content..."))
       }
       onTopicSelect={selectTopic}
       selectedTopic={selectedTopic}

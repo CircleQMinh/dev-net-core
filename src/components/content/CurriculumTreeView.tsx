@@ -7,6 +7,7 @@ import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import RestartAltOutlinedIcon from "@mui/icons-material/RestartAltOutlined";
 import { useEffect, useMemo, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../lib/redux/hooks/hooks";
 import { selectContentProgress } from "../../lib/redux/selectors/contentSelectors";
 import {
@@ -587,8 +588,9 @@ function TreeNodeRow({
     const isActive = activeTopicId === node.id;
 
     return (
-      <button
-        className={`flex w-full cursor-pointer items-start justify-between gap-2 border-r-2 py-1 pr-2 text-left transition-colors ${
+      <RouterLink
+        aria-current={isActive ? "page" : undefined}
+        className={`flex w-full cursor-pointer items-start justify-between gap-2 border-r-2 py-1 pr-2 text-left no-underline transition-colors ${
           isActive
             ? "theme-ide-active"
             : "border-transparent theme-muted theme-ide-hover"
@@ -596,7 +598,7 @@ function TreeNodeRow({
         onClick={() => onSelectTopic(node)}
         style={{ paddingLeft: `${depth * 12 + 8}px` }}
         title={node.contentPath}
-        type="button"
+        to={`/content/${node.id}/`}
       >
         <span className="flex min-w-0 flex-1 items-start gap-1.5">
           <InsertDriveFileOutlinedIcon
@@ -622,7 +624,7 @@ function TreeNodeRow({
             </span>
           )
         ) : null}
-      </button>
+      </RouterLink>
     );
   }
 

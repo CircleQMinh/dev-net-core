@@ -13,7 +13,7 @@ import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
 import { Box, Button, Container, Stack } from "@mui/material";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import {
   collectSubTopicNodes,
   generatedCurriculumTree,
@@ -103,7 +103,7 @@ function buildLearningPaths(): LearningPath[] {
       className:
         learningPathClassNames[categoryNode.title] ??
         "lg:col-span-4 lg:min-h-[217px]",
-      to: subTopics[0] ? `/content/${subTopics[0].id}/` : "/content",
+      to: subTopics[0] ? `/content/${subTopics[0].id}/` : "/content/",
     };
   });
 }
@@ -269,20 +269,21 @@ function PageSection({
 function CyberButton({
   children,
   intent = "primary",
-  onClick,
+  to,
 }: {
   children: ReactNode;
   intent?: "primary" | "secondary";
-  onClick?: () => void;
+  to: string;
 }) {
   const isPrimary = intent === "primary";
 
   return (
     <Button
+      component={RouterLink}
       disableElevation
       disableRipple
       className="gleeple-heading h-[54px] px-8 text-center"
-      onClick={onClick}
+      onClick={scrollToPageTop}
       sx={{
         borderRadius: 0,
         border: isPrimary
@@ -311,7 +312,7 @@ function CyberButton({
           filter: isPrimary ? "brightness(1.08)" : "none",
         },
       }}
-      type="button"
+      to={to}
     >
       {children}
     </Button>
@@ -407,10 +408,8 @@ function CodePreview() {
 
 function LearningPathCard({
   path,
-  onSelect,
 }: {
   path: LearningPath;
-  onSelect: (to: string) => void;
 }) {
   const isFeatured = path.tags.length > 0;
 
@@ -418,17 +417,18 @@ function LearningPathCard({
     <Box
       aria-label={`Open ${path.title} learning path`}
       className={`theme-glass-card group flex flex-col justify-between p-[25px] ${path.className}`}
-      component="button"
-      onClick={() => onSelect(path.to)}
+      component={RouterLink}
+      onClick={scrollToPageTop}
       sx={{
         appearance: "none",
         color: "inherit",
         cursor: "pointer",
         font: "inherit",
         textAlign: "left",
+        textDecoration: "none",
         width: "100%",
       }}
-      type="button"
+      to={path.to}
     >
       <Stack spacing={2} className="relative z-10">
         <div className="flex items-start justify-between gap-4">
@@ -530,13 +530,7 @@ function RoadmapStepCard({ step }: { step: RoadmapStep }) {
 }
 
 export default function Home() {
-  const navigate = useNavigate();
   const drills = useMemo(() => getRandomDrills(), []);
-
-  const navigateFromHome = (path: string) => {
-    navigate(path);
-    scrollToPageTop();
-  };
 
   return (
     <Box className="theme-page min-h-screen overflow-hidden">
@@ -571,13 +565,10 @@ export default function Home() {
                 spacing={2}
                 className="pt-2"
               >
-                <CyberButton onClick={() => navigateFromHome("/content")}>
+                <CyberButton to="/content/">
                   Start Learning Now
                 </CyberButton>
-                <CyberButton
-                  intent="secondary"
-                  onClick={() => navigateFromHome("/practice")}
-                >
+                <CyberButton intent="secondary" to="/practice/">
                   Explore Question Bank
                 </CyberButton>
               </Stack>
@@ -594,11 +585,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-12">
             {learningPaths.map((path) => (
-              <LearningPathCard
-                key={path.title}
-                onSelect={navigateFromHome}
-                path={path}
-              />
+              <LearningPathCard key={path.title} path={path} />
             ))}
           </div>
         </PageSection>
@@ -622,9 +609,10 @@ export default function Home() {
               subtitle="Common technical assessment benchmarks"
             />
             <Button
+              component={RouterLink}
               endIcon={<ArrowForwardIcon sx={{ fontSize: 16 }} />}
               className="gleeple-heading"
-              onClick={() => navigateFromHome("/practice")}
+              onClick={scrollToPageTop}
               sx={{
                 borderRadius: 0,
                 color: "var(--color-primary-container)",
@@ -635,6 +623,7 @@ export default function Home() {
                 whiteSpace: "nowrap",
                 "&:hover": { backgroundColor: "var(--color-accent-hover)" },
               }}
+              to="/practice/"
             >
               View All Questions
             </Button>
@@ -677,7 +666,7 @@ export default function Home() {
               interview performance with our platform.
             </p>
             <div className="relative mt-6">
-              <CyberButton onClick={() => navigateFromHome("/content")}>
+              <CyberButton to="/content/">
                 Get Started
               </CyberButton>
             </div>

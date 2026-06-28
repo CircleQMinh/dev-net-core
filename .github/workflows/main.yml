@@ -1,8 +1,6 @@
 name: Deploy static content to Pages
 
 on:
-  push:
-    branches: ['main']
   workflow_dispatch:
 
 permissions:
@@ -16,6 +14,9 @@ concurrency:
 
 jobs:
   deploy:
+    name: Validate and deploy current SPA
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -28,14 +29,45 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Lint
+        run: npm run lint
+
+      - name: Test theme bootstrap
+        run: npm run test:theme-bootstrap
+
+      - name: Test SEO
+        run: npm run test:seo
+
+      - name: Test content route data
+        run: npm run test:content-route-data
+
+      - name: Build current SPA
         run: npm run build
+
+      - name: Build framework candidate
+        shell: bash
+        run: |
+          started_at=$SECONDS
+          npm run build:framework
+          duration=$((SECONDS - started_at))
+          echo "Framework build duration: ${duration}s"
+          echo "Framework build duration: ${duration}s" >> "$GITHUB_STEP_SUMMARY"
+          if (( duration > 60 )); then
+            echo "::error::Framework build exceeded the 60-second budget (${duration}s)."
+            exit 1
+          fi
+
+      - name: Finalize framework candidate
+        run: npm run finalize:framework
+
+      - name: Validate framework candidate
+        run: npm run validate:framework
 
       - name: Create SPA fallback
         run: cp dist/index.html dist/404.html

@@ -1,4 +1,4 @@
-import type { RootState } from "../store";
+import type { RootState } from "../createAppStore";
 
 export const selectSimulationState = (state: RootState) => state.simulation;
 

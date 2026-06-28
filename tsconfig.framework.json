@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "rootDirs": [".", "./.react-router/types"],
+    "types": ["node", "vite/client"]
+  },
+  "include": [
+    "app",
+    "src",
+    ".react-router/types/**/*",
+    "shared/**/*.d.mts"
+  ]
+}

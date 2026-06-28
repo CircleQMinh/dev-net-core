@@ -1,4 +1,4 @@
-import type { RootState } from "../store";
+import type { RootState } from "../createAppStore";
 
 export const selectSelectedContentTopicId = (state: RootState) =>
   state.content.selectedTopicId;

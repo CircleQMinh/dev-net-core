@@ -67,7 +67,35 @@ npm run lint
 npm run preview
 ```
 
+Framework migration candidate commands:
+
+```bash
+npm run build:framework
+npm run finalize:framework
+npm run validate:framework
+npm run preview:framework
+```
+
 Important: `npm run dev` and `npm run build` both generate the curriculum manifest first through the configured pre-scripts. If curriculum content or question markers are changed, make sure the generated manifest still works.
+
+The project currently uses a dual-build cutover. `npm run build` writes the
+deployable SPA to `dist/`. `npm run build:framework` writes the React Router
+static/pre-render candidate to `build-framework/client/`.
+`npm run finalize:framework` writes the candidate sitemap, candidate
+`robots.txt`, and dedicated `404.html` into that client output. Do not switch
+the GitHub Pages deployment artifact until the framework route matrix, fallback
+handling, and production URLs pass their dedicated cutover validation.
+
+GitHub Actions intentionally separates validation from deployment:
+
+* `.github/workflows/framework-candidate.yml` runs the dual-build validation
+  gate for pull requests and pushes to `main`, but has read-only permissions and
+  does not upload or deploy a Pages artifact. It is advisory until repository
+  branch protection is explicitly updated.
+* `.github/workflows/main.yml` is manual-only, runs the same validation gate,
+  and continues to deploy the existing `dist/` SPA from `main`.
+* Do not make the candidate workflow a required branch check or change the
+  deployed directory to `build-framework/client/` without explicit approval.
 
 ## Important Project Areas
 
@@ -93,6 +121,8 @@ The application includes these important routes:
 * `/terms`
 
 Do not break existing route behavior unless explicitly requested.
+
+Canonical public SEO URLs should use trailing slashes, for example `/content/`, `/content/:topicId/`, `/roadmap/`, `/about-us/`, `/privacy/`, and `/terms/`. Non-trailing variants may continue to work for user convenience, but they should not be used in sitemap URLs, canonical tags, Open Graph URLs, structured data URLs, or internal generated SEO links.
 
 ### Content System
 
@@ -309,7 +339,7 @@ Important behavior:
   * The progress section should be hidden.
   * The "On This Page" section should not show "Interview Practice".
 * `/content/:topicId` displays the selected curriculum topic.
-* Invalid topic IDs should redirect to the first available topic.
+* Invalid topic IDs should render a clear Not Found state with `noindex`, not redirect to the first available topic.
 * The left panel contains the curriculum navigation.
 * The main area renders Markdown content.
 * The right panel contains "On This Page", topic progress, and interview practice navigation when applicable.
@@ -524,6 +554,8 @@ Before changing code:
 7. Avoid unrelated refactors.
 8. Avoid renaming public IDs, slugs, routes, or question markers unless required.
 9. Run validation commands when possible.
+10. Create a local Git commit after each completed implementation step.
+11. Ask the user for permission before pushing or reverting changes.
 
 After changing code, report:
 
@@ -561,6 +593,35 @@ When a task affects routing, check:
 * Invalid route fallback
 * Navigation links
 * GitHub Pages or production base path compatibility
+
+## SEO and Pre-rendering Rules
+
+Follow the SEO plan in `docs/plans/dev-net-core-seo-improvement-plan.md` when working on metadata, routing, sitemap output, pre-rendering, or production deployment behavior.
+
+Important SEO route rules:
+
+* `/content/:topicId/` is the primary searchable landing page for each curriculum topic.
+* `/practice/:topicId/`, `/simulation/*`, `/bug-report/`, and utility/user-flow routes are `noindex` and excluded from the sitemap by default.
+* `/practice/:topicId/` should stay out of the sitemap unless it is later redesigned as a standalone searchable page with unique visible content.
+* `/simulation/` and `/changelog/` are optional sitemap routes only if they have enough unique visible source HTML content and are intended to rank.
+* Invalid content or practice topic IDs should render Not Found + `noindex`; do not redirect them to another valid topic.
+* Do not block `noindex` pages in `robots.txt`; crawlers must be able to read the `noindex` directive.
+
+Sitemap and static output rules:
+
+* Every sitemap URL must be absolute, canonical, trailing-slash, indexable, direct-loadable, and production validated.
+* A sitemap URL must return `200 OK` on direct production load and must not redirect.
+* A sitemap URL must have route-specific source HTML metadata and visible source HTML content.
+* A sitemap URL must have matching static/pre-rendered output and must not depend on the GitHub Pages `404.html` SPA fallback.
+* Do not include routes in `sitemap.xml` until their production static/pre-rendered output is validated.
+* Submit the sitemap to Google Search Console only after the production validation gate passes.
+* A generated public `404.html` must be a dedicated Not Found + `noindex` document, not a blind copy of the homepage.
+
+Build and metadata ownership rules:
+
+* Markdown frontmatter and the generated curriculum/SEO manifests are the source of truth for content metadata.
+* Shared SEO metadata should drive sitemap generation, pre-rendered HTML, React route metadata, Open Graph tags, Twitter/X tags, and JSON-LD.
+* Framework finalization must preserve React Router/Vite-generated hashed assets. Deploy only the final public client output and never a private server/static build.
 
 ## GitHub Pages and Domain Notes
 

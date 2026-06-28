@@ -31,6 +31,7 @@ import {
   setSubTopicProgress,
   type ContentSubTopicProgress,
 } from "../lib/redux/slices/contentSlice";
+import NotFound from "./NotFound";
 
 const practiceLevels = ["Beginner", "Intermediate", "Advanced"];
 const emptyCompletedQuestions: number[] = [];
@@ -786,7 +787,7 @@ function PracticeIndexCta({ firstTopic }: { firstTopic?: CurriculumSubTopicNode 
             component={RouterLink}
             endIcon={<RocketLaunchOutlinedIcon />}
             sx={{ px: 5, py: 1.5 }}
-            to={`/simulation`}
+            to="/simulation/"
             variant="contained"
           >
             Start simulation
@@ -1070,7 +1071,7 @@ export default function Practice() {
   }
 
   if (!topic) {
-    return <EmptyPracticeState onGoBack={() => navigate(-1)} />;
+    return <NotFound />;
   }
 
   if (!topicPractice) {
