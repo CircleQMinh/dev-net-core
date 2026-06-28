@@ -11,7 +11,6 @@ import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
 import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
 import { Box, Button, Container, Stack } from "@mui/material";
-import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
@@ -199,26 +198,24 @@ function scrollToPageTop() {
   });
 }
 
-function getRandomDrills() {
+function getFeaturedDrills() {
   const candidates =
     liveDrillCandidates.length >= 3 ? liveDrillCandidates : fallbackDrills;
 
-  return shuffleDrills(candidates).slice(0, 3);
-}
-
-function shuffleDrills(drills: Drill[]) {
-  const shuffledDrills = [...drills];
-
-  for (let index = shuffledDrills.length - 1; index > 0; index -= 1) {
-    const randomIndex = Math.floor(Math.random() * (index + 1));
-    const currentDrill = shuffledDrills[index];
-
-    shuffledDrills[index] = shuffledDrills[randomIndex];
-    shuffledDrills[randomIndex] = currentDrill;
+  if (candidates.length <= 3) {
+    return candidates.slice(0, 3);
   }
 
-  return shuffledDrills;
+  const lastIndex = candidates.length - 1;
+
+  return [
+    candidates[0],
+    candidates[Math.floor(lastIndex / 2)],
+    candidates[lastIndex],
+  ];
 }
+
+const featuredDrills = getFeaturedDrills();
 
 const roadmapSteps: RoadmapStep[] = [
   {
@@ -530,8 +527,6 @@ function RoadmapStepCard({ step }: { step: RoadmapStep }) {
 }
 
 export default function Home() {
-  const drills = useMemo(() => getRandomDrills(), []);
-
   return (
     <Box className="theme-page min-h-screen overflow-hidden">
       <Box className="flex flex-col items-center gap-20 pb-20 pt-24 md:pt-32">
@@ -630,7 +625,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            {drills.map((drill) => (
+            {featuredDrills.map((drill) => (
               <DrillCard drill={drill} key={drill.title} />
             ))}
           </div>
