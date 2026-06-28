@@ -13,6 +13,82 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-background: #111318;
+  --color-on-background: #e2e2e8;
+  --color-surface: #111318;
+  --color-surface-container-lowest: #0c0e12;
+  --color-surface-container-low: #1a1c20;
+  --color-surface-container: #1e2024;
+  --color-surface-container-high: #282a2e;
+  --color-on-surface: #e2e2e8;
+  --color-on-surface-variant: #b9cacb;
+  --color-outline: #849495;
+  --color-outline-variant: #3b494b;
+  --color-primary: #dbfcff;
+  --color-on-primary: #00363a;
+  --color-primary-container: #00f0ff;
+  --color-on-primary-container: #006970;
+  --color-secondary: #d8b9ff;
+  --color-tertiary: #d1fff5;
+  --color-error: #ffb4ab;
+  --color-glass: rgba(18, 23, 33, 0.8);
+  --color-card-border: rgba(255, 255, 255, 0.1);
+  --color-accent-border: rgba(0, 240, 255, 0.2);
+  --color-accent-soft: rgba(0, 240, 255, 0.1);
+  --color-accent-hover: rgba(0, 240, 255, 0.08);
+  --color-card-hover-border: rgba(0, 240, 255, 0.45);
+  --color-chip-background: rgba(255, 255, 255, 0.05);
+  --color-chip-text: #94a3b8;
+  --color-code-surface: #0c0e12;
+  --color-feature-band: rgba(26, 28, 32, 0.5);
+  --color-grid-line: rgba(0, 240, 255, 0.05);
+  --color-subtle-text: #64748b;
+  --color-warning: rgba(234, 179, 8, 0.5);
+  --shadow-accent-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+  --shadow-card-hover: 0 0 15px rgba(0, 240, 255, 0.1);
+  --shadow-panel-glow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-background: #f9f9ff;
+  --color-on-background: #1a1c20;
+  --color-surface: #f9f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f9;
+  --color-surface-container: #ededf3;
+  --color-surface-container-high: #e8e8ee;
+  --color-on-surface: #1a1c20;
+  --color-on-surface-variant: #3b494b;
+  --color-outline: #6a7a7b;
+  --color-outline-variant: #b9cacb;
+  --color-primary: #006970;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ff0000;
+  --color-on-primary-container: #006970;
+  --color-secondary: #7b24dc;
+  --color-tertiary: #006b5f;
+  --color-error: #ba1a1a;
+  --color-glass: rgba(255, 255, 255, 0.72);
+  --color-card-border: rgba(106, 122, 123, 0.24);
+  --color-accent-border: rgba(0, 240, 255, 0.3);
+  --color-accent-soft: rgba(0, 240, 255, 0.15);
+  --color-accent-hover: rgba(0, 240, 255, 0.14);
+  --color-card-hover-border: rgba(0, 105, 112, 0.4);
+  --color-chip-background: rgba(0, 105, 112, 0.08);
+  --color-chip-text: #3b494b;
+  --color-code-surface: #ffffff;
+  --color-feature-band: rgba(243, 243, 249, 0.75);
+  --color-grid-line: rgba(0, 105, 112, 0.06);
+  --color-subtle-text: #6a7a7b;
+  --color-warning: rgba(202, 138, 4, 0.55);
+  --shadow-accent-glow: 0 0 20px rgba(0, 240, 255, 0.18);
+  --shadow-card-hover: 0 0 18px rgba(0, 240, 255, 0.14);
+  --shadow-panel-glow: 0 0 20px rgba(0, 240, 255, 0.16);
+}
+
 html {
   background: var(--color-background, #111318);
 }

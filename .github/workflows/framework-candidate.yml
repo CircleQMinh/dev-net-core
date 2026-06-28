@@ -1,26 +1,24 @@
-name: Deploy static content to Pages
+name: Framework candidate validation
 
 on:
+  pull_request:
+    branches: ['main']
+  push:
+    branches: ['main']
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: 'pages'
+  group: framework-candidate-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Validate and deploy current SPA
-    if: github.ref == 'refs/heads/main'
-    timeout-minutes: 15
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  validate:
+    name: Validate framework candidate
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -68,18 +66,3 @@ jobs:
 
       - name: Validate framework candidate
         run: npm run validate:framework
-
-      - name: Create SPA fallback
-        run: cp dist/index.html dist/404.html
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: './dist'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

@@ -3,6 +3,8 @@ import { createTheme, type PaletteMode } from "@mui/material";
 
 export type AppThemeMode = "dark" | "light";
 
+export const THEME_MODE_STORAGE_KEY = "dev-net-core:theme";
+
 export type AppThemeTokens = {
   mode: AppThemeMode;
   background: string;
@@ -145,6 +147,7 @@ export function applyThemeVariables(tokens: AppThemeTokens) {
   root.dataset.theme = tokens.mode;
   root.classList.toggle("dark", tokens.mode === "dark");
   root.classList.toggle("light", tokens.mode === "light");
+  root.style.colorScheme = tokens.mode;
 
   root.style.setProperty("--color-background", tokens.background);
   root.style.setProperty("--color-on-background", tokens.onBackground);
@@ -195,6 +198,42 @@ export function applyThemeVariables(tokens: AppThemeTokens) {
   root.style.setProperty("--shadow-accent-glow", tokens.accentGlow);
   root.style.setProperty("--shadow-card-hover", tokens.cardHoverGlow);
   root.style.setProperty("--shadow-panel-glow", tokens.panelGlow);
+}
+
+export function readBootstrappedThemeMode(
+  fallback: AppThemeMode
+): AppThemeMode {
+  if (typeof document === "undefined") {
+    return fallback;
+  }
+
+  const documentMode = document.documentElement.dataset.theme;
+
+  if (documentMode === "dark" || documentMode === "light") {
+    return documentMode;
+  }
+
+  try {
+    const storedMode = window.localStorage.getItem(THEME_MODE_STORAGE_KEY);
+
+    return storedMode === "dark" || storedMode === "light"
+      ? storedMode
+      : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export function persistThemeMode(mode: AppThemeMode) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(THEME_MODE_STORAGE_KEY, mode);
+  } catch {
+    // Theme changes still work for the current page when storage is unavailable.
+  }
 }
 
 export function buildMuiTheme(mode: PaletteMode, tokens: AppThemeTokens) {

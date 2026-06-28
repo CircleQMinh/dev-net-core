@@ -253,8 +253,9 @@ The GitHub Pages workflow still publishes `dist/`. Do not switch it to
 validation, and the full cutover gate are complete.
 
 React Router creates `__spa-fallback.html` for app-only routes. GitHub Pages
-expects `404.html`, so a finalization step is still required. The fallback is
-never valid static output for a sitemap URL.
+expects `404.html`, so `finalize:framework` adds Not Found metadata and writes
+the dedicated fallback document. The fallback is never valid static output for
+a sitemap URL.
 
 ## Current Route Output
 
@@ -274,14 +275,14 @@ Current generated candidate measurements:
 Static route HTML artifacts: 227
 HTML files including __spa-fallback.html: 228
 Content route data files: 222
-Total client output: about 67.55 MiB
-Largest HTML file: about 444.74 KiB
+Total finalized client output: about 67.59 MiB
+Largest HTML file: about 444.78 KiB
 Largest route data file: about 89.68 KiB
-Observed framework build time: about 11-15 seconds
+Observed full framework command time: about 19-24 seconds locally
 ```
 
 Markdown is present in source HTML and route data, so duplicated content size is
-a known budget concern.
+accepted for the first cutover while the formal output budgets pass.
 
 ## Implemented Work
 
@@ -361,6 +362,7 @@ The browser loader remains available for SPA fallback and client navigation.
 
 ### Validation and Preview
 
+- `scripts/finalize-framework-output.mjs`
 - `scripts/validate-framework-build.mjs`
 - `scripts/preview-framework.mjs`
 - `docs/architecture/framework-routing-dual-build.md`
@@ -373,7 +375,13 @@ The browser loader remains available for SPA fallback and client navigation.
 - source HTML does not contain `Loading content...`
 - title, description, canonical, robots, Open Graph URL, and image exist
 - structured data exists where expected
+- finalized sitemap URLs exactly match the 227 validated static routes
+- sitemap URLs are unique, absolute, canonical, and trailing-slash
+- candidate `robots.txt` advertises the finalized sitemap
+- dedicated `404.html` and `__spa-fallback.html` contain visible Not Found
+  content, `noindex`, no canonical, and no structured data
 - app-only routes were not emitted as static sitemap pages
+- framework output budgets pass
 - the temporary server build was removed
 - the old `dist/index.html` SPA artifact still exists
 
@@ -388,8 +396,10 @@ npm run generate:curriculum
 npm run lint
 npm run test:seo
 npm run test:content-route-data
+npm run test:theme-bootstrap
 npm run build
 npm run build:framework
+npm run finalize:framework
 npm run validate:framework
 npm run preview
 npm run preview:framework
@@ -401,8 +411,10 @@ Recommended complete local gate:
 npm run lint
 npm run test:seo
 npm run test:content-route-data
+npm run test:theme-bootstrap
 npm run build
 npm run build:framework
+npm run finalize:framework
 npm run validate:framework
 ```
 
@@ -436,20 +448,47 @@ Existing non-blocking warnings:
 - Candidate output size is substantial because Markdown is duplicated between
   HTML and route data.
 
+## Current Working-Tree Progress
+
+The current uncommitted implementation completes the next two readiness steps:
+
+- A synchronous theme bootstrap now preserves dark mode as the default and
+  restores an explicit saved dark/light choice before the app paints.
+- The SPA and framework output both include the same bootstrap.
+- React reconciles the saved mode before paint without changing the initial
+  server-rendered dark markup.
+- Browser validation passed for the default dark path and a saved light reload
+  with zero React, MUI, Emotion, or console warnings.
+- Framework output budgets are documented and enforced by
+  `validate:framework`:
+  - 80 MiB total client output
+  - 512 KiB maximum route HTML
+  - 100 KiB maximum route data
+  - 250 pre-rendered routes
+  - 60 seconds maximum full framework build duration in CI
+- `finalize:framework` now generates an idempotent 227-URL sitemap from the
+  shared static route config and curriculum canonical paths.
+- The finalizer writes candidate-only sitemap discovery to
+  `build-framework/client/robots.txt`; `public/robots.txt` remains unchanged.
+- The React Router SPA fallback now renders honest Not Found source content.
+- Finalization adds `noindex` metadata and writes the same hydrated fallback as
+  a dedicated `build-framework/client/404.html`.
+- Valid `/practice/` and `/simulation/setup/` routes hydrate from the fallback.
+- Invalid content and generic routes remain Not Found with `noindex`, no
+  canonical, and no structured data.
+- The Pages workflow is now manual-only, runs the complete dual-build gate, and
+  still deploys the existing `dist/` SPA from `main`.
+- A read-only framework candidate workflow validates pull requests and pushes
+  to `main` without uploading or deploying a Pages artifact.
+- The candidate check is advisory initially. Make it required in repository
+  settings only after several stable GitHub runs confirm timing and
+  reliability.
+
 ## Work Not Yet Completed
 
 Do not assume the SEO rollout is production-complete.
 
-### 1. Static Theme Bootstrap
-
-`Task 11A1` remains pending.
-
-Current pre-render defaults are stable in dark mode, but there is no tiny
-pre-paint bootstrap that reads a saved/system theme and sets HTML theme
-attributes before React hydrates. Implement and verify it without introducing
-hydration mismatch or a flash of the wrong theme.
-
-### 2. Reconcile the Plan with Framework Output
+### 1. Reconcile the Plan with Framework Output
 
 The plan still contains older custom postbuild wording involving `dist`,
 `dist-server`, and a custom `renderRoute` API. The chosen implementation now
@@ -463,52 +502,20 @@ Preserve the underlying ownership rules, but adapt later tasks to:
   validation, and GitHub Pages output preparation
 - avoid reintroducing a parallel custom SSR renderer
 
-### 3. Define and Review Output Budgets
+The handoff and implementation now adapt the older plan to framework output.
+Do not reintroduce a custom SSR renderer.
 
-Formal limits are still needed for:
+### 2. GitHub Actions Dual-Build/Cutover
 
-- total public output size
-- maximum per-route HTML size
-- maximum route-data size
-- route count
-- build duration
+The workflow split is now in place:
 
-Use the current measurements as the baseline. Decide whether duplicated
-Markdown/frontmatter can be reduced before cutover.
+- `.github/workflows/framework-candidate.yml` validates pull requests and
+  pushes to `main` with read-only permissions and no deployment steps.
+- `.github/workflows/main.yml` runs only by manual dispatch from `main`, runs
+  the full gate, and still deploys `dist/`.
+- Both workflows record and enforce the 60-second framework build budget.
 
-### 4. Generate the Final Sitemap
-
-No production `sitemap.xml` exists yet.
-
-The finalizer should:
-
-- merge sitemap-enabled static routes with content `canonicalPath` entries
-- write an absolute trailing-slash sitemap
-- include only pre-rendered and validated routes
-- omit `lastmod`, `priority`, and `changefreq`
-- fail if any sitemap URL lacks a matching static artifact
-- write to the final candidate public output, not `public/sitemap.xml`
-
-The older plan names this script `scripts/seo-postbuild.mjs`. Under the chosen
-framework architecture, a clearer role is an SEO/framework output finalizer.
-
-### 5. Generate a Dedicated GitHub Pages `404.html`
-
-The current workflow still runs:
-
-```bash
-cp dist/index.html dist/404.html
-```
-
-That conflicts with the final SEO decision. The cutover must produce a dedicated
-Not Found + `noindex` document while retaining SPA fallback behavior for valid
-app-only routes. Do not count `404.html` as valid output for sitemap routes.
-
-### 6. GitHub Actions Dual-Build/Cutover
-
-The workflow currently runs only `npm run build` and deploys `dist/`.
-
-Before switching:
+Before switching the deployed artifact:
 
 1. Build the existing SPA rollback artifact.
 2. Build the framework candidate.
@@ -521,7 +528,7 @@ Before switching:
 Do not deploy `build-framework/server`; React Router removes it under
 `ssr:false` anyway.
 
-### 7. Production Validation
+### 3. Production Validation
 
 After cutover, test the Cloudflare-managed custom domain on GitHub Pages.
 
@@ -543,7 +550,7 @@ curl -I https://www.dev-net-core.com/content/classes-structs-records/
 curl -L https://www.dev-net-core.com/content/classes-structs-records/
 ```
 
-### 8. Search Console and Bing
+### 4. Search Console and Bing
 
 Do not submit the sitemap until:
 
@@ -568,17 +575,15 @@ Then:
 
 ## Recommended Next Implementation Order
 
-1. Implement and validate the static theme bootstrap.
-2. Record formal framework output-size/build-time budgets.
-3. Add framework output finalization for sitemap and dedicated `404.html`.
-4. Extend local validation to parse the generated sitemap and validate the
-   dedicated fallback.
-5. Audit `.github/workflows/main.yml` and add a non-deploying candidate build
-   gate first.
-6. Run the complete local route matrix again.
-7. Perform the explicit GitHub Pages cutover in a separate commit.
-8. Validate production with headers, source HTML, and browser hydration.
-9. Submit the sitemap only after the production gate passes.
+1. Observe several advisory candidate runs on GitHub for timing and reliability.
+2. Make the candidate check required through repository settings once stable.
+3. Run the complete local route matrix again before cutover.
+4. Perform the explicit GitHub Pages cutover only after user approval and in a
+   separate commit.
+5. Validate production with headers, source HTML, and browser hydration.
+6. Add custom metadata to the highest-value topics while temporary fallbacks
+   remain accepted for the rest.
+7. Submit the sitemap only after the production gate passes.
 
 ## Safety Rules for the Next Agent
 
@@ -604,15 +609,17 @@ Then:
 Latest implementation commit:
 
 ```txt
-55221be feat: add dual-build framework routing candidate
+ea36f27 docs: add SEO implementation handoff
 ```
 
-Expected working-tree exception:
+Current working tree:
 
 ```txt
+Theme bootstrap, framework output budgets, finalization, and validation changes
+are uncommitted.
 ?? docs/plans/dev-net-core-seo-improvement-plan.md
 ```
 
-The handoff document itself will be a new change after that commit. Verify
-`git status` before committing and keep the untracked SEO plan outside the
-commit unless explicitly requested.
+Verify `git status` before committing and keep the untracked SEO plan outside
+the commit unless explicitly requested. Do not push or deploy the current work
+without user approval.

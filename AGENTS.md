@@ -71,6 +71,7 @@ Framework migration candidate commands:
 
 ```bash
 npm run build:framework
+npm run finalize:framework
 npm run validate:framework
 npm run preview:framework
 ```
@@ -79,9 +80,22 @@ Important: `npm run dev` and `npm run build` both generate the curriculum manife
 
 The project currently uses a dual-build cutover. `npm run build` writes the
 deployable SPA to `dist/`. `npm run build:framework` writes the React Router
-static/pre-render candidate to `build-framework/client/`. Do not switch the
-GitHub Pages deployment artifact until the framework route matrix, fallback
+static/pre-render candidate to `build-framework/client/`.
+`npm run finalize:framework` writes the candidate sitemap, candidate
+`robots.txt`, and dedicated `404.html` into that client output. Do not switch
+the GitHub Pages deployment artifact until the framework route matrix, fallback
 handling, and production URLs pass their dedicated cutover validation.
+
+GitHub Actions intentionally separates validation from deployment:
+
+* `.github/workflows/framework-candidate.yml` runs the dual-build validation
+  gate for pull requests and pushes to `main`, but has read-only permissions and
+  does not upload or deploy a Pages artifact. It is advisory until repository
+  branch protection is explicitly updated.
+* `.github/workflows/main.yml` is manual-only, runs the same validation gate,
+  and continues to deploy the existing `dist/` SPA from `main`.
+* Do not make the candidate workflow a required branch check or change the
+  deployed directory to `build-framework/client/` without explicit approval.
 
 ## Important Project Areas
 
@@ -540,6 +554,8 @@ Before changing code:
 7. Avoid unrelated refactors.
 8. Avoid renaming public IDs, slugs, routes, or question markers unless required.
 9. Run validation commands when possible.
+10. Create a local Git commit after each completed implementation step.
+11. Ask the user for permission before pushing or reverting changes.
 
 After changing code, report:
 
@@ -599,13 +615,13 @@ Sitemap and static output rules:
 * A sitemap URL must have matching static/pre-rendered output and must not depend on the GitHub Pages `404.html` SPA fallback.
 * Do not include routes in `sitemap.xml` until their production static/pre-rendered output is validated.
 * Submit the sitemap to Google Search Console only after the production validation gate passes.
-* If `dist/404.html` is generated, it should be a dedicated Not Found + `noindex` document, not a blind copy of `dist/index.html`.
+* A generated public `404.html` must be a dedicated Not Found + `noindex` document, not a blind copy of the homepage.
 
 Build and metadata ownership rules:
 
 * Markdown frontmatter and the generated curriculum/SEO manifests are the source of truth for content metadata.
 * Shared SEO metadata should drive sitemap generation, pre-rendered HTML, React route metadata, Open Graph tags, Twitter/X tags, and JSON-LD.
-* SEO postbuild output should preserve Vite-generated hashed assets and deploy only public `dist` output; do not deploy private server/static build outputs such as `dist-server`.
+* Framework finalization must preserve React Router/Vite-generated hashed assets. Deploy only the final public client output and never a private server/static build.
 
 ## GitHub Pages and Domain Notes
 

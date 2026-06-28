@@ -11,9 +11,11 @@
     "build": "tsc -b && vite build",
     "prebuild:framework": "npm run generate:curriculum",
     "build:framework": "react-router build --config vite.framework.config.ts && tsc -p tsconfig.framework.json",
+    "finalize:framework": "node scripts/finalize-framework-output.mjs",
     "lint": "eslint .",
     "test:content-route-data": "node --test shared/content/loadContentRouteData.test.mjs",
     "test:seo": "node --test shared/seo/*.test.mjs",
+    "test:theme-bootstrap": "node --test scripts/theme-bootstrap.test.mjs",
     "validate:framework": "node scripts/validate-framework-build.mjs",
     "preview": "vite preview",
     "preview:framework": "node scripts/preview-framework.mjs"

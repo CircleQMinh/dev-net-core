@@ -20,6 +20,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/png" href="/icon.png" />
+        <script src="/theme-bootstrap.js" />
         <Meta />
         <Links />
       </head>
@@ -42,11 +43,25 @@ export default function Root() {
 
 export function HydrateFallback() {
   return (
-    <div className="theme-page flex min-h-screen items-center justify-center">
-      <p className="gleeple-heading theme-muted text-sm font-semibold uppercase">
-        Loading DEV_NET_CORE...
-      </p>
-    </div>
+    <main className="theme-page flex min-h-screen items-center justify-center px-6">
+      <section className="theme-content-card max-w-xl rounded-lg p-8 text-center">
+        <p className="gleeple-heading theme-accent text-sm font-semibold uppercase">
+          Error 404
+        </p>
+        <h1 className="gleeple-heading theme-text mt-3 text-3xl font-semibold">
+          404 - Page Not Found
+        </h1>
+        <p className="theme-muted mt-4">
+          The requested DEV_NET_CORE page could not be found.
+        </p>
+        <a
+          className="gleeple-heading theme-accent mt-6 inline-block font-semibold"
+          href="/"
+        >
+          Return home
+        </a>
+      </section>
+    </main>
   );
 }
 

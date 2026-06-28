@@ -3,7 +3,8 @@ import http from "node:http";
 import path from "node:path";
 
 const clientRoot = path.resolve("build-framework", "client");
-const fallbackPath = path.join(clientRoot, "__spa-fallback.html");
+const frameworkFallbackPath = path.join(clientRoot, "__spa-fallback.html");
+const notFoundPath = path.join(clientRoot, "404.html");
 const requestedPort = Number(process.env.PORT || process.argv[2] || 4176);
 const contentTypes = new Map([
   [".css", "text/css; charset=utf-8"],
@@ -18,16 +19,16 @@ const contentTypes = new Map([
   [".webp", "image/webp"],
 ]);
 
-if (!fs.existsSync(fallbackPath)) {
+if (!fs.existsSync(frameworkFallbackPath)) {
   throw new Error("Run npm run build:framework before previewing.");
 }
 
 const server = http.createServer((request, response) => {
   const requestUrl = new URL(request.url || "/", "http://localhost");
   const requestPath = decodeURIComponent(requestUrl.pathname);
-  const filePath = resolveRequestPath(requestPath);
+  const { filePath, statusCode } = resolveRequestPath(requestPath);
 
-  response.statusCode = 200;
+  response.statusCode = statusCode;
   response.setHeader(
     "Content-Type",
     contentTypes.get(path.extname(filePath).toLowerCase()) ||
@@ -53,11 +54,18 @@ function resolveRequestPath(requestPath) {
       fs.existsSync(candidate) &&
       fs.statSync(candidate).isFile()
     ) {
-      return candidate;
+      return { filePath: candidate, statusCode: 200 };
     }
   }
 
-  return fallbackPath;
+  const fallbackPath = fs.existsSync(notFoundPath)
+    ? notFoundPath
+    : frameworkFallbackPath;
+
+  return {
+    filePath: fallbackPath,
+    statusCode: fs.existsSync(notFoundPath) ? 404 : 200,
+  };
 }
 
 function isInsideClientRoot(candidate) {
