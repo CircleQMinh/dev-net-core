@@ -248,9 +248,10 @@ npm run build:framework
   -> React Router framework migration candidate
 ```
 
-The GitHub Pages workflow still publishes `dist/`. Do not switch it to
-`build-framework/client/` until fallback handling, sitemap output, production
-validation, and the full cutover gate are complete.
+Production still serves the SPA. The guarded manual Pages workflow can select
+either `build-framework/client/` for the framework cutover or a deploy-ready SPA
+rollback copy, but no framework deployment is authorized until the local route
+matrix and explicit deployment approval are complete.
 
 React Router creates `__spa-fallback.html` for app-only routes. GitHub Pages
 expects `404.html`, so `finalize:framework` adds Not Found metadata and writes
@@ -483,6 +484,14 @@ The merged implementation completes the next readiness steps:
 - Four stable candidate runs completed in 30-32 seconds. `Validate framework
   candidate` is now required on `main` with strict/up-to-date branch protection,
   no review approval requirement, and administrator bypass retained.
+- The manual Pages workflow now requires a `framework` or `spa-rollback`
+  selection plus explicit confirmation.
+- Every confirmed manual run prepares a deploy-ready SPA fallback and uploads
+  an exact rollback snapshot retained for seven days.
+- Framework validation now confirms `www.dev-net-core.com` in `public/CNAME`,
+  `dist/CNAME`, and `build-framework/client/CNAME`.
+- Cloudflare configuration remains unchanged for cutover; the unrelated
+  Cloudflare Workers build integration was removed.
 
 ## Work Not Yet Completed
 
@@ -512,10 +521,12 @@ The workflow split is now in place:
 - `.github/workflows/framework-candidate.yml` validates pull requests and
   pushes to `main` with read-only permissions and no deployment steps.
 - `.github/workflows/main.yml` runs only by manual dispatch from `main`, runs
-  the full gate, and still deploys `dist/`.
+  the full gate, requires explicit target selection and confirmation, uploads a
+  seven-day SPA rollback snapshot, and publishes only the selected public
+  output.
 - Both workflows record and enforce the 60-second framework build budget.
 
-Before switching the deployed artifact:
+Before the first framework deployment:
 
 1. Build the existing SPA rollback artifact.
 2. Build the framework candidate.
@@ -523,7 +534,7 @@ Before switching the deployed artifact:
 4. Generate sitemap and dedicated fallback output.
 5. Confirm only public client output is uploaded.
 6. Keep the old deployment path easy to restore.
-7. Change the published directory only after the complete route matrix passes.
+7. Select `framework` only after the complete route matrix passes.
 
 Do not deploy `build-framework/server`; React Router removes it under
 `ssr:false` anyway.
@@ -576,12 +587,14 @@ Then:
 ## Recommended Next Implementation Order
 
 1. Run the complete local route matrix again before cutover.
-2. Perform the explicit GitHub Pages cutover only after user approval and in a
-   separate commit.
-3. Validate production with headers, source HTML, and browser hydration.
-4. Add custom metadata to the highest-value topics while temporary fallbacks
+2. Merge the guarded cutover workflow only after the required candidate check
+   passes.
+3. Perform the explicit manual GitHub Pages framework deployment only after
+   separate user approval.
+4. Validate production with headers, source HTML, and browser hydration.
+5. Add custom metadata to the highest-value topics while temporary fallbacks
    remain accepted for the rest.
-5. Submit the sitemap only after the production gate passes.
+6. Submit the sitemap only after the production gate passes.
 
 ## Safety Rules for the Next Agent
 
@@ -604,20 +617,12 @@ Then:
 
 ## Git State at Handoff
 
-Latest implementation commit:
+The latest merged readiness commit on `main` is:
 
 ```txt
-ea36f27 docs: add SEO implementation handoff
+023d0f8 Merge pull request #3 from CircleQMinh/codex/require-framework-check
 ```
 
-Current working tree:
-
-```txt
-Theme bootstrap, framework output budgets, finalization, and validation changes
-are uncommitted.
-?? docs/plans/dev-net-core-seo-improvement-plan.md
-```
-
-Verify `git status` before committing and keep the untracked SEO plan outside
-the commit unless explicitly requested. Do not push or deploy the current work
-without user approval.
+Step 15 pre-cutover work is developed on
+`codex/framework-pages-cutover`. Commit each completed implementation step
+locally. Do not push, merge, revert, or deploy without user approval.

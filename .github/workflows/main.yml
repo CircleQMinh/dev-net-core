@@ -1,7 +1,23 @@
 name: Deploy static content to Pages
 
+run-name: Deploy ${{ inputs.deploy_target }} to GitHub Pages
+
 on:
   workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: Static output to deploy
+        required: true
+        default: framework
+        type: choice
+        options:
+          - framework
+          - spa-rollback
+      confirm_deploy:
+        description: I confirm this production deployment
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -14,8 +30,8 @@ concurrency:
 
 jobs:
   deploy:
-    name: Validate and deploy current SPA
-    if: github.ref == 'refs/heads/main'
+    name: Validate and deploy selected static output
+    if: github.ref == 'refs/heads/main' && inputs.confirm_deploy == true
     timeout-minutes: 15
     environment:
       name: github-pages
@@ -69,8 +85,28 @@ jobs:
       - name: Validate framework candidate
         run: npm run validate:framework
 
-      - name: Create SPA fallback
-        run: cp dist/index.html dist/404.html
+      - name: Prepare deploy targets
+        shell: bash
+        run: |
+          mkdir -p rollback-spa
+          cp -R dist/. rollback-spa/
+          cp dist/index.html rollback-spa/404.html
+
+          if [[ "${{ inputs.deploy_target }}" == "framework" ]]; then
+            echo "PAGES_ARTIFACT_PATH=./build-framework/client" >> "$GITHUB_ENV"
+          else
+            echo "PAGES_ARTIFACT_PATH=./rollback-spa" >> "$GITHUB_ENV"
+          fi
+
+          echo "Selected deploy target: ${{ inputs.deploy_target }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload seven-day SPA rollback snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: spa-rollback-${{ github.sha }}-${{ github.run_attempt }}
+          path: './rollback-spa'
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -78,7 +114,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: './dist'
+          path: ${{ env.PAGES_ARTIFACT_PATH }}
 
       - name: Deploy to GitHub Pages
         id: deployment
