@@ -5,13 +5,14 @@ changing the current GitHub Pages deployment artifact.
 
 ## Build Ownership
 
-- `npm run build` remains the deployable Vite SPA build and writes `dist/`.
+- `npm run build` remains the rollback-capable Vite SPA build and writes
+  `dist/`.
 - `npm run build:framework` builds the migration candidate and writes
   `build-framework/client/`.
 - React Router uses `ssr: false`; no request-time Node server is required.
 - The temporary framework server bundle is removed after pre-rendering.
-- The manual deployment workflow continues to publish `dist/` until a separate
-  cutover task is approved.
+- Production remains on the SPA until the guarded manual framework deployment
+  is explicitly approved and run.
 
 ## GitHub Actions Ownership
 
@@ -23,8 +24,13 @@ changing the current GitHub Pages deployment artifact.
   runs confirmed timing and reliability. Branch protection requires the branch
   to be up to date, does not require review approvals, and permits administrator
   bypass.
-- `.github/workflows/main.yml` is manual-only and restricted to `main`. It runs
-  the complete validation gate before publishing the existing `dist/` SPA.
+- `.github/workflows/main.yml` is manual-only and restricted to `main`. It
+  requires both a `framework`/`spa-rollback` target and a confirmation checkbox,
+  then runs the complete validation gate before uploading the selected public
+  output.
+- Every confirmed deployment run prepares a deploy-ready SPA fallback, uploads
+  an exact seven-day rollback snapshot, and keeps that legacy fallback isolated
+  from the framework output.
 - Candidate and deployment workflows use separate concurrency groups, so
   validation cannot cancel or replace a deployment.
 
@@ -61,11 +67,11 @@ dedicated Not Found + `noindex` `404.html` into `build-framework/client/`.
 HTML, self-canonical metadata, Open Graph metadata, and the required route
 artifact. It parses the sitemap, validates the dedicated fallback, enforces
 output budgets, confirms that app-only routes were not emitted as static
-sitemap pages, and confirms that the existing `dist/index.html` SPA artifact
-still exists.
+sitemap pages, confirms that the existing `dist/index.html` SPA artifact still
+exists, and verifies the custom-domain `CNAME` in source and both build outputs.
 
-The final hosting cutover still needs explicit GitHub Pages fallback/output
-handling and production URL validation. `__spa-fallback.html` must not be
+The final hosting cutover still needs an explicitly approved manual `framework`
+deployment and production URL validation. `__spa-fallback.html` must not be
 counted as static output for any sitemap URL.
 
 ## Candidate Output Budgets

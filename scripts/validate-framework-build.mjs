@@ -14,6 +14,21 @@ const frameworkFallbackPath = path.join(clientRoot, "__spa-fallback.html");
 const notFoundPath = path.join(clientRoot, "404.html");
 const robotsPath = path.join(clientRoot, "robots.txt");
 const sitemapPath = path.join(clientRoot, "sitemap.xml");
+const expectedCname = new URL(SEO_SITE_ORIGIN).hostname;
+const cnamePaths = [
+  {
+    label: "public source",
+    path: path.join(repositoryRoot, "public", "CNAME"),
+  },
+  {
+    label: "SPA output",
+    path: path.join(repositoryRoot, "dist", "CNAME"),
+  },
+  {
+    label: "framework output",
+    path: path.join(clientRoot, "CNAME"),
+  },
+];
 const manifest = JSON.parse(
   fs.readFileSync(
     path.join(
@@ -43,6 +58,14 @@ assert.ok(fs.existsSync(spaIndexPath));
 assert.ok(fs.existsSync(frameworkFallbackPath));
 assert.ok(fs.existsSync(path.join(clientRoot, "theme-bootstrap.js")));
 assert.ok(fs.existsSync(path.join(repositoryRoot, "dist", "theme-bootstrap.js")));
+for (const cname of cnamePaths) {
+  assert.ok(fs.existsSync(cname.path), `Missing CNAME in ${cname.label}.`);
+  assert.equal(
+    fs.readFileSync(cname.path, "utf8").trim(),
+    expectedCname,
+    `Incorrect CNAME in ${cname.label}.`
+  );
+}
 assert.ok(
   fs.readFileSync(spaIndexPath, "utf8").includes(
     '<script src="/theme-bootstrap.js"></script>'

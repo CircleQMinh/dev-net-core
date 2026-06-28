@@ -82,9 +82,9 @@ The project currently uses a dual-build cutover. `npm run build` writes the
 deployable SPA to `dist/`. `npm run build:framework` writes the React Router
 static/pre-render candidate to `build-framework/client/`.
 `npm run finalize:framework` writes the candidate sitemap, candidate
-`robots.txt`, and dedicated `404.html` into that client output. Do not switch
-the GitHub Pages deployment artifact until the framework route matrix, fallback
-handling, and production URLs pass their dedicated cutover validation.
+`robots.txt`, and dedicated `404.html` into that client output. Production
+remains on the SPA until an explicitly approved manual framework deployment
+passes the dedicated cutover validation.
 
 GitHub Actions intentionally separates validation from deployment:
 
@@ -92,11 +92,15 @@ GitHub Actions intentionally separates validation from deployment:
   gate for pull requests and pushes to `main`, but has read-only permissions and
   does not upload or deploy a Pages artifact. Its `Validate framework candidate`
   job is required on `main` through strict/up-to-date branch protection.
-* `.github/workflows/main.yml` is manual-only, runs the same validation gate,
-  and continues to deploy the existing `dist/` SPA from `main`.
+* `.github/workflows/main.yml` is manual-only, requires an explicit deployment
+  target and confirmation, and runs the same validation gate. `framework`
+  selects `build-framework/client/`; `spa-rollback` selects a deploy-ready copy
+  of `dist/`.
+* Every confirmed manual deployment run uploads the deploy-ready SPA rollback
+  snapshot as a separate artifact retained for seven days.
 * Branch protection does not require review approvals and still permits
-  administrator bypass. Do not change that policy or switch the deployed
-  directory to `build-framework/client/` without explicit approval.
+  administrator bypass. Do not change that policy or manually deploy either
+  target without explicit approval.
 
 ## Important Project Areas
 
