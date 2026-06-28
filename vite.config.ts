@@ -6,5 +6,5 @@ import { rawMarkdownHashPathPlugin } from './build/vite/rawMarkdownHashPathPlugi
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [rawMarkdownHashPathPlugin(), react(), tailwindcss()],
-  base: '/',  
+  base: '/',    
 })
