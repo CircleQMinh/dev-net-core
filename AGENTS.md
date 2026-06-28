@@ -90,12 +90,13 @@ GitHub Actions intentionally separates validation from deployment:
 
 * `.github/workflows/framework-candidate.yml` runs the dual-build validation
   gate for pull requests and pushes to `main`, but has read-only permissions and
-  does not upload or deploy a Pages artifact. It is advisory until repository
-  branch protection is explicitly updated.
+  does not upload or deploy a Pages artifact. Its `Validate framework candidate`
+  job is required on `main` through strict/up-to-date branch protection.
 * `.github/workflows/main.yml` is manual-only, runs the same validation gate,
   and continues to deploy the existing `dist/` SPA from `main`.
-* Do not make the candidate workflow a required branch check or change the
-  deployed directory to `build-framework/client/` without explicit approval.
+* Branch protection does not require review approvals and still permits
+  administrator bypass. Do not change that policy or switch the deployed
+  directory to `build-framework/client/` without explicit approval.
 
 ## Important Project Areas
 

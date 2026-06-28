@@ -19,9 +19,10 @@ changing the current GitHub Pages deployment artifact.
   to `main`, plus manual dispatch. It has read-only repository permissions,
   builds both outputs, finalizes and validates the framework output, and never
   uploads or deploys a Pages artifact.
-- The candidate check is initially advisory. After several stable GitHub runs
-  confirm timing and reliability, it can be made required through repository
-  branch protection settings.
+- `Validate framework candidate` is required on `main` after four stable GitHub
+  runs confirmed timing and reliability. Branch protection requires the branch
+  to be up to date, does not require review approvals, and permits administrator
+  bypass.
 - `.github/workflows/main.yml` is manual-only and restricted to `main`. It runs
   the complete validation gate before publishing the existing `dist/` SPA.
 - Candidate and deployment workflows use separate concurrency groups, so
