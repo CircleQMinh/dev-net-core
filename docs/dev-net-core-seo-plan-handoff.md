@@ -448,9 +448,9 @@ Existing non-blocking warnings:
 - Candidate output size is substantial because Markdown is duplicated between
   HTML and route data.
 
-## Current Working-Tree Progress
+## Completed Readiness Progress
 
-The current uncommitted implementation completes the next two readiness steps:
+The merged implementation completes the next readiness steps:
 
 - A synchronous theme bootstrap now preserves dark mode as the default and
   restores an explicit saved dark/light choice before the app paints.
@@ -480,9 +480,9 @@ The current uncommitted implementation completes the next two readiness steps:
   still deploys the existing `dist/` SPA from `main`.
 - A read-only framework candidate workflow validates pull requests and pushes
   to `main` without uploading or deploying a Pages artifact.
-- The candidate check is advisory initially. Make it required in repository
-  settings only after several stable GitHub runs confirm timing and
-  reliability.
+- Four stable candidate runs completed in 30-32 seconds. `Validate framework
+  candidate` is now required on `main` with strict/up-to-date branch protection,
+  no review approval requirement, and administrator bypass retained.
 
 ## Work Not Yet Completed
 
@@ -575,15 +575,13 @@ Then:
 
 ## Recommended Next Implementation Order
 
-1. Observe several advisory candidate runs on GitHub for timing and reliability.
-2. Make the candidate check required through repository settings once stable.
-3. Run the complete local route matrix again before cutover.
-4. Perform the explicit GitHub Pages cutover only after user approval and in a
+1. Run the complete local route matrix again before cutover.
+2. Perform the explicit GitHub Pages cutover only after user approval and in a
    separate commit.
-5. Validate production with headers, source HTML, and browser hydration.
-6. Add custom metadata to the highest-value topics while temporary fallbacks
+3. Validate production with headers, source HTML, and browser hydration.
+4. Add custom metadata to the highest-value topics while temporary fallbacks
    remain accepted for the rest.
-7. Submit the sitemap only after the production gate passes.
+5. Submit the sitemap only after the production gate passes.
 
 ## Safety Rules for the Next Agent
 
