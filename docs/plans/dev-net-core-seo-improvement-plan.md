@@ -2996,8 +2996,11 @@ Current Step 15 status as of June 28, 2026:
 - The homepage now selects deterministic first, middle, and last drill
   candidates. Local framework preview validation passes repeated homepage
   loads with identical drill content and no console errors.
-- Keep Step 15 open until this fix is merged, redeployed, and the production
-  browser hydration check passes.
+- The deterministic homepage fix was merged and redeployed from `main` at
+  commit `bfda029`. A second production validation passed all 227 sitemap URLs,
+  canonical and Open Graph URLs, unique titles, dedicated Not Found behavior,
+  and repeated browser hydration checks without console errors.
+- Step 15 is complete.
 
 ### Task 16: Search Console Setup
 
@@ -3012,6 +3015,18 @@ Validation:
 - Production sitemap URLs pass `curl -I` and `curl -L` checks.
 - Key pages inspected.
 - Indexing requested.
+
+Current Step 16 status as of June 28, 2026:
+
+- Google Search Console supplied the HTML verification file
+  `googlec6ac2a9be6ebed67.html`.
+- The file is owned by `public/` so both the SPA and framework builds publish
+  it unchanged at the site root.
+- After deployment, verify that
+  `https://www.dev-net-core.com/googlec6ac2a9be6ebed67.html` returns `200 OK`
+  with the exact verification content before selecting **Verify** in Search
+  Console.
+- Keep the file deployed after verification so ownership remains verifiable.
 
 ### Task 17: Optional Scheduled Production SEO Validation
 

@@ -497,9 +497,14 @@ The merged implementation completes the next readiness steps:
   sitemap discovery, dedicated Not Found behavior, and representative route
   hydration.
 - Homepage browser validation exposed one hydration mismatch: randomized Live
-  Drills differed between SSG and the first browser render. The local follow-up
-  now uses deterministic first, middle, and last candidates and passes repeated
-  browser loads without console errors.
+  Drills differed between SSG and the first browser render. The deterministic
+  first, middle, and last candidate fix was merged and redeployed at `bfda029`.
+- The post-fix production gate passed all 227 sitemap URLs and repeated
+  homepage, topic, app-only, and invalid-route hydration checks without console
+  errors. Step 15 is complete.
+- Step 16 has started with the Google Search Console HTML verification file
+  `public/googlec6ac2a9be6ebed67.html`; it still needs deployment and live URL
+  verification before Search Console ownership verification.
 
 ## Work Not Yet Completed
 
@@ -551,9 +556,9 @@ Do not deploy `build-framework/server`; React Router removes it under
 
 After cutover, test the Cloudflare-managed custom domain on GitHub Pages.
 
-The first production route matrix passed on June 28, 2026. Keep this gate open
-until the deterministic homepage drill fix is merged, redeployed, and confirmed
-against the production browser console.
+The first production route matrix passed on June 28, 2026. The deterministic
+homepage drill fix was then merged, redeployed, and confirmed against the
+production browser console. This production gate is complete.
 
 For every sitemap URL, verify:
 
@@ -629,12 +634,12 @@ Then:
 
 ## Git State at Handoff
 
-The latest merged and deployed readiness commit on `main` is:
+The latest merged and deployed readiness commit on remote `main` is:
 
 ```txt
-27d6f39 Merge pull request #4 from CircleQMinh/codex/framework-pages-cutover
+bfda029 Merge pull request #5 from CircleQMinh/codex/fix-homepage-drill-hydration
 ```
 
-The Step 15 homepage hydration follow-up is developed on
-`codex/fix-homepage-drill-hydration`. Commit each completed implementation
-step locally. Do not push, merge, revert, or deploy without user approval.
+Step 16 verification-file work is being prepared on `GoogleVerification`.
+Commit each completed implementation step locally. Do not push, merge, revert,
+or deploy without user approval.
